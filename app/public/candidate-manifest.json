@@ -16,7 +16,7 @@
     "src/modules/device-management.js": "5edf1a0d63c621fac10b6a297537b2cbacd25fa8e7c3f3e046c7a62b97c56c44",
     "src/modules/device-views.js": "32faf85c8dfdfaef7b3bede3f71f410048b2a8a51172bf9abf91ff1b067255b6",
     "src/modules/dialogs.js": "fbdaaef1ffd7bc63f310da7b2d31edd27b00061e43b9f1eceb160f741562d021",
-    "src/modules/discovery.js": "7b6ea34a8a29bc5564f47d823992fc351799420ba17f5b6125efa3f2ae617f28",
+    "src/modules/discovery.js": "e20d8b6b0ff172773b13e2395ae9e30854b5d9a0b7e85195250799c2976ea307",
     "src/modules/equipment-profiles.js": "c2aab80f2f6f3099fca55dcaca761e75f6500154fe9e3f46872497eb4881565e",
     "src/modules/fashe.js": "0a50ec84a3a2e1fdb459b37c157fcec5144afd6d3be902a446275bea253501f3",
     "src/modules/frequency.js": "e35b5d2b497cd3190d1c4fd2f8f218a8fefc73a482b7de5d50a407d7cb43997e",
@@ -52,7 +52,7 @@
     "src/styles/data-management.css": "0f1fcf0f4ccf69676cd458204587f45ea47cd28ec343ca9e0d46a9f9da77a08a",
     "src/styles/deploy-progress.css": "cda2b5937dc1a968a270b0762af1fe276f1d954f60851b363771dc5696bdce36",
     "src/styles/main.css": "342e56e2a50230ade4e63e1cb40efa1208399d1764b0edd3e61097abefaea1ff",
-    "unirf-app.html": "e97e84fcc0b5e2c74196efd5f5dd068cb2c7d047c22bd437896cc3f3738af7a2",
+    "unirf-app.html": "e8690eebe34db1bb5b0cf01cbf4ec82d200fbebb39020c44b874ac96a6c48deb",
     "src/app/system-settings.js": "c421dd62022905952a8fede0b04b635cf9f16ca12ce7780122ff4307502d623c"
   }
 }

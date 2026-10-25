@@ -4,6 +4,14 @@
   "baselineUtc": "2026-09-12T17:09:51.697Z",
   "reviewedChanges": [
     {
+      "stage": "unified-release-license-20261025",
+      "authorization": "统一版本发布核验：关于页与 MIT 许可一致，修正算法范围文案，插件导出携带许可证与版权署名。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "evidence": "不改变设备协议、控制回执或数据库；生成目录与逐文件摘要重新核验。"
+    },
+    {
       "stage": "source-publication-privacy-20261025",
       "authorization": "源码发布准备：移除本机路径及内部沟通记录，现场地址改用文档示例或显式输入。",
       "paths": [
@@ -1875,6 +1883,6 @@
   "ui": {
     "path": "fuwuqi1.0.3/unirf-app.html",
     "normalization": "lf-and-script-cache-query-v1",
-    "sha256": "e97cf10093db06fe3ee1f0b3c3774ac2042e0a2a8286196b6495ccb022572e37"
+    "sha256": "88286ffab5988166599cf7ec306caaf68156058518d990df35f3e50c8fc00206"
   }
 }

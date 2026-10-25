@@ -31,7 +31,9 @@
         "shure_scan_wire.py",
         "shure_systemapi.py",
         "shure_legacy.py",
-        "shure_legacy_control.py"
+        "shure_legacy_control.py",
+        "licenses/DATY-LICENSE.md",
+        "licenses/RFutils-LICENSE.md"
       ],
       "integration": {
         "host": "DATY RF PRO r19 Python / MQTT server",

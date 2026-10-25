@@ -33,7 +33,7 @@ def build(root, registry):
             "## 接入\n\n"+item['integration']['notes']+"\n\n宿主装配、桥接入口和共享依赖见 manifest.json。保留现有配对/TLS、稳定身份、统一GROUP/CH、原命令日记及持久化；网页经MQTT读取状态，不能直接越过服务器控制设备。\n\n"
             "## 模块范围\n\n实际文件、能力键、运行入口、宿主依赖与兼容参考分类均见 manifest.json。现场机身标签注册表、已知设备缓存与安全配置不在导出包内；设备能力未知时不得猜测频段。\n\n"
             "## 验证与更新\n\n先做离线报文及隔离网络测试，再在授权范围内进行实机验收。未知值不补零；真实回读不冒充command_id ACK；未知/超时控制不得自动重放。修改源文件后重新生成导出目录并随正式包发布；新增品牌在contracts/brand-plugin-exports.json列出实际源码与能力键，再运行scripts/build-plugin-exports.py。\n\n"
-            "本包不包含数据库、配对密钥、证书、现场配置、设备状态或遥测记录。RFutils参考项目采用MIT许可；参考与原创实现的说明保留在源码中，未复制RFutils仓库。\n").encode()
+            "本包不包含数据库、配对密钥、证书、现场配置、设备状态或遥测记录。DATY 自有源码采用 MIT；许可证见 src/licenses/DATY-LICENSE.md。RFutils 为设计参考，保留其 MIT 许可证及版权署名于 src/licenses/RFutils-LICENSE.md。参考与原创实现的范围见源码注释。\n").encode()
         output=io.BytesIO()
         with zipfile.ZipFile(output,'w',zipfile.ZIP_DEFLATED) as z:
             for name,blob in sorted(contents.items()):
