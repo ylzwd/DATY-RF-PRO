@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework><UseWPF>true</UseWPF>
+    <AssemblyName>DATY.RF.Native</AssemblyName><Version>0.4.61</Version><Product>DATY RF PRO</Product>
+    <ApplicationIcon>../../assets/DATY-RF-PRO.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup><AssemblyMetadata Include="PlatformVersion" Value="1.0.3" /></ItemGroup>
+  <ItemGroup Condition="Exists('../../../config/project-development.json')"><AssemblyMetadata Include="IndependentProject" Value="true" /></ItemGroup>
+  <ItemGroup><ProjectReference Include="../Daty.Native.Core/Daty.Native.Core.csproj" /></ItemGroup>
+  <ItemGroup>
+    <Content Include="../../assets/ui/*.png" Link="assets/ui/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../assets/plugin-bundles-legacy.json" Link="assets/plugin-bundles-legacy.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../assets/plugin-bundles.json" Link="assets/plugin-bundles.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../assets/plugin-bundles/*.zip" Link="assets/plugin-bundles/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" Condition="!Exists('../../../config/project-development.json')" />
+    <Content Include="../../assets/plugin-sources.json" Link="assets/plugin-sources.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../assets/DATYlogo.png" Link="assets/DATYlogo.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../assets/DATY-RF-PRO.ico" Link="assets/DATY-RF-PRO.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../assets/DATY-root-ca.cer" Link="assets/DATY-root-ca.cer" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../../assets/engine-manifest.json" Link="assets/engine-manifest.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

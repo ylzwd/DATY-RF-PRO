@@ -1,0 +1,35 @@
+<Window x:Class="Daty.Native.App.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="DATY RF PRO" WindowState="Maximized" Foreground="{StaticResource TextBrush}" Width="1440" Height="950" MinWidth="1000" MinHeight="640" WindowStartupLocation="CenterScreen" UseLayoutRounding="True" TextOptions.TextFormattingMode="Display">
+ <Grid x:Name="Shell" Background="{StaticResource BackgroundBrush}">
+  <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+  <Border Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+   <DockPanel>
+    <Border DockPanel.Dock="Top" Padding="16,18,16,14" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+     <Grid Height="40"><StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+      <TextBlock Text="DATY RF PRO" FontSize="16" FontWeight="Black"><TextBlock.Foreground><LinearGradientBrush StartPoint="0,0" EndPoint="1,0"><GradientStop Color="#6366f1" Offset="0"/><GradientStop Color="#22d3ee" Offset="1"/></LinearGradientBrush></TextBlock.Foreground></TextBlock>
+      <TextBlock x:Name="ProductVersionLabel" FontSize="10" Foreground="{StaticResource MutedBrush}" Margin="0,2,0,0"/>
+     </StackPanel></Grid>
+    </Border>
+    <Border DockPanel.Dock="Bottom" Padding="16,12" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+     <StackPanel><StackPanel Orientation="Horizontal"><Ellipse x:Name="ConnectionDot" Width="7" Height="7" Fill="#f59e0b" Margin="0,0,8,0"/><TextBlock x:Name="ConnectionLabel" Text="正在启动…" FontSize="12" Foreground="{StaticResource MutedBrush}"/></StackPanel>
+      <Button x:Name="NetworkButton" Click="ConnectionSettings_Click" Background="Transparent" BorderThickness="0" Padding="0" Margin="0,8,0,0" HorizontalContentAlignment="Left">
+       <StackPanel Orientation="Horizontal"><Ellipse x:Name="AddressDot" Width="7" Height="7" Fill="#f59e0b" Margin="0,0,8,0"/><TextBlock x:Name="AddressLabel" FontSize="12" Foreground="{StaticResource MutedBrush}"/></StackPanel>
+      </Button><TextBlock x:Name="ClockLabel" Visibility="Collapsed"/></StackPanel>
+    </Border>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel x:Name="Navigation" Margin="0,10,0,10"/></ScrollViewer>
+   </DockPanel>
+  </Border>
+  <Grid Grid.Column="1">
+   <Grid.RowDefinitions><RowDefinition Height="46"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+   <Border Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="20,9">
+    <DockPanel><StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+     <Button x:Name="RefreshButton" Visibility="Collapsed" Content="↻ 刷新设备" Click="Refresh_Click"/>
+     <Button x:Name="AddDeviceButton" Content="+ 添加设备" Style="{StaticResource PrimaryButton}" Click="AddDevice_Click" Margin="0"/>
+    </StackPanel><TextBlock x:Name="PageTitle" Text="📊 设备概览" FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/></DockPanel>
+   </Border>
+   <ContentControl x:Name="PageContent" Grid.Row="1" Margin="20" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+   <Border x:Name="StatusToast" Grid.RowSpan="2" Visibility="Collapsed" Panel.ZIndex="100" HorizontalAlignment="Right" VerticalAlignment="Top" MaxWidth="540" Margin="20,54,20,0" Padding="14,10" CornerRadius="8" Background="#171c2b" BorderBrush="#2e3a56" BorderThickness="1"><TextBlock x:Name="StatusMessage" TextWrapping="Wrap" FontSize="12" Foreground="#a9b7d4"/></Border>
+   <TextBlock x:Name="Footer" Visibility="Collapsed"/>
+  </Grid>
+ </Grid>
+</Window>

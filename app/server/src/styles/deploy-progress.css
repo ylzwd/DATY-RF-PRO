@@ -1,0 +1,45 @@
+/* 独立进度视图：不改变页面布局，复用应用深色设计变量。 */
+.daty-progress-dialog{margin:auto;width:min(900px,calc(100vw - 32px));max-height:calc(100vh - 40px);max-height:min(760px,calc(100dvh - 40px));padding:0;border:1px solid var(--border2);border-radius:14px;background:var(--bg2);color:var(--text);font:inherit;overflow:hidden;box-shadow:0 24px 80px #0009;color-scheme:dark;}
+.daty-progress-dialog[open]{display:flex;flex-direction:column;}
+.daty-progress-dialog::backdrop{background:#050812b8;backdrop-filter:blur(2px);}
+.daty-progress-head{display:flex;align-items:center;gap:14px;padding:20px 24px 18px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.daty-progress-symbol{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:#6366f11f;border:1px solid #6366f14d;color:#a5b4fc;font-size:24px;flex-shrink:0;}
+.daty-progress-heading{flex:1;min-width:0;}.daty-progress-eyebrow{color:var(--muted);font-size:10px;letter-spacing:.6px;margin-bottom:3px;}
+.daty-progress-heading h2{font-size:18px;font-weight:600;line-height:1.5;overflow-wrap:anywhere;}
+.daty-progress-dismiss{border:0;background:transparent;color:var(--muted);font:inherit;font-size:24px;width:32px;height:32px;border-radius:6px;cursor:pointer;flex-shrink:0;}
+.daty-progress-dismiss:disabled{opacity:.25;cursor:not-allowed;}.daty-progress-dismiss:not(:disabled):hover{color:var(--text);background:var(--bg4);}
+.daty-progress-body{display:flex;flex-direction:column;gap:16px;min-height:0;overflow:hidden;padding:20px 24px;}
+.daty-progress-overview{flex-shrink:0;min-width:0;}
+.daty-progress-meter-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:9px;}
+#datyProgressCurrent{color:var(--text);font-size:13px;overflow-wrap:anywhere;min-width:0;}
+#datyProgressValue{font-size:20px;line-height:1.4;color:var(--c2);font-variant-numeric:tabular-nums;flex-shrink:0;}
+#datyProgressBar{display:block;width:100%;height:10px;border:0;border-radius:6px;overflow:hidden;background:var(--bg4);accent-color:var(--c2);appearance:none;}
+#datyProgressBar::-webkit-progress-bar{background:var(--bg4);border-radius:6px;}
+#datyProgressBar::-webkit-progress-value{background:var(--c2);border-radius:6px;}
+#datyProgressBar::-moz-progress-bar{background:var(--c2);border-radius:6px;}
+.daty-progress-counts{margin-top:9px;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;line-height:1.6;overflow-wrap:anywhere;}
+.daty-progress-message{margin-top:8px;color:var(--text);font-size:12px;line-height:1.7;white-space:pre-line;overflow-wrap:anywhere;max-height:82px;overflow:auto;scrollbar-width:thin;}
+.daty-progress-table-wrap{min-height:44px;max-height:42vh;overflow:auto;overscroll-behavior:contain;border:1px solid var(--border);border-radius:8px;scrollbar-width:thin;scrollbar-color:var(--border2) var(--bg3);}
+.daty-progress-table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px;}
+.daty-progress-table th{position:sticky;top:0;z-index:1;background:var(--bg3);color:var(--muted);font-size:11px;font-weight:500;text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);}
+.daty-progress-table td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:middle;overflow-wrap:anywhere;}
+.daty-progress-table tr:last-child td{border-bottom:0;}.daty-progress-table tbody tr:nth-child(even){background:#ffffff02;}
+.daty-progress-table th:nth-child(1){width:15%;}.daty-progress-table th:nth-child(2){width:22%;}.daty-progress-table th:nth-child(3){width:9%;}.daty-progress-table th:nth-child(4){width:18%;}.daty-progress-table th:nth-child(5){width:36%;}
+.daty-progress-frequency{font-family:Consolas,'Cascadia Mono',monospace;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--c2);}
+.daty-progress-row-status{color:var(--muted);font-size:11px;line-height:1.6;}
+.daty-progress-table [data-state="sending"]{background:#22d3ee08;}.daty-progress-table [data-state="sending"] .daty-progress-row-status{color:var(--c2);}
+.daty-progress-table [data-state="acknowledged"] .daty-progress-row-status{color:var(--c4);}
+.daty-progress-table [data-state="failed"] .daty-progress-row-status{color:var(--c5);}
+.daty-progress-table [data-state="not-sent"] .daty-progress-row-status{color:var(--c3);}
+.daty-progress-footer{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 24px;border-top:1px solid var(--border);background:var(--bg3);flex-shrink:0;}
+.daty-progress-footer>span{font-size:11px;color:var(--muted);overflow-wrap:anywhere;min-width:0;}
+.daty-progress-actions{display:flex;gap:10px;flex-shrink:0;}.daty-progress-actions .btn{min-width:104px;padding:8px 16px;}
+.daty-progress-dialog [hidden]{display:none!important;}.daty-progress-dialog :focus-visible{outline:2px solid #a5b4fc;outline-offset:3px;}
+.daty-progress-dialog[data-phase="success"] .daty-progress-symbol{background:#10b98115;border-color:#10b9814d;color:var(--c4);}
+.daty-progress-dialog[data-phase="success"] #datyProgressValue{color:var(--c4);}
+.daty-progress-dialog[data-phase="success"] #datyProgressBar::-webkit-progress-value{background:var(--c4);}
+.daty-progress-dialog[data-phase="success"] #datyProgressBar::-moz-progress-bar{background:var(--c4);}
+.daty-progress-dialog[data-phase="failed"] .daty-progress-symbol{background:#f43f5e15;border-color:#f43f5e4d;color:var(--c5);}
+.daty-progress-dialog[data-phase="stopped"] .daty-progress-symbol{background:#f59e0b15;border-color:#f59e0b4d;color:var(--c3);}
+@media(max-width:620px){.daty-progress-head,.daty-progress-footer{padding:12px 16px;}.daty-progress-body{padding:14px 16px;gap:12px;}.daty-progress-table{min-width:660px;}.daty-progress-footer{align-items:flex-end;}.daty-progress-actions .btn{min-width:88px;padding:8px 10px;}}
+@media(max-height:640px){.daty-progress-head{padding:12px 18px;}.daty-progress-body{padding:12px 18px;gap:12px;}.daty-progress-footer{padding:12px 18px;}.daty-progress-table-wrap{max-height:30vh;}.daty-progress-message{max-height:60px;}}

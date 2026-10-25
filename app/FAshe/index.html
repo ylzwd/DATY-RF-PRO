@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>FAshe 模拟麦克接收机 - 连通性测试工具</title>
+  <!-- 本地 MQTT.js；通信计时独立于页面动画计时。 -->
+  <script src="src/network-timers.js?v=1.0.3-stability2"></script>
+  <script src="vendor/mqtt-5.10.4/mqtt.min.js?v=1.0.3-stability2"></script>
+  <script src="src/receiver-security.js?v=1.0.3-auto-pair2"></script>
+  <script src="src/auto-pair.js?v=1.0.3-stability2"></script>
+  <script src="src/pairing-ui.js?v=1.0.3-stability2"></script>
+  <link rel="stylesheet" href="src/pairing.css?v=1.0.3-pairing1">
+  <script src="src/connection-stability.js?v=1.0.3-stability2"></script>
+  <script src="src/datyaudio-profile.js?v=1.0.3-identity1"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px 20px 0;
+      background: rgba(99, 102, 241, 0.1);
+      border: 2px solid #6366f1;
+      border-radius: 12px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      background: linear-gradient(90deg, #6366f1, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .tab-bar {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .tab-btn {
+      padding: 10px 32px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 2px solid transparent;
+      border-bottom: none;
+      border-radius: 10px 10px 0 0;
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: #e2e8f0;
+      background: rgba(99, 102, 241, 0.25);
+    }
+
+    .tab-btn.active {
+      background: rgba(30, 41, 59, 0.95);
+      color: #22d3ee;
+      border-color: #6366f1;
+      border-bottom: 2px solid rgba(30, 41, 59, 0.95);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+    }
+
+    .sidebar {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 20px;
+      height: fit-content;
+    }
+
+    .main {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #6366f1;
+      color: #22d3ee;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #e2e8f0;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .status-indicator.connected {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid #10b981;
+    }
+
+    .status-indicator.disconnected {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid #f43f5e;
+    }
+
+    .status-indicator.connecting {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid #f59e0b;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .dot.green { background: #10b981; }
+    .dot.red { background: #f43f5e; }
+    .dot.amber { background: #f59e0b; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .device-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .device-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 15px;
+      transition: all 0.3s;
+    }
+
+    .device-card:hover {
+      border-color: #6366f1;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    .device-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .device-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .device-ch {
+      font-size: 12px;
+      color: #6366f1;
+      font-weight: 600;
+    }
+
+    .device-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .info-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-label {
+      color: #64748b;
+      font-size: 11px;
+      width: 36px;
+    }
+
+    .info-value {
+      color: #e2e8f0;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .btn-mute, .btn-edit-freq {
+      background: #334155;
+      border: 1px solid #475569;
+      border-radius: 4px;
+      padding: 2px 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .btn-mute:hover, .btn-edit-freq:hover {
+      background: #475569;
+      border-color: #64748b;
+    }
+
+    .btn-mute.muted {
+      background: #7f1d1d;
+      border-color: #dc2626;
+    }
+
+    .meters {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #334155;
+    }
+
+    .meter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .meter-label {
+      font-size: 10px;
+      color: #64748b;
+      width: 30px;
+    }
+
+    .meter-bar {
+      flex: 1;
+      height: 6px;
+      background: #0f172a;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      transition: width 0.5s ease;
+    }
+
+    .fill-rf { background: linear-gradient(90deg, #6366f1, #22d3ee); }
+    .fill-af { background: linear-gradient(90deg, #10b981, #34d399); }
+    .fill-batt { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+    .meter-value {
+      font-size: 11px;
+      color: #94a3b8;
+      width: 50px;
+      text-align: right;
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+    }
+
+    /* ── 可滑动仪表条 ── */
+    .meter-slider {
+      flex: 1;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+      background: #0f172a;
+    }
+    .meter-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      box-shadow: 0 0 4px rgba(0,0,0,0.5);
+      cursor: grab;
+      transition: transform 0.15s;
+    }
+    .meter-slider:active::-webkit-slider-thumb {
+      transform: scale(1.3);
+      cursor: grabbing;
+    }
+    .meter-slider::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      border: none;
+      cursor: grab;
+    }
+    /* RF 滑块渐变颜色：用 inline style 动态设置 */
+    .meter-slider.slider-rf { accent-color: #22d3ee; }
+    .meter-slider.slider-af { accent-color: #34d399; }
+    .meter-slider.slider-batt { accent-color: #fbbf24; }
+
+    .log-container {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 15px;
+      height: 300px;
+      overflow-y: auto;
+      font-family: 'Cascadia Code', 'Consolas', monospace;
+      font-size: 12px;
+    }
+
+    .log-entry {
+      padding: 4px 0;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      gap: 10px;
+    }
+
+    .log-time {
+      color: #64748b;
+      min-width: 80px;
+    }
+
+    .log-type {
+      min-width: 70px;
+      font-weight: 600;
+    }
+
+    .log-type.INFO { color: #22d3ee; }
+    .log-type.SUCCESS { color: #10b981; }
+    .log-type.ERROR { color: #f43f5e; }
+    .log-type.WARN { color: #f59e0b; }
+
+    .log-message {
+      color: #e2e8f0;
+      flex: 1;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #22d3ee;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+  </style>
+  <link rel="stylesheet" href="src/single-page.css?v=1.0.3-eight-cards1"/>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('monitor')">监控</button>
+        <button class="tab-btn" onclick="switchTab('interference')">干扰源</button>
+        <button class="compact-settings-btn" type="button" onclick="FasheViewport.toggleSettings()" aria-expanded="false" aria-controls="receiverSidebar">连接与诊断</button>
+      </div>
+      <h1>🎤 FAshe 模拟麦克接收机</h1>
+      <p>DATY RF PRO 平台连通性测试工具</p>
+    </div>
+
+    <!-- 监控选项卡 -->
+    <div id="tab-monitor" class="tab-content active">
+    <div class="grid">
+      <!-- Sidebar -->
+      <div class="sidebar" id="receiverSidebar">
+        <div class="sidebar-tabs" aria-label="接收机设置分区">
+          <button type="button" data-sidebar-tab="connection" aria-pressed="true" onclick="FasheViewport.showSidebar('connection')">连接设置</button>
+          <button type="button" data-sidebar-tab="diagnostics" aria-pressed="false" onclick="FasheViewport.showSidebar('diagnostics')">诊断与状态</button>
+        </div>
+        <div class="section connection-section" id="sidebarConnection">
+          <div class="section-title">连接设置</div>
+          
+          <!-- 服务器连接状态 -->
+          <div id="serverStatusBar" style="background:rgba(100,116,139,0.1);border:1px solid rgba(100,116,139,0.3);border-radius:8px;padding:10px 12px;margin-bottom:15px;display:flex;align-items:center;gap:8px;">
+            <div style="width:10px;height:10px;border-radius:50%;background:#64748b;" id="serverStatusDot"></div>
+            <span id="serverStatusText" style="font-size:13px;color:#64748b;">未启动</span>
+          </div>
+          <div id="clockStatusBar" style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);border-radius:8px;padding:8px 12px;margin-bottom:15px;font-size:12px;color:#a5b4fc;">
+            <span id="clockStatusText">主时钟：等待 fuwuqi 校时</span>
+          </div>
+          
+          <div class="form-group wide-field">
+            <label style="display:flex;align-items:center;justify-content:space-between;">
+              <span>本机 IP <span style="font-size:10px;color:#6ee7b7;">（自动检测）</span></span>
+              <button onclick="autoDetectIP()" id="detectBtn" title="重新检测本机局域网 IP" style="background:rgba(99,102,241,.2);border:1px solid #6366f1;color:#a5b4fc;border-radius:4px;padding:2px 8px;font-size:11px;cursor:pointer;transition:all .2s;">🔍 自动检测</button>
+            </label>
+            <div style="position:relative;">
+              <input type="text" id="localIP" value="" placeholder="连接后由服务器确认 IP" style="background:#0f172a;color:#22d3ee;"/>
+              <div id="ipDetectStatus" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;color:#64748b;pointer-events:none;"></div>
+            </div>
+            <div id="ipHint" style="font-size:11px;color:#64748b;margin-top:4px;display:none;"></div>
+          </div>
+
+          <div class="form-group wide-field">
+            <label>配对服务器 <span style="font-size:10px;color:#6ee7b7;">（固定 WSS）</span></label>
+            <input type="text" id="serverAddress" value="" placeholder="自动接入的服务器地址" readonly style="background:#0f172a;color:#22d3ee;"/>
+            <div style="font-size:10px;color:#64748b;margin-top:4px;">仅连接签发文件绑定的服务器，无明文回退</div>
+          </div>
+          <button type="button" class="btn btn-primary pairing-button" id="pairingButton" onclick="FashePairing.open()">🔐 自动接入 · 设置</button>
+
+          <div class="form-group">
+            <label>通道数量</label>
+            <select id="deviceCount" onchange="saveSettings()">
+              <option value="1">1 通道</option>
+              <option value="2">2 通道</option>
+              <option value="4">4 通道</option>
+              <option value="8">8 通道</option>
+              <option value="12">12 通道</option>
+              <option value="16">16 通道</option>
+              <option value="20">20 通道</option>
+              <option value="25">25 通道</option>
+              <option value="30">30 通道</option>
+              <option value="40">40 通道</option>
+              <option value="50">50 通道</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>品牌</label>
+            <select id="deviceBrand" onchange="onBrandChange(); saveSettings()">
+              <option value="DATYaudio" selected>DATY audio</option>
+              <option value="AMSaudio">AMSaudio</option>
+              <option value="Shure">Shure</option>
+              <option value="Sennheiser">Sennheiser</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>无线麦克型号</label>
+            <select id="deviceModel" onchange="saveSettings()">
+              <option value="RF PRO" selected>RF PRO</option>
+              <option value="DATY-X1">DATY-X1</option>
+              <option value="DATY-X2">DATY-X2</option>
+            </select>
+            <div id="deviceModelHint" style="font-size:11px;color:#64748b;margin-top:4px;">DATYaudio · Equipment Profile: datyaudio-generic</div>
+          </div>
+
+          <div class="form-group">
+            <label>更新频率 (ms)</label>
+            <input type="number" id="updateInterval" value="50" min="20" max="5000" step="10" title="周期遥测；滑块和静音操作始终立即上报，不等待此周期"/>
+          </div>
+
+          <div class="power-actions" style="display: flex; gap: 10px;">
+            <button class="btn btn-primary" id="connectBtn" onclick="connect()" style="flex: 1;">
+              🔌 开机
+            </button>
+            <button class="btn btn-danger" id="disconnectBtn" onclick="disconnect()" style="flex: 1;" disabled>
+              ⏹️ 关机
+            </button>
+          </div>
+        </div>
+
+        <div id="sidebarDiagnostics" hidden>
+        <div class="section">
+          <div class="section-title">网络诊断</div>
+          <div class="form-group">
+            <label>探测目标 IP <span style="font-size:10px;color:#6ee7b7;">（端口探测）</span></label>
+            <input type="text" id="pingAddress" placeholder="如 192.0.2.102" style="margin-bottom: 8px;"/>
+            <div style="font-size:10px;color:#64748b;margin-bottom:8px;line-height:1.5;">
+              仅探测已配对服务器 WSS；不进行局域网扫描或明文端口回退
+            </div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-primary" id="pingBtn" onclick="togglePing()" style="flex:1;">
+                探测
+              </button>
+              <button class="btn btn-success" onclick="quickSelfCheck()" style="flex:1;">
+                安全自检
+              </button>
+            </div>
+          </div>
+          <div id="selfCheckResult" style="font-size:12px;margin-top:10px;padding:10px;background:#0f172a;border-radius:6px;display:none;line-height:1.8;"></div>
+          <div id="pingResult" style="font-size: 12px; margin-top: 10px; padding: 10px; background: #0f172a; border-radius: 6px; display: none;">
+            <div id="pingStatus" style="font-weight: 600; margin-bottom: 5px;"></div>
+            <div id="pingStats" style="color: #64748b; font-size: 11px; margin-bottom: 5px;"></div>
+            <div id="pingDetails" style="color: #94a3b8;"></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">状态</div>
+          <div class="status-indicator disconnected" id="statusIndicator">
+            <div class="dot red" id="statusDot"></div>
+            <span id="statusText">未连接</span>
+          </div>
+
+          <div style="font-size: 12px; color: #94a3b8; margin-top: 10px;">
+            <div>协议: MQTT 3.1.1 over TLS/WSS</div>
+            <div>编码: JSON</div>
+            <div>身份: 服务器签发的接收机配对凭据</div>
+          </div>
+        </div>
+        </div><!-- end #sidebarDiagnostics -->
+      </div>
+
+      <!-- Main Content -->
+      <div class="main monitor-main">
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="statDevices">0</div>
+            <div class="stat-label">在线设备</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statMessages">0</div>
+            <div class="stat-label">消息数</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statErrors">0</div>
+            <div class="stat-label">错误数</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statUptime">00:00:00</div>
+            <div class="stat-label">运行时间</div>
+          </div>
+        </div>
+
+        <!-- Device Cards -->
+        <div class="section device-section">
+          <div class="section-title device-section-heading">
+            <span>设备列表</span>
+            <nav class="channel-pager" aria-label="通道卡分页">
+              <span id="devicePagerState" aria-live="polite">暂无通道</span>
+              <button type="button" id="devicePrevPage" onclick="FasheViewport.changePage(-1)" aria-label="上一页通道" disabled>‹</button>
+              <button type="button" id="deviceNextPage" onclick="FasheViewport.changePage(1)" aria-label="下一页通道" disabled>›</button>
+            </nav>
+          </div>
+          <div class="device-cards" id="deviceCards">
+            <div style="text-align: center; color: #64748b; padding: 40px;">
+              正在按保存的通道设置自动开机…
+            </div>
+          </div>
+        </div>
+
+        <!-- Log -->
+        <div class="section log-section">
+          <div class="section-title">通讯日志
+            <button class="btn btn-primary" onclick="clearLogs()">🗑️ 清空日志</button>
+          </div>
+          <div class="log-container" id="logContainer">
+            <!-- Logs will be inserted here -->
+          </div>
+        </div>
+      </div>
+    </div>
+    </div><!-- end #tab-monitor -->
+
+    <!-- 干扰源选项卡 -->
+    <div id="tab-interference" class="tab-content">
+      <div class="interference-layout" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:0 auto;">
+        <!-- 干扰总开关 -->
+        <div class="main" style="grid-column:1/-1;">
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <div style="flex:1;">
+              <div style="font-size:16px;font-weight:600;color:#f43f5e;margin-bottom:4px;">⚡ 干扰源模拟</div>
+              <div style="font-size:13px;color:#94a3b8;">模拟外部射频干扰，对所有通道的 RF 电平造成附加噪声/衰减</div>
+            </div>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0;">
+              <span style="font-size:13px;font-weight:600;color:#94a3b8;">启用干扰</span>
+              <div style="position:relative;width:52px;height:28px;">
+                <input type="checkbox" id="interferenceEnabled" onchange="onInterferenceToggle()" style="opacity:0;width:0;height:0;">
+                <div id="interferenceToggleBg" style="position:absolute;inset:0;border-radius:14px;background:#334155;transition:background 0.3s;pointer-events:none;"></div>
+                <div id="interferenceToggleDot" style="position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:#94a3b8;transition:transform 0.3s,background 0.3s;pointer-events:none;"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 干扰类型 -->
+        <div class="main">
+          <div class="section-title">干扰类型</div>
+          <div class="form-group">
+            <label>类型</label>
+            <select id="interferenceType" onchange="onInterferenceTypeChange()">
+              <option value="constant">恒定噪声（Constant）</option>
+              <option value="burst">脉冲突发（Burst）</option>
+              <option value="sweep">扫频干扰（Sweep）</option>
+              <option value="random">随机跳变（Random）</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>干扰强度 (dBm)</label>
+            <input type="range" id="interferenceStrength" min="-50" max="0" value="-20" step="1" oninput="onInterferenceStrengthChange()">
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;margin-top:4px;">
+              <span>-50（轻微）</span>
+              <span id="interferenceStrengthValue" style="color:#f43f5e;font-weight:bold;">-20 dBm</span>
+              <span>0（极强）</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 实时状态 -->
+        <div class="main interference-impact">
+          <div class="section-title">实时影响</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0f172a;border-radius:8px;">
+              <span style="font-size:13px;color:#94a3b8;">干扰有效通道</span>
+              <span id="interferenceAffectedChannels" style="font-size:14px;font-weight:600;color:#f43f5e;">全部</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0f172a;border-radius:8px;">
+              <span style="font-size:13px;color:#94a3b8;">目标频率范围</span>
+              <span id="interferenceFreqRange" style="font-size:14px;font-weight:600;color:#f43f5e;">全频段</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0f172a;border-radius:8px;">
+              <span style="font-size:13px;color:#94a3b8;">当前叠加干扰</span>
+              <span id="interferenceCurrentValue" style="font-size:14px;font-weight:600;color:#22d3ee;">0.0 dB</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0f172a;border-radius:8px;">
+              <span style="font-size:13px;color:#94a3b8;">干扰事件计数</span>
+              <span id="interferenceEventCount" style="font-size:14px;font-weight:600;color:#fbbf24;">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 通道选择 -->
+        <div class="main interference-targets" style="grid-column:1/-1;">
+          <div class="section-title">目标通道</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;" id="interferenceChannelList">
+            <!-- 由 JS 动态生成 -->
+          </div>
+        </div>
+
+        <!-- 干扰波形预览 -->
+        <div class="main" style="grid-column:1/-1;">
+          <div class="section-title">干扰波形示意</div>
+          <canvas id="interferenceCanvas" style="width:100%;height:100px;background:#0f172a;border-radius:8px;border:1px solid #334155;"></canvas>
+        </div>
+      </div>
+    </div><!-- end #tab-interference -->
+  </div>
+
+  <dialog id="pairingDialog" aria-labelledby="pairingTitle">
+    <h2 id="pairingTitle">接收机安全配对</h2>
+    <p>启动即向服务器自动登记。服务器确认实际来源 IP，并按首次成功登记顺序分配 GROUP；重连保持原编组。不会修改电脑网络 IP。仍需信任服务器 CA，首次接入须由服务器允许这台开发电脑。</p>
+    <label for="autoPairServer">服务器 HTTPS 地址</label>
+    <input id="autoPairServer" type="url" placeholder="https://服务器IP:8802" style="width:100%;padding:8px;background:#0b1223;color:#a5f3fc;border:1px solid #475569;border-radius:6px">
+    <textarea id="pairingIdentity" class="pairing-identity" aria-label="公开配对请求" readonly></textarea>
+    <p id="pairingSummary"></p>
+    <p id="pairingFingerprint"></p>
+    <label class="pairing-trust"><input type="checkbox" id="pairingTrustCheck"><span>配对文件由服务器管理员提供；已通过可信渠道核对 CA 指纹，并按照部署说明信任内部 CA。遇到证书错误时不跳过安全检查。</span></label>
+    <p id="pairingFeedback" role="status" aria-live="polite"></p>
+    <input type="file" id="pairingFile" accept=".json,application/json" aria-label="导入配对 JSON 文件">
+    <div class="pairing-actions">
+      <button type="button" class="btn btn-primary" onclick="FashePairing.autoConnect()">自动接入 / 重试</button>
+      <button type="button" class="btn btn-primary" onclick="document.getElementById('pairingFile').click()">导入配对文件</button>
+      <button type="button" class="btn btn-danger" id="forgetPairing" onclick="FashePairing.forget()" disabled>清除本页配对</button>
+      <button type="button" class="btn btn-primary" onclick="FashePairing.close()">关闭</button>
+    </div>
+  </dialog>
+  <script>
+    // Global variables
+    let mqttClient = null;        // MQTT client（替代 ws）
+    let devices = [];
+    let interferenceDevices = [];
+    let updateTimer = null;
+    let messageCount = 0;
+    let errorCount = 0;
+    let startTime = null;
+    let uptimeTimer = null;
+    
+    // Auto-reconnect & discovery variables
+    let isPoweredOn = false;
+    const networkTimers = globalThis.FasheNetworkTimers || globalThis;
+    let reconnectTimer = null;
+    let discoveryTimer = null;
+    let reconnectAttempts = 0;
+    const MAX_RECONNECT_ATTEMPTS = 999; // 一直重连，不放弃
+    const RECONNECT_DELAY = 3000;
+    const DISCOVERY_INTERVAL = 15000;  // 每 15 秒重新发现
+    // 服务器主时钟（fuwuqi）同步状态。断线时保留最后一次 offset，
+    // 继续以“本机单调推进 + 最后校准值”运行；重连后立即重新校时。
+    const CLOCK_SYNC_PROTOCOL = 'daty-clock-v1';
+    const CLOCK_SYNC_STALE_MS = 20000;
+    const CLOCK_ACK_CLIENT_VERSION = 'fashe-stability-v2';
+    let clockUiPending = false;
+    let clockOffsetMs = 0;
+    let clockLastSyncLocalMs = 0;
+    let clockLastServerMs = 0;
+    let clockLastSequence = 0;
+    let clockServerId = null;
+    let clockSyncCount = 0;
+    let clockSyncState = 'local';
+
+    function localNowMs() {
+      return Date.now();
+    }
+
+    function masterNowMs() {
+      return Math.round(localNowMs() + clockOffsetMs);
+    }
+
+    function masterNowIso() {
+      return new Date(masterNowMs()).toISOString();
+    }
+
+    function updateClockStatus() {
+      const text = document.getElementById('clockStatusText');
+      const bar = document.getElementById('clockStatusBar');
+      if (!text) return;
+      const age = clockLastSyncLocalMs ? Math.max(0, localNowMs() - clockLastSyncLocalMs) : null;
+      if (clockSyncState === 'synced' && age !== null && age <= CLOCK_SYNC_STALE_MS) {
+        text.textContent = `主时钟：fuwuqi · 偏移 ${clockOffsetMs >= 0 ? '+' : ''}${clockOffsetMs} ms · seq ${clockLastSequence}`;
+        text.style.color = '#6ee7b7';
+        if (bar) bar.style.borderColor = 'rgba(16,185,129,0.35)';
+      } else if (clockSyncState === 'holdover' || (age !== null && age > CLOCK_SYNC_STALE_MS)) {
+        text.textContent = `主时钟：fuwuqi（断线保护）· 最后偏移 ${clockOffsetMs >= 0 ? '+' : ''}${clockOffsetMs} ms`;
+        text.style.color = '#fbbf24';
+        if (bar) bar.style.borderColor = 'rgba(245,158,11,0.35)';
+      } else {
+        text.textContent = '主时钟：等待 fuwuqi 校时';
+        text.style.color = '#a5b4fc';
+        if (bar) bar.style.borderColor = 'rgba(99,102,241,0.25)';
+      }
+    }
+
+    function markClockDisconnected() {
+      if (clockLastSyncLocalMs) clockSyncState = 'holdover';
+      else clockSyncState = 'local';
+      updateClockStatus();
+    }
+
+    function scheduleClockUi() {
+      if (clockUiPending) return;
+      clockUiPending = true;
+      const render = () => {
+        clockUiPending = false;
+        updateClockStatus();
+        // 常规心跳不逐条写 DOM 日志；首次、重连后的同步仍有记录。
+        if (clockSyncCount === 1) {
+          log('INFO', `[时钟] 已同步 fuwuqi 主时钟：偏移 ${clockOffsetMs} ms，seq ${clockLastSequence}`);
+        }
+      };
+      if (typeof requestAnimationFrame === 'function') requestAnimationFrame(render);
+      else setTimeout(render, 0);
+    }
+
+    function applyServerClockSync(message, receivedPerformanceMs) {
+      if (!message || message.protocol !== CLOCK_SYNC_PROTOCOL) return false;
+      const serverMs = Number(message.server_epoch_ms);
+      const sequence = Number(message.sequence);
+      const serverId = String(message.server_id || '').trim();
+      if (!Number.isFinite(serverMs) || serverMs <= 0) return false;
+      if (!serverId || typeof message.sequence === 'boolean' || !Number.isSafeInteger(sequence) || sequence <= 0) return false;
+      // Bridge 重启会生成新的 server_id、序号从 1 重新开始；新实例必须
+      // 允许序号重置，否则旧页面会一直等待旧序号增长而无法重新校时。
+      const isNewServer = !!serverId && serverId !== clockServerId;
+      if (!isNewServer && Number.isFinite(sequence) && sequence > 0 && clockSyncCount > 0 && sequence <= clockLastSequence) return false;
+
+      const receivedLocalMs = localNowMs();
+      const targetOffset = Math.round(serverMs - receivedLocalMs);
+      // 拒绝明显损坏的时间包，避免一次坏包把模拟器时间跳到远期。
+      if (Math.abs(targetOffset) > 24 * 60 * 60 * 1000) return false;
+      // 首次同步立即采用服务器时间；后续用 80% 新值平滑掉网络抖动。
+      if (isNewServer) {
+        clockSyncCount = 0;
+        clockLastSequence = 0;
+      }
+      clockOffsetMs = clockSyncCount === 0
+        ? targetOffset
+        : Math.round(clockOffsetMs * 0.2 + targetOffset * 0.8);
+      clockLastSyncLocalMs = receivedLocalMs;
+      clockLastServerMs = serverMs;
+      if (serverId) clockServerId = serverId;
+      clockLastSequence = Number.isFinite(sequence) ? sequence : clockLastSequence;
+      clockSyncCount += 1;
+      clockSyncState = 'synced';
+      // 网络回执必须先于界面绘制/日志；后台标签暂停 rAF 也不能延迟 ACK。
+      sendClockSyncAck(message, receivedLocalMs, receivedPerformanceMs);
+      scheduleClockUi();
+      return true;
+    }
+
+    function sendClockSyncAck(message, clientEpochMs, receivedPerformanceMs) {
+      if (!mqttClient || !mqttClient.connected) return;
+      const receiverIP = getReceiverIP();
+      const clientId = receiverIP ? `FAshe-${receiverIP}` : null;
+      if (!receiverIP || !clientId) return;
+      const payload = {
+        type: 'clock_sync_ack',
+        protocol: CLOCK_SYNC_PROTOCOL,
+        clock_source: 'fuwuqi',
+        client_id: clientId,
+        receiver_ip: receiverIP,
+        sequence: Number(message.sequence) || 0,
+        server_id: clockServerId || undefined,
+        server_epoch_ms: Number(message.server_epoch_ms),
+        client_epoch_ms: clientEpochMs,
+        master_epoch_ms: masterNowMs(),
+        offset_ms: clockOffsetMs,
+        timestamp: masterNowMs(),
+        client_version: CLOCK_ACK_CLIENT_VERSION,
+      };
+      // 仅供诊断 JS 回调内准备耗时；服务器不会从原始 RTT 中扣除它。
+      if (Number.isFinite(receivedPerformanceMs) && typeof performance !== 'undefined') {
+        payload.client_ack_prepare_ms = Math.round((performance.now() - receivedPerformanceMs) * 1000) / 1000;
+      }
+      mqttClient.publish(MQTT_TOPIC_CLOCK_ACK, JSON.stringify(payload), { qos: 0 });
+    }
+
+    // 仅用于显示“断线保护”状态，不改变最后一次服务器校准值。
+    setInterval(() => {
+      if (clockLastSyncLocalMs && localNowMs() - clockLastSyncLocalMs > CLOCK_SYNC_STALE_MS && clockSyncState === 'synced') {
+        clockSyncState = 'holdover';
+        updateClockStatus();
+      }
+    }, 1000);
+
+    const INSTANCE_TOKEN = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : `${localNowMs()}-${Math.random().toString(36).slice(2)}`;
+    const INSTANCE_LEASE_MS = 20000;
+    const connectionPulse = FasheStability.createPulse(() => performance.now());
+    const receiverOwner = FasheStability.createOwner(navigator.locks);
+    const channelState = FasheStability.createStateStore({
+      getItem: key => localStorage.getItem(key), setItem: (key, value) => localStorage.setItem(key, value)
+    }, () => log('WARN', '本机通道状态无法保存或读取；请保留当前页面并检查浏览器存储。'));
+    let powerStarting = false, powerRequest = 0, telemetryErrorReported = false;
+    function checkpointChannels() {
+      if (isPoweredOn && devices.length) channelState.save(getLocalMacAddress(), devices);
+    }
+    function sendPeriodicUpdates() {
+      try { sendDeviceUpdates(); telemetryErrorReported = false; }
+      catch (_) {
+        if (!telemetryErrorReported) log('ERROR', '通道上报发生异常，下一次心跳或更新周期将重试。');
+        telemetryErrorReported = true;
+      }
+    }
+    function resumeReceiverConnection() {
+      if (!isPoweredOn) return;
+      if (mqttClient?.connected && !connectionPulse.stale()) {
+        sendPeriodicUpdates();
+      } else if (!reconnectTimer) {
+        log('INFO', '页面恢复，正在重新检查服务器连接；保留已执行的通道状态。');
+        FashePairing.closeTransport(); mqttClient = null; connectionPulse.stopped();
+        stopUpdates(); markClockDisconnected();
+        updateStatus('connecting'); updateServerStatus('reconnecting');
+        scheduleReconnect();
+      }
+    }
+    networkTimers.setInterval(() => {
+      if (isPoweredOn && mqttClient?.connected && connectionPulse.stale()) resumeReceiverConnection();
+    }, 5000);
+    let instanceLeaseKey = null;
+    let instanceLeaseTimer = null;
+    // 根据当前网页主机填写配对地址；本地文件由用户提供服务器地址。
+    const pairingServerField = document.getElementById('autoPairServer');
+    if (location.protocol === 'https:' && location.hostname) {
+      pairingServerField.value = new URL('https://' + location.host).origin.replace(/:\d+$/, '') + ':8802';
+    }
+    
+    // MQTT 主题常量
+    const MQTT_TOPIC_SEND     = 'daty/rf/devices/up';       // FAshe → 服务器：发送设备数据
+    const MQTT_TOPIC_RECEIVE  = 'daty/rf/devices/down';     // 服务器 → FAshe：下发指令
+    const MQTT_TOPIC_REGISTER = 'daty/rf/devices/register'; // FAshe → 服务器：注册设备列表
+    const MQTT_TOPIC_CLOCK_SYNC = 'daty/rf/clock/sync';     // 服务器主时钟 → FAshe
+    const MQTT_TOPIC_CLOCK_ACK  = 'daty/rf/clock/ack';      // FAshe → 服务器校时回执
+    const MQTT_CLIENT_ID_PREFIX = 'fashe_sim_';
+    
+    // Group 仅是编组元数据，不参与接收机/CH 路由。模拟器默认使用 Group1；
+    // 目标定位始终依赖 receiver_id/IP/MAC + 显式 channel_number。
+    const GROUP_NUMBER = null; // No self-assigned Group1 before server registration.
+    
+    // 发现到的 DATY RF PRO 服务器
+    let discoveredServers = [];  // [{ip, label, version, ports, ...}]
+    let discoveredServerIP = null;  // 当前连接的服务器 IP
+    
+    // Ping variables
+    let isPinging = false;
+    let pingTimer = null;
+    let pingCount = 0;
+    let pingSuccessCount = 0;
+    const PING_INTERVAL = 1000;
+
+    // Save settings to localStorage
+    function saveSettings() {
+      localStorage.setItem('fashe_deviceCount', document.getElementById('deviceCount').value);
+      localStorage.setItem('fashe_deviceBrand', document.getElementById('deviceBrand').value);
+      localStorage.setItem('fashe_deviceModel', document.getElementById('deviceModel').value);
+      localStorage.setItem('fashe_updateInterval', document.getElementById('updateInterval').value);
+      // Server endpoint is authoritative only in the imported pairing bundle.
+    }
+
+    // Load settings from localStorage
+    function loadSettings() {
+      const deviceCount = localStorage.getItem('fashe_deviceCount');
+      const deviceBrand = localStorage.getItem('fashe_deviceBrand');
+      const deviceModel = localStorage.getItem('fashe_deviceModel');
+      const updateInterval = localStorage.getItem('fashe_updateInterval');
+      const serverAddress = null; // Ignore legacy plaintext discovery settings.
+
+      if (deviceCount) document.getElementById('deviceCount').value = deviceCount;
+      if (deviceBrand) document.getElementById('deviceBrand').value = DATYaudioProfile.normalizeBrand(deviceBrand) || deviceBrand;
+      onBrandChange(deviceModel);
+      if (updateInterval) document.getElementById('updateInterval').value = updateInterval;
+      if (serverAddress) document.getElementById('serverAddress').value = serverAddress;
+    }
+
+    // Device templates - DATYaudio 对外使用规范品牌值，界面显示 DATY audio
+    const BRANDS = {
+      'AMSaudio': { colors: ['#f59e0b', '#fcd34d'], channels: ['A', 'B', 'C', 'D'] },
+      'Shure': { colors: ['#6366f1', '#a5b4fc'], channels: ['1', '2', '3', '4'] },
+      'Sennheiser': { colors: ['#22d3ee', '#67e8f9'], channels: ['01', '02', '03', '04'] },
+      'DATYaudio': { colors: ['#a855f7', '#d8b4fe'], channels: ['1', '2', '3', '4'], fixedFreq: 641.000, groupName: 'DATY audio-Group', displayName: 'DATY audio' }
+    };
+
+    function onBrandChange(preferredModel) {
+      const brand = DATYaudioProfile.normalizeBrand(document.getElementById('deviceBrand').value) || document.getElementById('deviceBrand').value;
+      const modelSelect = document.getElementById('deviceModel');
+      const hint = document.getElementById('deviceModelHint');
+      if (brand === DATYaudioProfile.BRAND) {
+        modelSelect.disabled = false;
+        modelSelect.innerHTML = DATYaudioProfile.MODELS.map(model =>
+          `<option value="${model.id}">${model.label}</option>`
+        ).join('');
+        modelSelect.value = DATYaudioProfile.getModel(preferredModel || modelSelect.value).id;
+        hint.textContent = 'DATYaudio · Equipment Profile: datyaudio-generic';
+      } else {
+        modelSelect.innerHTML = '<option value="Generic">Generic</option>';
+        modelSelect.disabled = true;
+        hint.textContent = `${brand} · 通用模拟设备`;
+      }
+    }
+
+    // DATY audio 固定频率表（CH01-CH100，步进0.25MHz）
+    const DATY_FREQ_TABLE = {};
+    (function buildFreqTable() {
+      const startFreq = 641.000;
+      for (let i = 1; i <= 100; i++) {
+        DATY_FREQ_TABLE[i] = (startFreq + (i - 1) * 0.250).toFixed(3);
+      }
+    })();
+
+    // Initialize devices
+    function initializeDevices(count, brand, model) {
+      devices = [];
+      brand = DATYaudioProfile.normalizeBrand(brand) || brand;
+      const brandInfo = BRANDS[brand];
+      const isFixedFreq = brandInfo && brandInfo.fixedFreq !== undefined;
+      for (let i = 0; i < count; i++) {
+        const chNum = i + 1;
+        if (brand === DATYaudioProfile.BRAND) {
+          devices.push({
+            ...DATYaudioProfile.createChannel(chNum, model),
+            ip: null,
+            mac: null
+          });
+          continue;
+        }
+        const frequency = isFixedFreq
+          ? parseFloat(DATY_FREQ_TABLE[chNum] || DATY_FREQ_TABLE[1])
+          : Number((600 + (chNum - 1) * 0.5).toFixed(3));
+        // 所有品牌都用连续编号（1,2,3,4,5,6,7,8...）
+        const channelKey = String(chNum);
+        devices.push({
+          id: `${brand}-CH${String(chNum).padStart(2, '0')}`,
+          name: `${brand}-CH${String(chNum).padStart(2, '0')}`,
+          brand: brand,
+          model: model || 'Generic',
+          equipmentProfileId: null,
+          channel: channelKey,
+          frequency: frequency,
+          rfLevel: -60,
+          afLevel: -24,
+          battery: 100,
+          muted: false,
+          online: true,
+          ip: null,       // 用于服务器下发参数时匹配
+          mac: null       // 用于服务器下发参数时匹配
+        });
+      }
+    }
+
+    // 只解析显式 CH/channel 标记；Group1/CH2 必须得到 2，Group1 本身无效。
+    function parseChannelNumber(value) {
+      if (value === null || value === undefined || value === '' || typeof value === 'boolean') return null;
+      if (typeof value === 'number' && Number.isInteger(value) && value > 0) return value;
+      const text = String(value).trim();
+      if (/^\d+$/.test(text)) return Number(text) > 0 ? Number(text) : null;
+      const marked = text.match(/(?:^|[^a-z])(?:channel|ch)\s*[-_:#\s]*[^0-9\s]{0,4}\s*(\d+)/i);
+      if (marked) return Number(marked[1]) > 0 ? Number(marked[1]) : null;
+      const suffix = text.match(/_ch\s*(\d+)$/i);
+      return suffix && Number(suffix[1]) > 0 ? Number(suffix[1]) : null;
+    }
+
+    function getDeviceChannelNumber(device, fallback = null) {
+      if (!device) return fallback;
+      for (const key of ['channel_number', 'channel_no', 'channel', 'ch', 'channel_key']) {
+        if (!Object.prototype.hasOwnProperty.call(device, key)) continue;
+        const parsed = parseChannelNumber(device[key]);
+        if (parsed !== null) return parsed;
+      }
+      return fallback;
+    }
+
+    function findDeviceByChannel(channelNum) {
+      const target = parseChannelNumber(channelNum);
+      if (target === null) return null;
+      return devices.find(d => getDeviceChannelNumber(d) === target) || null;
+    }
+
+    function normalizeIdentityText(value) {
+      return String(value ?? '').trim().toLowerCase();
+    }
+
+    function normalizeReceiverClientId(value) {
+      const text = normalizeIdentityText(value);
+      const match = text.match(/^(fashe-(?:\d{1,3}\.){3}\d{1,3})(?:_[a-z0-9-]+)?$/i);
+      return match ? match[1] : text;
+    }
+
+    function receiverMessageMatches(msg) {
+      const localIp = normalizeIdentityText(getReceiverIP());
+      const localClientId = normalizeReceiverClientId(getReceiverClientId());
+      const localMac = normalizeIdentityText(getLocalMacAddress());
+      const targetIp = normalizeIdentityText(msg.receiver_ip || msg.ip || msg.ip_address || msg.ipAddress);
+      const targetClientId = normalizeReceiverClientId(msg.client_id);
+      const targetMac = normalizeIdentityText(msg.receiver_mac || msg.receiver_mac_address || msg.mac_address || msg.mac);
+      const targetReceiverId = normalizeIdentityText(msg.receiver_id || msg.receiverId);
+      const targetDeviceReceiver = normalizeIdentityText(msg.device_id).replace(/_ch\d+$/i, '');
+      // 至少要有一个接收机身份；没有身份的 channel-only 命令严禁在多接收机
+      // 环境中被任意页面执行。
+      if (!targetIp && !targetClientId && !targetMac && !targetReceiverId && !msg.device_id) return false;
+      if (targetIp && targetIp !== localIp) return false;
+      if (targetClientId && targetClientId !== localClientId) return false;
+      if (targetMac && targetMac !== localMac) return false;
+      if (targetReceiverId) {
+        const localReceiverIds = new Set([localClientId, localIp, localMac]);
+        // 服务器 canonical ID 可能是 FAshe-MAC-<hex>；同时接受本机
+        // MAC/IP 别名，但绝不只比较通道号。
+        const canonicalLocal = `fashe-mac-${localMac.replace(/[:\-]/g, '')}`;
+        const canonicalIp = `fashe-${localIp}`;
+        if (!localReceiverIds.has(targetReceiverId) && targetReceiverId !== canonicalLocal && targetReceiverId !== canonicalIp) return false;
+      }
+      if (targetDeviceReceiver) {
+        const validDeviceReceivers = new Set([localClientId, localIp, localMac, `fashe-mac-${localMac.replace(/[:\-]/g, '')}`, `fashe-${localIp}`]);
+        if (!validDeviceReceivers.has(targetDeviceReceiver)) return false;
+      }
+      return true;
+    }
+
+    // MQTT 连接 ID 是随机会话 ID；业务 client_id 必须始终使用稳定的接收机身份。
+    function getReceiverIP() {
+      const input = document.getElementById('localIP');
+      const value = input ? input.value.trim() : '';
+      if (value === '127.0.0.1' && FashePairing.serverAssignment?.()?.receiver_ip === value) return value;
+      return isLanIPv4(value) ? value : null;
+    }
+
+    function getReceiverClientId() {
+      const receiverIP = getReceiverIP();
+      return receiverIP ? `FAshe-${receiverIP}` : null;
+    }
+
+    function acquireInstanceLease(receiverIP) {
+      const key = `fashe_active_receiver_${receiverIP}`;
+      const now = localNowMs();
+      try {
+        const existing = JSON.parse(localStorage.getItem(key) || 'null');
+        if (existing && existing.token !== INSTANCE_TOKEN && now - Number(existing.ts || 0) < INSTANCE_LEASE_MS) {
+          return false;
+        }
+        instanceLeaseKey = key;
+        localStorage.setItem(key, JSON.stringify({ token: INSTANCE_TOKEN, ts: localNowMs() }));
+        const renew = renewReceiverLease;
+        if (instanceLeaseTimer) networkTimers.clearInterval(instanceLeaseTimer);
+        instanceLeaseTimer = networkTimers.setInterval(renew, 2000);
+        return true;
+      } catch (error) {
+        // localStorage 不可用时仍可靠服务器端会话归属去重。
+        return true;
+      }
+    }
+
+    function renewReceiverLease() {
+      if (!instanceLeaseKey || !isPoweredOn) return;
+      try {
+        const current = JSON.parse(localStorage.getItem(instanceLeaseKey) || 'null');
+        if (current && current.token !== INSTANCE_TOKEN) {
+          // A resumed old fallback page must never steal the new owner's lease.
+          disconnect(false); log('WARN', '另一 FAshe 页面已接管本接收机，当前页面停止连接。');
+          return;
+        }
+        localStorage.setItem(instanceLeaseKey, JSON.stringify({token: INSTANCE_TOKEN, ts: localNowMs()}));
+      } catch (_) { /* Web Lock remains authoritative when browser storage fails. */ }
+    }
+
+    function releaseInstanceLease() {
+      if (instanceLeaseTimer) {
+        networkTimers.clearInterval(instanceLeaseTimer);
+        instanceLeaseTimer = null;
+      }
+      if (!instanceLeaseKey) return;
+      try {
+        const existing = JSON.parse(localStorage.getItem(instanceLeaseKey) || 'null');
+        if (existing && existing.token === INSTANCE_TOKEN) localStorage.removeItem(instanceLeaseKey);
+      } catch (error) {}
+      instanceLeaseKey = null;
+    }
+
+    // Connect to MQTT broker
+    function acquireReceiverOwnership() { return receiverOwner.acquire(getLocalMacAddress()); }
+
+    async function connect() {
+      if (powerStarting || isPoweredOn) return;
+      powerStarting = true;
+      const request = ++powerRequest;
+      try {
+        const owned = await acquireReceiverOwnership();
+        if (request !== powerRequest) return;
+        if (!owned) {
+          log('ERROR', '本模拟接收机已有 FAshe 页面运行，请返回原页面或先关闭它。');
+          return;
+        }
+        const result = powerOnReceiver();
+        if (!isPoweredOn) receiverOwner.release();
+        return result;
+      } finally { if (request === powerRequest) powerStarting = false; }
+    }
+
+    function powerOnReceiver() {
+      // 防止重复点击
+      if (isPoweredOn) {
+        log('WARN', '已在开机状态，请先点击「关机」再重新开机');
+        return;
+      }
+
+      // Power belongs to the simulator, not to TLS/enrollment availability.
+      // No telemetry is sent until authenticated MQTT + a confirmed IP exist.
+      try {
+        DatyReceiverSecurity.identity({receiver_mac:getLocalMacAddress(),
+          brand:document.getElementById('deviceBrand').value,
+          max_channels:Number(document.getElementById('deviceCount').value)});
+      } catch (error) { log('ERROR', error.message); return; }
+      if (!acquireInstanceLease(getLocalMacAddress())) {
+        updateStatus('disconnected');
+        log('ERROR', '本模拟接收机已有一个 FAshe 页面运行，请先关闭重复页面');
+        return;
+      }
+
+      const deviceCount = parseInt(document.getElementById('deviceCount').value);
+      const deviceBrand = document.getElementById('deviceBrand').value;
+      const deviceModel = document.getElementById('deviceModel').value;
+      const updateInterval = parseInt(document.getElementById('updateInterval').value);
+
+      // Mark as powered on
+      isPoweredOn = true;
+      FashePairing.onPowerOn();
+      reconnectAttempts = 0;
+
+      // Update UI
+      updateStatus('connecting');
+      document.getElementById('connectBtn').disabled = true;
+      document.getElementById('disconnectBtn').disabled = false;
+
+      // Initialize devices
+      initializeDevices(deviceCount, deviceBrand, deviceModel);
+      const restoredChannels = channelState.restore(getLocalMacAddress(), devices);
+      if (restoredChannels) log('INFO', `已恢复本接收机 ${restoredChannels} 个通道的已执行状态；等待真实连接。`);
+      checkpointChannels();
+      renderDevices();
+      updateStats();
+
+      // Connection and all retries stay pinned to the paired TLS server.
+      log('INFO', '模拟器已自动开机，通道已就绪；正在后台连接 DATY RF PRO 服务器...');
+      updateServerStatus('connecting');
+      return discoverAndConnect();
+    }
+
+    // Try to connect to MQTT broker
+    function tryConnect(brokerUrl) {
+      if (!isPoweredOn) return;
+
+      try {
+        const localIP = getReceiverIP();
+        if (!localIP) {
+          log('ERROR', '本机 IP 已失效，停止 MQTT 连接');
+          disconnect();
+          return;
+        }
+        const pairing = FashePairing.assertReady(brokerUrl);
+        log('INFO', `正在连接已配对 WSS: ${pairing.broker_url}`);
+        updateServerStatus('connecting');
+        mqttClient = FashePairing.connectTransport(brokerUrl);
+        const sessionClient = mqttClient;
+        const isCurrentSession = () => mqttClient === sessionClient && isPoweredOn;
+        let socketCloseCode = null;
+        const socket = sessionClient.stream?.socket;
+        if (socket?.addEventListener) socket.addEventListener('close', event => {
+          socketCloseCode = Number.isInteger(event.code) ? event.code : null;
+          if (isCurrentSession() && socketCloseCode !== null) {
+            const detail = socketCloseCode === 4008 ? '（登录握手超时，请检查后台运行状态）' : '';
+            log('WARN', `WSS 连接关闭码：${socketCloseCode}${detail}`);
+          }
+        }, {once: true});
+
+        mqttClient.on('connect', function() {
+          if (!isCurrentSession()) return;
+          connectionPulse.connected();
+          log('SUCCESS', `接收机开机成功，已连接到 DATY RF PRO 服务器`);
+          updateStatus('connected');
+          updateServerStatus('connected');
+          clockSyncState = clockLastSyncLocalMs ? 'holdover' : 'local';
+          updateClockStatus();
+          if (discoveredServerIP) renderDiscoveredServer({ ip: discoveredServerIP });
+          reconnectAttempts = 0;
+
+          // Save settings
+          saveSettings();
+
+          // Subscribe to command topic (server → FAshe)
+          mqttClient.subscribe(MQTT_TOPIC_RECEIVE, { qos: 0 }, function(err) {
+            if (err) {
+              log('ERROR', `订阅指令主题失败: ${err.message}`);
+            } else {
+              log('INFO', `已订阅指令主题: ${MQTT_TOPIC_RECEIVE}`);
+            }
+          });
+          // 服务器主时钟独立主题：订阅后 Bridge 会立即下发一次，之后每 5 秒重校时。
+          mqttClient.subscribe(MQTT_TOPIC_CLOCK_SYNC, { qos: 0 }, function(err) {
+            if (err) {
+              log('ERROR', `订阅主时钟主题失败: ${err.message}`);
+            } else {
+              log('INFO', `已订阅服务器主时钟: ${MQTT_TOPIC_CLOCK_SYNC}`);
+            }
+          });
+
+          // Send initial device list
+          sendDeviceList();
+
+          // Start sending updates
+          const updateInterval = parseInt(document.getElementById('updateInterval').value);
+          startUpdates(updateInterval);
+
+          // Start uptime timer
+          if (!startTime) {
+            startTime = masterNowMs();
+            uptimeTimer = setInterval(updateUptime, 1000);
+          }
+
+          // Clear any pending reconnect timer
+          if (reconnectTimer) {
+            networkTimers.clearTimeout(reconnectTimer);
+            reconnectTimer = null;
+          }
+
+          // Existing MQTT keepalive/clock ACK is the health source. No extra discovery sockets.
+          if (discoveryTimer) clearInterval(discoveryTimer);
+          discoveryTimer = null;
+        });
+
+        mqttClient.on('message', function(topic, message) {
+          if (!isCurrentSession()) return;
+          try {
+            const receivedPerformanceMs = typeof performance !== 'undefined' ? performance.now() : undefined;
+            const payload = message.toString();
+            const msg = JSON.parse(payload);
+
+            // 服务器主时钟消息优先处理，不能落入设备指令/状态分支。
+            if (msg.type === 'clock_sync' && topic === MQTT_TOPIC_CLOCK_SYNC) {
+              const acceptedClock = applyServerClockSync(msg, receivedPerformanceMs);
+              if (!acceptedClock) return;
+              connectionPulse.clock();
+              renewReceiverLease();
+              if (!isCurrentSession()) return;
+              // Socket events still arrive when background page timers are throttled.
+              // ACK is already sent; report current channel state before any UI work.
+              if (connectionPulse.needsData()) sendPeriodicUpdates();
+              if (msg.receiver_assignment) FashePairing.applyAssignment(msg.receiver_assignment);
+              return;
+            }
+
+            // 解析服务器指令 (DATY RF PRO 格式)
+            // 格式: {"channel":1,"command":"mute","value":true}
+            // 或: {"ip":"192.168.1.100","channel":1,"command":"set_freq","value":641.5}
+            if (msg.command) {
+              let device = null;
+              const receiverMatches = receiverMessageMatches(msg);
+              const channelNum = parseChannelNumber(
+                msg.channel_number ?? msg.channel_no ?? msg.channel ?? msg.ch ?? msg.channel_key
+              );
+
+              // 定位顺序固定为：接收机身份 → 该接收机内部 CH。
+              // 禁止用 IP/MAC 直接 devices.find()，因为同一接收机的每个通道
+              // 都有相同 IP/MAC，find() 只会错误返回第一张卡。
+              if (!receiverMatches) {
+                log('DEBUG', `忽略发给其它接收机的指令: ${JSON.stringify(msg)}`);
+              } else if (channelNum === null) {
+                log('WARN', `拒绝没有有效 CH 号的指令（Group 不可作为 CH）: ${JSON.stringify(msg)}`);
+              } else {
+                const candidates = devices.filter(d => getDeviceChannelNumber(d) === channelNum);
+                if (candidates.length === 1) {
+                  device = candidates[0];
+                  log('INFO', `已定位本机接收机 ${getReceiverIP()} / CH${channelNum}: ${device.name}`);
+                } else if (candidates.length > 1) {
+                  log('ERROR', `本机存在重复 CH${channelNum}，拒绝执行指令`);
+                }
+              }
+
+              if (device) {
+                log('INFO', `收到服务器指令: ${msg.command} -> ${device.name}`);
+
+                let confirmMuteState = false;
+
+                // 根据指令类型更新设备参数
+                switch (msg.command) {
+                  case 'mute':
+                    device.muted = true;
+                    confirmMuteState = true;
+                    log('INFO', `${device.name} 已静音`);
+                    break;
+
+                  case 'unmute':
+                    device.muted = false;
+                    confirmMuteState = true;
+                    log('INFO', `${device.name} 已取消静音`);
+                    break;
+
+                  case 'set_freq':
+                    const newFreq = parseFloat(msg.value);
+                    if (isNaN(newFreq) || newFreq < 400 || newFreq > 900) {
+                      log('WARN', `${device.name} 频率设置失败: 无效值 ${msg.value} MHz`);
+                    } else {
+                      const oldFreq = device.frequency.toFixed(3);
+                      device.frequency = parseFloat(newFreq.toFixed(3));
+                      confirmMuteState = true; // 频率也立即确认，不等待周期遥测
+                      log('INFO', `${device.name} 频率变更: ${oldFreq} → ${device.frequency.toFixed(3)} MHz`);
+                    }
+                    break;
+
+                  case 'rf_level':
+                    device.rfLevel = parseFloat(msg.value) || device.rfLevel;
+                    log('DEBUG', `${device.name} RF电平: ${device.rfLevel.toFixed(1)} dBm`);
+                    break;
+
+                  case 'af_level':
+                    device.afLevel = DATYaudioProfile.clampAfDbfs(msg.value, device.afLevel);
+                    log('DEBUG', `${device.name} AF电平: ${device.afLevel.toFixed(1)} dBFS`);
+                    break;
+
+                  case 'battery':
+                    device.battery = parseInt(msg.value) || device.battery;
+                    log('DEBUG', `${device.name} 电池: ${device.battery}%`);
+                    break;
+
+                  case 'status':
+                    device.online = msg.value === 'online' || msg.value === true;
+                    log('INFO', `${device.name} 状态: ${device.online ? '在线' : '离线'}`);
+                    break;
+
+                  default:
+                    // 动态更新其他参数
+                    if (msg.value !== undefined) {
+                      device[msg.command] = msg.value;
+                      log('DEBUG', `${device.name} ${msg.command}: ${msg.value}`);
+                    }
+                }
+
+                // 更新设备的 IP/MAC 信息（如果消息中有）
+                if (msg.ip) device.ip = msg.ip;
+                if (msg.mac_address) device.mac = msg.mac_address;
+
+                // 服务器下发静音/取消静音后，立即通过 up 主题回报最终状态。
+                // 回执不发往 down，避免形成命令循环。
+                if (confirmMuteState) {
+                  sendDeviceStatus(device, getDeviceChannelNumber(device), msg.command_id);
+                }
+                updateDeviceMeters([device]); // 真实状态先发布，只更新目标卡片
+              } else {
+                log('WARN', `未找到唯一目标通道: ${JSON.stringify({receiver_id: msg.receiver_id, ip: msg.receiver_ip || msg.ip, mac: msg.receiver_mac || msg.mac_address || msg.mac, channel: msg.channel_number ?? msg.channel})}`);
+              }
+            } else if (msg.type === 'register_ack') {
+              log('SUCCESS', `设备列表已成功注册到服务器，共 ${devices.length} 个设备`);
+            } else if (msg.type === 'full_snapshot') {
+              const count = msg.count || (msg.devices ? msg.devices.length : 0);
+              log('INFO', `服务器设备快照: ${count} 个设备`);
+            } else {
+              log('INFO', `收到 MQTT 消息 [${topic}]: ${payload.substring(0, 80)}...`);
+            }
+          } catch (e) {
+            log('INFO', `收到 MQTT 消息 [${topic}]: ${message.toString().substring(0, 80)}...`);
+          }
+        });
+
+        mqttClient.on('error', function(err) {
+          if (!isCurrentSession()) return;
+          log('ERROR', `MQTT 连接错误: ${err.message}`);
+          errorCount++;
+          updateStats();
+        });
+
+        mqttClient.on('close', function() {
+          if (!isCurrentSession()) return;
+          connectionPulse.stopped(); stopUpdates();
+          markClockDisconnected();
+          if (isPoweredOn) {
+            log('WARN', '与服务器的连接已断开，准备自动重连...');
+            updateStatus('connecting');
+            updateServerStatus('reconnecting');
+            scheduleReconnect();
+          } else {
+            log('INFO', '接收机已关机');
+            stopUpdates();
+            updateStatus('disconnected');
+            updateServerStatus('disconnected');
+            document.getElementById('connectBtn').disabled = false;
+            document.getElementById('disconnectBtn').disabled = true;
+          }
+        });
+
+        mqttClient.on('offline', function() {
+          if (!isCurrentSession()) return;
+          markClockDisconnected();
+        });
+
+      } catch (error) {
+        log('ERROR', `连接失败: ${error.message}`);
+        errorCount++;
+        updateStats();
+        if (isPoweredOn) {
+          scheduleReconnect();
+        }
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    //  DATY RF PRO 服务器发现
+    // ══════════════════════════════════════════════════════════════
+    
+    // Compatibility names retained: they never scan or change the paired origin.
+    async function discoverAndConnect() {
+      if (!isPoweredOn) return;
+      try {
+        const pairing = FashePairing.assertReady();
+        discoveredServerIP = new URL(pairing.broker_url).hostname;
+        document.getElementById('serverAddress').value = pairing.broker_url;
+        renderDiscoveredServer({ip: discoveredServerIP});
+        tryConnect(pairing.broker_url);
+      } catch (error) {
+        // Missing/expired credentials must not power off or reset CH state.
+        return FashePairing.autoConnect();
+      }
+    }
+
+    async function silentDiscoverServers() {
+      if (!mqttClient || !mqttClient.connected) return;
+      const pairing = FashePairing.assertReady();
+      renderDiscoveredServer({ip: new URL(pairing.broker_url).hostname});
+    }
+
+    function renderDiscoveredServer(server) {
+      const address = document.getElementById('serverAddress');
+      address.value = FashePairing.publicInfo()?.broker_url || '';
+      address.title = server ? '已配对固定服务器；实际认证状态见连接指示' : '等待已配对服务器';
+    }
+
+    /**
+     * 更新服务器连接状态指示
+     */
+    function updateServerStatus(status) {
+      const el = document.getElementById('serverStatusText');
+      if (!el) return;
+      const map = {
+        'searching':    { text: '搜索服务器中...', color: '#f59e0b' },
+        'found':        { text: '已发现服务器', color: '#10b981' },
+        'connecting':   { text: '正在连接...', color: '#f59e0b' },
+        'connected':    { text: '已连接', color: '#10b981' },
+        'reconnecting': { text: '重连中...', color: '#f59e0b' },
+        'not_found':    { text: '未发现服务器', color: '#f43f5e' },
+        'disconnected': { text: '已断开', color: '#64748b' },
+      };
+      const s = map[status] || { text: status, color: '#64748b' };
+      el.textContent = s.text;
+      el.style.color = s.color;
+    }
+
+    // Bounded backoff to the same paired server only; no hostname discovery or downgrade.
+    function scheduleReconnect() {
+      if (!isPoweredOn || reconnectTimer) return;
+      try { FashePairing.assertReady(); }
+      catch (error) { return FashePairing.autoConnect(); }
+      reconnectAttempts++;
+      const delay = Math.min(30000, RECONNECT_DELAY * Math.min(reconnectAttempts, 5));
+      log('INFO', `${delay / 1000}秒后重试已配对服务器（第 ${reconnectAttempts} 次）`);
+      reconnectTimer = networkTimers.setTimeout(() => {
+        reconnectTimer = null;
+        if (isPoweredOn) discoverAndConnect();
+      }, delay);
+    }
+
+    // Disconnect from server
+    function disconnect(saveState = true) {
+      if (saveState) checkpointChannels();
+      powerRequest++; powerStarting = false;
+      receiverOwner.release(); connectionPulse.stopped();
+      FashePairing.cancelAuto?.();
+      // Mark as powered off
+      isPoweredOn = false;
+      markClockDisconnected();
+      
+      // Clear all timers
+      if (reconnectTimer) {
+        networkTimers.clearTimeout(reconnectTimer);
+        reconnectTimer = null;
+      }
+      if (discoveryTimer) {
+        clearInterval(discoveryTimer);
+        discoveryTimer = null;
+      }
+      
+      FashePairing.closeTransport();
+      mqttClient = null;
+      stopUpdates();
+      releaseInstanceLease();
+      updateStatus('disconnected');
+      updateServerStatus('disconnected');
+      discoveredServerIP = null;
+      
+      // 重置服务器地址显示
+      document.getElementById('serverAddress').value = FashePairing.publicInfo()?.broker_url || '';
+      
+      // Reset stats
+      startTime = null;
+      reconnectAttempts = 0;
+      
+      log('INFO', '接收机已关机，停止所有数据发送和自动重连');
+      
+      document.getElementById('connectBtn').disabled = false;
+      document.getElementById('disconnectBtn').disabled = true;
+    }
+
+    // 全局编组信息（Group 只用于显示/元数据，不能用于命令路由）。
+    let groupMapping = {};  // { receiverMac: groupNumber }
+
+    // 浏览器无法直接读取网卡 MAC；为模拟接收机生成并持久化一个本地
+    // 管理 MAC。它只代表这一个模拟接收机，IP 仍作为可读别名发送。
+    function getLocalMacAddress() {
+      const storageKey = 'fashe_receiver_mac_v1';
+      const valid = value => /^[0-9a-f]{2}(?::[0-9a-f]{2}){5}$/i.test(String(value || ''));
+      try {
+        const saved = localStorage.getItem(storageKey);
+        if (valid(saved)) return saved.toUpperCase();
+        const bytes = new Uint8Array(6);
+        if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
+        else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
+        bytes[0] = (bytes[0] & 0xfc) | 0x02; // locally administered, unicast
+        const generated = Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join(':').toUpperCase();
+        localStorage.setItem(storageKey, generated);
+        return generated;
+      } catch (_) {
+        // localStorage 被禁用时仍保持当前页面内稳定；IP 会同时作为身份别名。
+        if (!window.__fasheFallbackMac) window.__fasheFallbackMac = '02:00:00:00:00:01';
+        return window.__fasheFallbackMac;
+      }
+    }
+
+    // Send device list via MQTT
+    function sendDeviceList() {
+      if (!mqttClient || !mqttClient.connected) return;
+
+      // 获取本机 IP 和 MAC 作为 client_id 标识
+      const receiverIP = getReceiverIP();
+      const clientId = getReceiverClientId();
+      if (!receiverIP || !clientId) return;
+      const macAddress = getLocalMacAddress();
+
+      // 分配编组
+      if (!groupMapping[macAddress]) {
+        groupMapping[macAddress] = GROUP_NUMBER;
+      }
+      const groupNumber = groupMapping[macAddress];
+
+      // 保存 IP/MAC 到每个设备（用于服务器下发参数时匹配）
+      devices.forEach(d => {
+        d.ip = receiverIP;
+        d.mac = macAddress;
+      });
+
+      log('INFO', `本机 IP: ${receiverIP}, MAC: ${macAddress},  Group${groupNumber}`);
+
+      // 按 DATY RF PRO 服务器期望的格式构造消息
+      const message = {
+        type: 'device_list',   // 服务器识别类型
+        control_protocol: 'fashe-realtime-v1',
+        protocol: 'daty-clock-v1',
+        clock_source: 'fuwuqi',
+        timestamp: masterNowMs(),
+        client_id: clientId,
+        receiver_id: clientId,
+        receiver_ip: receiverIP,
+        receiver_mac: macAddress,
+        mac_address: macAddress,
+        group: groupNumber,       // 编组号（1, 2, 3...）
+        ip: receiverIP,
+        devices: devices.map(d => {
+          const channelNumber = getDeviceChannelNumber(d);
+          return {
+            name:    d.name,
+            channel: channelNumber,
+            channel_number: channelNumber,
+            channel_key: `CH${channelNumber}`,
+            receiver_id: clientId,
+            receiver_ip: receiverIP,
+            receiver_mac: macAddress,
+            freq_mhz: parseFloat(d.frequency.toFixed(3)),
+            brand:   d.brand,
+            model:   d.model,
+            equipment_profile_id: d.equipmentProfileId || undefined,
+            rf_level: parseFloat(d.rfLevel.toFixed(1)),
+            af_level: DATYaudioProfile.clampAfDbfs(d.afLevel),
+            battery: parseFloat(d.battery.toFixed(1)),
+            status: d.status || 'online',
+            group:   groupNumber,
+            muted:   !!d.muted,
+            muted_command: `${clientId}_ch${channelNumber}`
+          };
+        })
+      };
+
+      mqttClient.publish(MQTT_TOPIC_REGISTER, JSON.stringify(message), { qos: 0 });
+      messageCount++;
+      updateStats();
+      log('SUCCESS', `已发送注册包 → IP: ${receiverIP}, Group${groupNumber}`);
+      log('INFO', `消息格式: ${JSON.stringify(message)}`);
+    }
+
+    // Start updates
+    function startUpdates(interval) {
+      if (updateTimer) networkTimers.clearInterval(updateTimer);
+      const period = Number.isFinite(Number(interval)) ? Math.min(5000, Math.max(20, Number(interval))) : 50;
+      updateTimer = networkTimers.setInterval(sendPeriodicUpdates, period);
+    }
+
+    // Stop updates
+    function stopUpdates() {
+      if (updateTimer) {
+        networkTimers.clearInterval(updateTimer);
+        updateTimer = null;
+      }
+      if (uptimeTimer) {
+        clearInterval(uptimeTimer);
+        uptimeTimer = null;
+      }
+    }
+
+    // Send device updates via MQTT
+    function sendDeviceUpdates() {
+      if (!mqttClient || !mqttClient.connected) return;
+
+      // 获取本机 IP 和 MAC 作为 client_id 标识
+      const receiverIP = getReceiverIP();
+      const clientId = getReceiverClientId();
+      if (!receiverIP || !clientId) return;
+      const macAddress = getLocalMacAddress();
+
+      // 获取已分配的编组号
+      if (!groupMapping[macAddress]) {
+        groupMapping[macAddress] = GROUP_NUMBER;
+      }
+      const groupNumber = groupMapping[macAddress] || GROUP_NUMBER;
+
+      // Simulate RF level fluctuation
+      devices.forEach(d => {
+        if (!d.manualOverride) d.manualOverride = {};
+        // RF：DATYaudio 使用稳定的设备档案值；其他品牌仅保留当前值
+        if (!d.manualOverride.rfLevel) {
+          d.rfLevel = d.brand === DATYaudioProfile.BRAND ? DATYaudioProfile.DEFAULT_RF_DBM : d.rfLevel;
+        }
+        // AF/BAT 不做随机修改，只保留设备档案、滑块或服务器下发的值
+        // 计算 RF 告警状态（含干扰）
+        const effectiveRf = applyInterferenceToRf(d.rfLevel, d.channel);
+        d.status = effectiveRf < -85 ? 'warn' : 'online';
+      });
+
+      // 按 DATY RF PRO 服务器期望的格式，每条消息只包含一个通道
+      devices.forEach(d => {
+        // 对 RF 施加干扰（叠加干扰效果）
+        const effectiveRf = applyInterferenceToRf(d.rfLevel, d.channel);
+        const channelNumber = getDeviceChannelNumber(d);
+        if (channelNumber === null) {
+          log('ERROR', `跳过没有有效 CH 号的设备状态: ${d.name}`);
+          return;
+        }
+        const message = {
+          type: 'device_status_update',
+          control_protocol: 'fashe-realtime-v1',
+          protocol: 'daty-clock-v1',
+          clock_source: 'fuwuqi',
+          timestamp: masterNowMs(),
+          client_id: clientId,
+          receiver_id: clientId,
+          receiver_ip: receiverIP,
+          receiver_mac: macAddress,
+          mac_address: macAddress,
+          group: groupNumber,
+          ip: receiverIP,
+          channel:   channelNumber,
+          channel_number: channelNumber,
+          channel_key: `CH${channelNumber}`,
+          brand:     d.brand,
+          model:     d.model,
+          rf_level:  parseFloat(effectiveRf.toFixed(1)),  // rf_level (snake_case)，含干扰
+          battery:   parseFloat(d.battery.toFixed(1)),
+          af_level:  DATYaudioProfile.clampAfDbfs(d.afLevel), // -40～0 dBFS
+          freq_mhz:  parseFloat(d.frequency.toFixed(3)), // freq_mhz (snake_case)
+          status:    d.status || 'online',
+          muted:     !!d.muted
+        };
+        mqttClient.publish(MQTT_TOPIC_SEND, JSON.stringify(message), { qos: 0 });
+      });
+
+      // 干扰源仅用于本机测试视图并作用到真实通道的 RF 数值，不能作为
+      // 接收机 CH 上报。旧逻辑在 1CH 接收机上额外制造 1～2 张随机通道卡。
+
+      connectionPulse.sent();
+      checkpointChannels();
+      // 统计和渲染只在外层循环执行一次（每更新周期 1 次，而非每设备 1 次）
+      messageCount++;
+      updateStats();
+      updateDeviceMeters(); // 只更新仪表盘数字，不重建 DOM（避免覆盖服务器下发的频率等）
+    }
+
+    // ══════════════════════════════════════════════════════
+    // 滑块拖动回调：实时更新设备数据并推送到服务器
+    // field: 'rfLevel' | 'afLevel' | 'battery'
+    // ══════════════════════════════════════════════════════
+    function onMeterChange(deviceId, field, rawValue) {
+      const device = devices.find(d => d.id === deviceId);
+      if (!device) return;
+
+      const value = parseFloat(rawValue);
+      device[field] = value;
+
+      // 标记为手动覆盖（阻止自动模拟随机覆盖该字段）
+      if (!device.manualOverride) device.manualOverride = {};
+      device.manualOverride[field] = true;
+
+      // 同步更新旁边的数值文字
+      const ch = device.channel;
+      if (field === 'rfLevel') {
+        const el = document.getElementById(`rf-val-${ch}`);
+        if (el) el.textContent = `${value.toFixed(0)} dBm`;
+      } else if (field === 'afLevel') {
+        const el = document.getElementById(`af-val-${ch}`);
+        if (el) el.textContent = `${value.toFixed(1)} dBFS`;
+      } else if (field === 'battery') {
+        const el = document.getElementById(`bat-val-${ch}`);
+        if (el) el.textContent = `${value.toFixed(1)}%`;
+      }
+
+      // 实时推送状态到服务器（格式与定时上报完全一致）
+      if (mqttClient && mqttClient.connected) {
+        const receiverIP  = getReceiverIP();
+        const clientId    = getReceiverClientId();
+        if (!receiverIP || !clientId) return;
+        const macAddress  = getLocalMacAddress();
+        const groupNumber = groupMapping[macAddress] || GROUP_NUMBER;
+        const channelNumber = getDeviceChannelNumber(device);
+        if (channelNumber === null) return;
+
+        const message = {
+          type:        'device_status_update',
+          protocol:    'daty-clock-v1',
+          clock_source:'fuwuqi',
+          timestamp:   masterNowMs(),
+          client_id:   clientId,
+          receiver_id: clientId,
+          receiver_ip: receiverIP,
+          receiver_mac:macAddress,
+          mac_address: macAddress,
+          group:       groupNumber,
+          ip:          receiverIP,
+          channel:     channelNumber,
+          channel_number: channelNumber,
+          channel_key:`CH${channelNumber}`,
+          brand:       device.brand,
+          model:       device.model,
+          rf_level:    parseFloat(device.rfLevel.toFixed(1)),
+          battery:     parseFloat(device.battery.toFixed(1)),
+          af_level:    DATYaudioProfile.clampAfDbfs(device.afLevel),
+          freq_mhz:    parseFloat(device.frequency.toFixed(3)),
+          status:      device.rfLevel < -85 ? 'warn' : 'online',
+          muted:       !!device.muted
+        };
+
+        mqttClient.publish(MQTT_TOPIC_SEND, JSON.stringify(message), { qos: 0 });
+        messageCount++;
+        updateStats();
+        log('INFO', `[滑块] ${device.name} ${field}=${value} → 已推送`);
+      }
+    }
+
+    // Update status indicator
+    function updateStatus(status) {
+      const indicator = document.getElementById('statusIndicator');
+      const dot = document.getElementById('statusDot');
+      const text = document.getElementById('statusText');
+      const serverDot = document.getElementById('serverStatusDot');
+
+      indicator.className = 'status-indicator ' + status;
+      dot.className = 'dot ' + (status === 'connected' ? 'green' : status === 'connecting' ? 'amber' : 'red');
+
+      // 同步更新服务器状态指示灯
+      if (serverDot) {
+        serverDot.style.background = status === 'connected' ? '#10b981' : status === 'connecting' ? '#f59e0b' : '#64748b';
+      }
+
+      switch (status) {
+        case 'connected':
+          text.textContent = '已开机';
+          break;
+        case 'connecting':
+          text.textContent = '已开机 · 待连接';
+          break;
+        case 'disconnected':
+          text.textContent = '已关机';
+          break;
+      }
+    }
+
+    // 只更新仪表盘数字（RF/AF/BAT），不重建 DOM，避免覆盖服务器下发的频率等参数
+    function updateDeviceMeters(targetDevices = devices) {
+      targetDevices.forEach(d => {
+        const card = document.querySelector(`[data-device-id="${d.id}"]`);
+        if (!card) return;
+
+        // 更新频率显示（如果服务器有下发则会是新值）
+        const freqEl = document.getElementById(`freq-${d.channel}`);
+        if (freqEl) freqEl.textContent = `${d.frequency.toFixed(3)} MHz`;
+
+        // 更新 RF 滑块和数值（跳过用户手动覆盖的字段）
+        if (!d.manualOverride || !d.manualOverride.rfLevel) {
+          const rfSlider = card.querySelector('.slider-rf');
+          const rfVal    = document.getElementById(`rf-val-${d.channel}`);
+          if (rfSlider) rfSlider.value = d.rfLevel.toFixed(0);
+          if (rfVal)    rfVal.textContent = `${d.rfLevel.toFixed(0)} dBm`;
+        }
+
+        // 更新 AF 滑块和数值
+        if (!d.manualOverride || !d.manualOverride.afLevel) {
+          const afSlider = card.querySelector('.slider-af');
+          const afVal    = document.getElementById(`af-val-${d.channel}`);
+          if (afSlider) afSlider.value = d.afLevel.toFixed(1);
+        if (afVal)    afVal.textContent = `${d.afLevel.toFixed(1)} dBFS`;
+        }
+
+        // 更新 BAT 滑块和数值
+        if (!d.manualOverride || !d.manualOverride.battery) {
+          const batSlider = card.querySelector('.slider-batt');
+          const batVal    = document.getElementById(`bat-val-${d.channel}`);
+          if (batSlider) batSlider.value = d.battery.toFixed(1);
+          if (batVal)    batVal.textContent = `${d.battery.toFixed(1)}%`;
+        }
+
+        // 更新静音状态（按钮颜色 + 文字）
+        const muteBtn = card.querySelector('.btn-mute');
+        const statusVal = card.querySelector('.device-info .info-item:nth-child(2) .info-value');
+        if (muteBtn) {
+          muteBtn.className = `btn-mute${d.muted ? ' muted' : ''}`;
+          muteBtn.textContent = d.muted ? '🔊' : '🔇';
+          muteBtn.title = d.muted ? '取消静音' : '静音';
+        }
+        if (statusVal) {
+          statusVal.style.color = d.muted ? '#f43f5e' : '#10b981';
+          statusVal.textContent = d.muted ? '🔇 静音' : '🔊 取消静音';
+        }
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════
+    // 干扰源模拟
+    // ═══════════════════════════════════════════════════════
+
+    // 干扰状态
+    let interferenceEnabled = false;
+    let interferenceType = 'constant';
+    let interferenceStrength = -20;   // dBm（正值表示增强，负值表示衰减）
+    let interferenceAffectedChannels = new Set(); // 受影响的通道，空=全部
+    let interferenceEventCount = 0;
+    let interferenceAnimationId = null;
+    let interferenceBurstPhase = 0;   // burst 相位
+    let interferenceSweepPhase = 0;    // sweep 相位
+    let interferenceTimer = null;
+    let interferenceCanvasCtx = null;
+
+    // 切换选项卡
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(panel => panel.classList.remove('active'));
+      const activeBtn = document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+      const activePanel = document.getElementById(`tab-${tabId}`);
+      if (activePanel) activePanel.classList.add('active');
+      if (tabId === 'interference') {
+        initInterferenceCanvas();
+        startInterferenceAnimation();
+        updateInterferenceChannelList();
+      } else {
+        stopInterferenceAnimation();
+      }
+      globalThis.FasheViewport?.refresh();
+    }
+
+    // 开关切换
+    function onInterferenceToggle() {
+      interferenceEnabled = document.getElementById('interferenceEnabled').checked;
+      const bg = document.getElementById('interferenceToggleBg');
+      const dot = document.getElementById('interferenceToggleDot');
+      if (interferenceEnabled) {
+        bg.style.background = '#f43f5e';
+        dot.style.transform = 'translateX(24px)';
+        dot.style.background = '#fff';
+        startInterferenceEffect();
+        log('INFO', '干扰源已启用');
+      } else {
+        bg.style.background = '#334155';
+        dot.style.transform = 'translateX(0)';
+        dot.style.background = '#94a3b8';
+        stopInterferenceEffect();
+        document.getElementById('interferenceCurrentValue').textContent = '0.0 dB';
+        document.getElementById('interferenceEventCount').textContent = interferenceEventCount;
+        log('INFO', '干扰源已关闭');
+      }
+    }
+
+    // 类型切换
+    function onInterferenceTypeChange() {
+      interferenceType = document.getElementById('interferenceType').value;
+      interferenceBurstPhase = 0;
+      interferenceSweepPhase = 0;
+      log('INFO', `干扰类型切换为: ${interferenceType}`);
+    }
+
+    // 强度切换
+    function onInterferenceStrengthChange() {
+      interferenceStrength = parseInt(document.getElementById('interferenceStrength').value);
+      document.getElementById('interferenceStrengthValue').textContent = `${interferenceStrength} dBm`;
+    }
+
+    // 获取当前叠加的干扰值（dB）
+    function getInterferenceDelta() {
+      if (!interferenceEnabled) return 0;
+      const t = masterNowMs() / 1000;
+      switch (interferenceType) {
+        case 'constant':
+          return interferenceStrength;
+        case 'burst': {
+          const period = 3; // 3秒一个周期
+          const phase = (t % period) / period;
+          if (phase < 0.25) {
+            const fadeIn = phase / 0.25;
+            return interferenceStrength * fadeIn;
+          } else if (phase < 0.75) {
+            return interferenceStrength;
+          } else {
+            const fadeOut = (1 - phase) / 0.25;
+            return interferenceStrength * fadeOut;
+          }
+        }
+        case 'sweep': {
+          const freq = 0.3; // 每秒0.3个周期
+          const phase = (t * freq) % 1;
+          return interferenceStrength * (0.5 + 0.5 * Math.sin(phase * Math.PI * 2));
+        }
+        case 'random': {
+          const key = Math.floor(t / 0.5);
+          const seed = Math.sin(key * 127.1) * 10000;
+          const rand = seed - Math.floor(seed);
+          return interferenceStrength * (0.3 + 0.7 * rand);
+        }
+        default:
+          return interferenceStrength;
+      }
+    }
+
+    // 对指定通道的 RF 电平施加干扰（叠加到 baseLevel）
+    function applyInterferenceToRf(baseLevel, channel) {
+      if (!interferenceEnabled) return baseLevel;
+      if (interferenceAffectedChannels.size > 0 && !interferenceAffectedChannels.has(channel)) return baseLevel;
+      const delta = getInterferenceDelta();
+      // 干扰强度是负的（衰减），所以用加法
+      // delta 是负数，所以 base + delta 会变小
+      return parseFloat((baseLevel + delta).toFixed(1));
+    }
+
+    // 生成干扰源设备卡片列表
+    function getInterferenceDeviceCards() {
+      if (!interferenceEnabled) {
+        interferenceDevices = [];
+        return [];
+      }
+      // 随机 1~2 个干扰源
+      const count = Math.floor(Math.random() * 2) + 1;
+      const cards = [];
+      const baseFreq = devices.length > 0
+        ? devices.reduce((sum, d) => sum + d.frequency, 0) / devices.length
+        : 615.000;
+      for (let i = 0; i < count; i++) {
+        const chNum = devices.length + i + 1; // 接在真实通道后面
+        const interferenceRf = -40 - Math.random() * 30; // 干扰源 RF：比较强的信号
+        cards.push({
+          id: `INTERFERENCE-${i + 1}`,
+          name: `干扰源 ${i + 1}`,
+          brand: '干扰源',
+          channel: String(chNum),
+          frequency: parseFloat((baseFreq + (Math.random() - 0.5) * 2).toFixed(3)),
+          rfLevel: interferenceRf,
+          afLevel: -30 - Math.random() * 15,
+          battery: 50 + Math.random() * 50,
+          muted: false,
+          online: true,
+          isInterference: true
+        });
+      }
+      interferenceDevices = cards;
+      return cards;
+    }
+
+    // 启动定时干扰效果（影响发送到服务器的 RF 值）
+    function startInterferenceEffect() {
+      stopInterferenceEffect();
+      interferenceTimer = setInterval(() => {
+        if (!interferenceEnabled) return;
+        const delta = getInterferenceDelta();
+        const absDelta = Math.abs(delta).toFixed(1);
+        document.getElementById('interferenceCurrentValue').textContent = `${delta >= 0 ? '+' : ''}${delta.toFixed(1)} dB`;
+        if (Math.abs(delta) > 1) interferenceEventCount++;
+        document.getElementById('interferenceEventCount').textContent = interferenceEventCount;
+      }, 200);
+    }
+
+    function stopInterferenceEffect() {
+      if (interferenceTimer) {
+        clearInterval(interferenceTimer);
+        interferenceTimer = null;
+      }
+    }
+
+    // 更新通道选择列表
+    function updateInterferenceChannelList() {
+      const list = document.getElementById('interferenceChannelList');
+      if (!list || devices.length === 0) return;
+      list.innerHTML = devices.map(d => `
+        <label style="display:flex;align-items:center;gap:8px;padding:8px 14px;background:#0f172a;border-radius:8px;cursor:pointer;border:1px solid #334155;min-width:120px;">
+          <input type="checkbox" id="ich-${d.channel}" checked
+            onchange="onInterferenceChannelChange(${d.channel}, this.checked)"
+            style="accent-color:#f43f5e;width:16px;height:16px;">
+          <span style="font-size:13px;color:#e2e8f0;">CH${String(d.channel).padStart(2,'0')}</span>
+        </label>
+      `).join('');
+      // 初始化全部通道都在集合中
+      devices.forEach(d => interferenceAffectedChannels.add(d.channel));
+      updateAffectedChannelsDisplay();
+    }
+
+    function onInterferenceChannelChange(channel, checked) {
+      if (checked) {
+        interferenceAffectedChannels.add(channel);
+      } else {
+        interferenceAffectedChannels.delete(channel);
+      }
+      updateAffectedChannelsDisplay();
+    }
+
+    function updateAffectedChannelsDisplay() {
+      const el = document.getElementById('interferenceAffectedChannels');
+      if (interferenceAffectedChannels.size === 0 || interferenceAffectedChannels.size >= devices.length) {
+        el.textContent = '全部';
+      } else {
+        el.textContent = [...interferenceAffectedChannels].map(ch => `CH${String(ch).padStart(2,'0')}`).join(', ');
+      }
+    }
+
+    // 波形画布
+    function initInterferenceCanvas() {
+      const canvas = document.getElementById('interferenceCanvas');
+      if (!canvas) return;
+      interferenceCanvasCtx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = 100 * dpr;
+      interferenceCanvasCtx.scale(dpr, dpr);
+    }
+
+    function drawInterferenceWaveform() {
+      const canvas = document.getElementById('interferenceCanvas');
+      if (!canvas || !interferenceCanvasCtx) return;
+      const ctx = interferenceCanvasCtx;
+      const w = canvas.offsetWidth;
+      const h = 100;
+      ctx.clearRect(0, 0, w, h);
+
+      if (!interferenceEnabled) {
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(0, h / 2);
+        ctx.lineTo(w, h / 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#64748b';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('干扰已关闭', w / 2, h / 2 - 8);
+        return;
+      }
+
+      const t = masterNowMs() / 1000;
+      const strength = interferenceStrength;
+      ctx.strokeStyle = '#f43f5e';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let x = 0; x < w; x++) {
+        const tx = t + (x / w) * 2;
+        let y;
+        switch (interferenceType) {
+          case 'constant':
+            y = h / 2 + (strength / 50) * (h / 2);
+            break;
+          case 'burst': {
+            const phase = (tx % 3) / 3;
+            let amp = 0;
+            if (phase < 0.25) amp = (phase / 0.25) * (strength / 50);
+            else if (phase < 0.75) amp = (strength / 50);
+            else amp = ((1 - phase) / 0.25) * (strength / 50);
+            y = h / 2 + amp * (h / 2);
+            break;
+          }
+          case 'sweep':
+            y = h / 2 + (strength / 50) * 0.5 * (h / 2) * Math.sin((tx * 0.3) * Math.PI * 2) + (strength / 50) * 0.5 * (h / 2);
+            break;
+          case 'random':
+            y = h / 2 + (strength / 50) * (0.3 + 0.7 * Math.abs(Math.sin(tx * 7.3 + x * 0.05))) * (h / 2);
+            break;
+          default:
+            y = h / 2;
+        }
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+
+    function startInterferenceAnimation() {
+      stopInterferenceAnimation();
+      function anim() {
+        drawInterferenceWaveform();
+        interferenceAnimationId = requestAnimationFrame(anim);
+      }
+      anim();
+    }
+
+    function stopInterferenceAnimation() {
+      if (interferenceAnimationId) {
+        cancelAnimationFrame(interferenceAnimationId);
+        interferenceAnimationId = null;
+      }
+    }
+
+    // 渲染单个通道卡片（通用函数，realDevice=true 时为真实设备，false 时为干扰源）
+    function renderDeviceCard(d, isReal, currentGroupNumber) {
+      const channelNumber = getDeviceChannelNumber(d, '?');
+      const brandColor = isReal
+        ? (BRANDS[d.brand] ? BRANDS[d.brand].colors[1] : '#6366f1')
+        : '#f43f5e';
+      const brandBg = isReal
+        ? `${brandColor}33`
+        : 'rgba(244, 63, 94, 0.2)';
+      const receiverLabel = isReal ? `接收机 ${getReceiverIP() || getLocalMacAddress()}` : '干扰源';
+      const groupLabel = isReal ? (currentGroupNumber ? `编组 Group${currentGroupNumber}` : '待编组') : '本地模拟';
+      const freqDisplay = `${d.frequency.toFixed(3)} MHz`;
+      const cardBorder = isReal ? '' : 'border: 2px solid rgba(244, 63, 94, 0.4);';
+      const cardShadow = isReal ? '' : 'box-shadow: 0 0 12px rgba(244, 63, 94, 0.15);';
+      const badgeText = isReal ? d.brand : '干扰源';
+      const muteBtn = isReal
+        ? `<button class="btn-mute ${d.muted ? 'muted' : ''}" onclick="toggleMute('${d.id}', ${channelNumber})" title="${d.muted ? '取消静音' : '静音'}">${d.muted ? '🔊' : '🔇'}</button>`
+        : `<div style="width:32px;"></div>`; // 干扰源卡片占位，保持对齐
+      const meterInputs = isReal
+        ? `<input type="range" class="meter-slider slider-rf" min="-90" max="-20" step="1" value="${d.rfLevel.toFixed(0)}" oninput="onMeterChange('${d.id}', 'rfLevel', this.value)" title="RF 信号强度（dBm），拖动调节">`
+        : `<div style="flex:1;height:6px;border-radius:3px;background:rgba(244,63,94,0.2);position:relative;"><div style="position:absolute;left:0;top:0;height:100%;width:${Math.max(0, Math.min(100, (parseFloat(d.rfLevel) + 90) / 70 * 100))}%;background:linear-gradient(90deg,#f43f5e,#ef4444);border-radius:3px;"></div></div>`;
+      const rfValue = isReal
+        ? `<span class="meter-value" id="rf-val-${d.channel}">${d.rfLevel.toFixed(0)} dBm</span>`
+        : `<span class="meter-value" id="rf-val-${d.channel}" style="color:#f43f5e;">${d.rfLevel.toFixed(0)} dBm</span>`;
+      const freqEditBtn = isReal
+        ? `<button class="btn-edit-freq" onclick="editFrequency('${d.id}', ${channelNumber})" title="编辑频率">✏️</button>`
+        : '';
+
+      return `
+        <div class="device-card" data-device-id="${d.id}" style="${cardBorder} ${cardShadow}">
+          <div class="device-header">
+            <div>
+              <div class="device-name">${receiverLabel}</div>
+              <div class="device-ch">CH${channelNumber} · ${groupLabel}</div>
+            </div>
+            <div style="font-size: 10px; padding: 2px 6px; border-radius: 3px; background: ${brandBg}; color: ${brandColor}; font-weight: 600;">
+              ${badgeText}
+            </div>
+          </div>
+          <div class="device-info">
+            <div class="info-item">
+              <span class="info-label">频率</span>
+              <span class="info-value" id="freq-${d.channel}" data-device="${d.id}">${freqDisplay}</span>
+              ${freqEditBtn}
+            </div>
+            <div class="info-item">
+              <span class="info-label">静音状态</span>
+              <span class="info-value" style="color: ${d.muted ? '#f43f5e' : '#10b981'};">${d.muted ? '🔇 静音' : (isReal ? '🔊 取消静音' : '干扰中')}</span>
+              ${muteBtn}
+            </div>
+          </div>
+          <div class="meters">
+            <div class="meter-row">
+              <span class="meter-label">RF</span>
+              ${meterInputs}
+              ${rfValue}
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">AF</span>
+              <input type="range" class="meter-slider slider-af"
+                min="-40" max="0" step="0.5"
+                value="${d.afLevel.toFixed(1)}"
+                ${isReal ? `oninput="onMeterChange('${d.id}', 'afLevel', this.value)"` : 'readonly'}
+                title="AF 音频电平（dBFS，-40～0）${isReal ? '，拖动调节' : ''}">
+              <span class="meter-value" id="af-val-${d.channel}">${d.afLevel.toFixed(0)} dBFS</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">BAT</span>
+              <input type="range" class="meter-slider slider-batt"
+                min="0" max="100" step="0.5"
+                value="${d.battery.toFixed(1)}"
+                ${isReal ? `oninput="onMeterChange('${d.id}', 'battery', this.value)"` : 'readonly'}
+                title="电池电量${isReal ? '（%），拖动调节' : ''}">
+              <span class="meter-value" id="bat-val-${d.channel}">${d.battery.toFixed(0)}%</span>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // Render device cards
+    function renderDevices() {
+      const container = document.getElementById('deviceCards');
+
+      if (devices.length === 0) {
+        container.innerHTML = '<div style="text-align: center; color: #64748b; padding: 40px;">点击"连接"按钮启动模拟设备</div>';
+        globalThis.FasheViewport?.refresh();
+        return;
+      }
+
+      const macAddress = getLocalMacAddress();
+      const currentGroupNumber = groupMapping[macAddress] || GROUP_NUMBER;
+
+      // 真实通道卡
+      const realCards = devices.map(d => renderDeviceCard(d, true, currentGroupNumber));
+
+      // 干扰源卡片（干扰开启时随机混入）
+      const interferenceCards = getInterferenceDeviceCards().map(d => renderDeviceCard(d, false, currentGroupNumber));
+
+      container.innerHTML = [...realCards, ...interferenceCards].join('');
+      globalThis.FasheViewport?.refresh();
+
+      // 干扰源选项卡打开时，同步更新通道选择列表
+      try {
+        const intTab = document.getElementById('tab-interference');
+        if (intTab && intTab.classList.contains('active')) {
+          updateInterferenceChannelList();
+        }
+      } catch(e) {}
+    }
+
+    // 切换静音状态
+    function toggleMute(deviceId, channel) {
+      const device = devices.find(d => d.id === deviceId);
+      if (!device) {
+        log('ERROR', `未找到设备: ${deviceId}`);
+        return;
+      }
+      const channelNumber = getDeviceChannelNumber(device);
+      if (channelNumber === null) {
+        log('ERROR', `${device.name} 缺少有效 CH 号，已拒绝静音操作`);
+        return;
+      }
+      if (!mqttClient || !mqttClient.connected) {
+        log('ERROR', '未连接到服务器，静音状态未改变');
+        return;
+      }
+      const targetMuted = !device.muted;
+      device.muted = targetMuted;
+      // 发送静音指令到服务器（单独发送，不影响设备注册）
+      sendMuteCommand(device, channelNumber, targetMuted);
+      // 同时上报完整状态，作为本地操作的即时确认；bridge 按目标状态赋值，不会 toggle。
+      sendDeviceStatus(device, channelNumber);
+      updateDeviceMeters([device]);
+      
+      log('INFO', `${device.name} ${device.muted ? '已静音' : '取消静音'}`);
+    }
+
+    // 发送静音/取消静音目标状态到服务器
+    function sendMuteCommand(device, channel, muted) {
+      if (!mqttClient || !mqttClient.connected) {
+        log('ERROR', '未连接到服务器，MQTT连接状态: ' + (mqttClient ? (mqttClient.connected ? '已连接' : '已断开') : '未初始化'));
+        return;
+      }
+      
+      const receiverIP = getReceiverIP();
+      const clientId = getReceiverClientId();
+      if (!receiverIP || !clientId) return;
+      const channelNumber = parseChannelNumber(channel);
+      if (channelNumber === null) {
+        log('ERROR', '静音指令缺少有效 CH 号');
+        return;
+      }
+      const channelStr = `CH${channelNumber}`;
+      const mutedCommand = `${clientId}_ch${channelNumber}`;
+      
+      // 静音指令格式 - 符合设备指令协议
+      const macAddress = getLocalMacAddress();
+      const groupNumber = groupMapping[macAddress] || GROUP_NUMBER;
+      const payload = {
+        type: 'device_command',
+        client_id: clientId,
+        receiver_id: clientId,
+        receiver_ip: receiverIP,
+        receiver_mac: macAddress,
+        mac_address: macAddress,
+        group: groupNumber,
+        ip: receiverIP,
+        channel: channelNumber,
+        channel_number: channelNumber,
+        channel_key: channelStr,
+        name: device.name,
+        brand: device.brand,
+        command: muted ? 'mute' : 'unmute',
+        value: !!muted,
+        timestamp: masterNowMs()
+      };
+      
+      // 静音指令发送到 down topic（服务器接收指令）
+      try {
+        const publishOptions = { qos: 0 };
+        mqttClient.publish(MQTT_TOPIC_RECEIVE, JSON.stringify(payload), publishOptions);
+        messageCount++;
+        scheduleRealtimeStats();
+        log('INFO', `发送${muted ? '静音' : '取消静音'}指令: ${device.name} [${mutedCommand}] → ${MQTT_TOPIC_RECEIVE}`);
+      } catch (e) {
+        log('ERROR', `publish 异常: ${e.message}`);
+      }
+    }
+
+    // 编辑频率
+    function editFrequency(deviceId, channel) {
+      const device = devices.find(d => d.id === deviceId);
+      if (!device) return;
+      
+      const newFreq = prompt(`请输入新频率 (MHz):\n当前: ${device.frequency.toFixed(3)}`, device.frequency.toFixed(3));
+      if (newFreq === null) return;
+      
+      const freq = parseFloat(newFreq);
+      if (isNaN(freq) || freq < 400 || freq > 900) {
+        log('ERROR', '频率无效，有效范围: 400-900 MHz');
+        return;
+      }
+      
+      device.frequency = freq;
+      renderDevices();
+      
+      // 发送频率设置指令到服务器
+      sendFrequencyCommand(device, channel, freq);
+      
+      log('INFO', `${device.name} 频率已设置为 ${freq.toFixed(3)} MHz`);
+    }
+
+    // 发送频率设置指令到服务器
+    function sendFrequencyCommand(device, channel, frequency) {
+      if (!mqttClient || !mqttClient.connected) {
+        log('ERROR', '未连接到服务器');
+        return;
+      }
+      
+      const receiverIP = getReceiverIP();
+      const clientId = getReceiverClientId();
+      if (!receiverIP || !clientId) return;
+      const macAddress = getLocalMacAddress();
+      const channelNumber = parseChannelNumber(channel);
+      if (channelNumber === null) return;
+      
+      // 频率设置指令格式
+      const payload = {
+        type: 'device_command',
+        client_id: clientId,
+        receiver_id: clientId,
+        receiver_ip: receiverIP,
+        receiver_mac: macAddress,
+        mac_address: macAddress,
+        ip: receiverIP,
+        channel: channelNumber,
+        channel_number: channelNumber,
+        channel_key: `CH${channelNumber}`,
+        name: device.name,
+        brand: device.brand,
+        command: 'set_freq',
+        value: parseFloat(frequency.toFixed(3)),
+        timestamp: masterNowMs()
+      };
+      
+      // 所有控制命令统一走 down；up 只承载设备遥测，避免服务器把
+      // set_freq 当成状态包并错误创建/覆盖通道。
+      mqttClient.publish(MQTT_TOPIC_RECEIVE, JSON.stringify(payload), { qos: 0 });
+      messageCount++;
+      updateStats();
+    }
+
+    // 发送完整设备状态到服务器
+    function sendDeviceStatus(device, channel, commandId) {
+      if (!mqttClient || !mqttClient.connected) {
+        log('ERROR', '未连接到服务器');
+        return;
+      }
+      
+      const receiverIP = getReceiverIP();
+      const clientId = getReceiverClientId();
+      if (!receiverIP || !clientId) return;
+      const macAddress = getLocalMacAddress();
+      const channelNumber = parseChannelNumber(channel ?? getDeviceChannelNumber(device));
+      if (channelNumber === null) {
+        log('ERROR', `${device.name} 状态未发送：缺少有效 CH 号`);
+        return;
+      }
+      const groupNumber = groupMapping[macAddress] || GROUP_NUMBER;
+      
+      // 完整设备信息
+      const payload = {
+        type: 'device_status_update',
+        control_protocol: 'fashe-realtime-v1',
+        command_id: commandId || undefined,
+        protocol: 'daty-clock-v1',
+        clock_source: 'fuwuqi',
+        timestamp: masterNowMs(),
+        client_id: clientId,
+        receiver_id: clientId,
+        receiver_ip: receiverIP,
+        receiver_mac: macAddress,
+        mac_address: macAddress,
+        ip: receiverIP,
+        group: groupNumber,
+        channel: channelNumber,
+        channel_number: channelNumber,
+        channel_key: `CH${channelNumber}`,
+        name: device.name,
+        brand: device.brand,
+        model: device.model,
+        frequency: parseFloat(device.frequency.toFixed(3)),
+        freq_mhz: parseFloat(device.frequency.toFixed(3)),
+        rf_level: parseFloat(device.rfLevel.toFixed(1)),
+        af_level: DATYaudioProfile.clampAfDbfs(device.afLevel),
+        battery: parseFloat(device.battery.toFixed(0)),
+        muted: device.muted,
+        // 在线/离线与静音是两个独立维度，禁止再使用 status: "muted"。
+        status: device.online === false ? 'offline' : 'online'
+      };
+      
+      mqttClient.publish(MQTT_TOPIC_SEND, JSON.stringify(payload), { qos: 0 });
+      checkpointChannels();
+      messageCount++;
+      scheduleRealtimeStats();
+      
+      log('INFO', `已发送设备状态: ${device.name}`);
+    }
+
+    // 发送指令到服务器（保留兼容）
+    function sendCommand(brand, channel, command, value) {
+      if (!mqttClient || !mqttClient.connected) {
+        log('ERROR', '未连接到服务器');
+        return;
+      }
+      
+      const receiverIP = getReceiverIP();
+      const clientId = getReceiverClientId();
+      const macAddress = getLocalMacAddress();
+      const channelNumber = parseChannelNumber(channel);
+      if (!receiverIP || !clientId || channelNumber === null) return;
+      const payload = {
+        type: 'device_command',
+        client_id: clientId,
+        receiver_id: clientId,
+        receiver_ip: receiverIP,
+        receiver_mac: macAddress,
+        mac_address: macAddress,
+        ip: receiverIP,
+        channel: channelNumber,
+        channel_number: channelNumber,
+        channel_key: `CH${channelNumber}`,
+        command: command,
+        value: value
+      };
+      
+      mqttClient.publish(MQTT_TOPIC_RECEIVE, JSON.stringify(payload), { qos: 0 });
+      messageCount++;
+      updateStats();
+    }
+
+    // Update stats
+    function updateStats() {
+      document.getElementById('statDevices').textContent = devices.length;
+      document.getElementById('statMessages').textContent = messageCount;
+      document.getElementById('statErrors').textContent = errorCount;
+    }
+
+    // Update uptime
+    function updateUptime() {
+      if (!startTime) return;
+      const elapsed = masterNowMs() - startTime;
+      const hours = Math.floor(elapsed / 3600000);
+      const minutes = Math.floor((elapsed % 3600000) / 60000);
+      const seconds = Math.floor((elapsed % 60000) / 1000);
+      document.getElementById('statUptime').textContent = 
+        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    // 日志与统计不阻塞 MQTT 执行/回报；只合并显示，绝不合并设备状态或 ACK。
+    let realtimeStatsPending = false;
+    let realtimeLogPending = false;
+    const realtimeLogQueue = [];
+    function scheduleRealtimeDisplay(callback) {
+      let done = false, frame;
+      const flush = () => {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        if (frame !== undefined && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(frame);
+        callback();
+      };
+      const timer = setTimeout(flush, 100);
+      if (typeof requestAnimationFrame === 'function') frame = requestAnimationFrame(flush);
+    }
+    function scheduleRealtimeStats() {
+      if (realtimeStatsPending) return;
+      realtimeStatsPending = true;
+      scheduleRealtimeDisplay(() => { realtimeStatsPending = false; updateStats(); });
+    }
+    function log(type, message) {
+      realtimeLogQueue.push({type, message: FashePairing.redact(message), at: Date.now()});
+      // 保持原有最近 300 条日志容量，并限制后台标签页积压内存。
+      if (realtimeLogQueue.length > 300) realtimeLogQueue.shift();
+      if (realtimeLogPending) return;
+      realtimeLogPending = true;
+      scheduleRealtimeDisplay(() => {
+        realtimeLogPending = false;
+        const container = document.getElementById('logContainer');
+        const fragment = document.createDocumentFragment();
+        for (const item of realtimeLogQueue.splice(0)) {
+          const entry = document.createElement('div');
+          entry.className = 'log-entry';
+          for (const [className, value] of [
+            ['log-time', new Date(item.at).toLocaleTimeString('zh-CN', {hour12: false})],
+            [`log-type ${item.type}`, item.type], ['log-message', item.message]
+          ]) {
+            const span = document.createElement('span');
+            span.className = className;
+            span.textContent = value;
+            entry.appendChild(span);
+          }
+          fragment.appendChild(entry);
+        }
+        container.appendChild(fragment);
+        while (container.childElementCount > 300) container.removeChild(container.firstElementChild);
+        container.scrollTop = container.scrollHeight;
+      });
+    }
+
+    // Clear logs
+    function clearLogs() {
+      realtimeLogQueue.length = 0;
+      document.getElementById('logContainer').innerHTML = '';
+      log('INFO', '日志已清空');
+    }
+
+    // Toggle Ping start/stop
+    function togglePing() {
+      if (isPinging) {
+        stopPing();
+      } else {
+        startPing();
+      }
+    }
+
+    // Safe diagnostics only test the pinned WSS handshake; they do not authenticate a receiver.
+    async function quickSelfCheck() {
+      const el = document.getElementById('selfCheckResult');
+      el.style.display = 'block';
+      el.textContent = '正在检查已配对服务器 TLS/WebSocket...';
+      try {
+        const result = await FashePairing.probe();
+        el.textContent = result.ok
+          ? `TLS/WebSocket 可达（${result.ms} ms）；开机后以 MQTT 认证结果为准。`
+          : 'TLS/WebSocket 不可达。检查固定服务器地址、证书有效期/CA 信任和 8083 端口；不会回退到明文。';
+      } catch (error) { el.textContent = FashePairing.redact(error.message); }
+    }
+
+    // Start continuous Ping
+    function startPing() {
+      const pingAddress = document.getElementById('pingAddress').value.trim();
+      
+      if (!pingAddress) {
+        log('WARN', '请输入要 Ping 的 IP 地址');
+        return;
+      }
+
+      let pairing;
+      try { pairing = FashePairing.assertReady(); }
+      catch (error) { log('WARN', error.message); return; }
+      if (pingAddress !== new URL(pairing.broker_url).hostname) {
+        log('WARN', '安全诊断仅允许配对服务器的固定 IP 或域名');
+        return;
+      }
+
+      isPinging = true;
+      pingCount = 0;
+      pingSuccessCount = 0;
+
+      const pingBtn = document.getElementById('pingBtn');
+      const pingResult = document.getElementById('pingResult');
+      const pingStatus = document.getElementById('pingStatus');
+      
+      pingBtn.textContent = '\u23f9 \u505c\u6b62\u63a2\u6d4b';
+      pingBtn.classList.remove('btn-primary');
+      pingBtn.classList.add('btn-danger');
+      pingResult.style.display = 'block';
+      pingStatus.textContent = '\u6b63\u5728\u63a2\u6d4b...';
+      pingStatus.style.color = '#f59e0b';
+
+      log('INFO', '\u5f00\u59cb\u6301\u7eed\u63a2\u6d4b: ' + pingAddress);
+
+      // Do first ping immediately
+      doPing(pingAddress);
+      
+      // Then ping every interval
+      pingTimer = setInterval(() => {
+        if (isPinging) {
+          doPing(pingAddress);
+        }
+      }, PING_INTERVAL);
+    }
+
+    // Stop continuous Ping
+    function stopPing() {
+      isPinging = false;
+      
+      if (pingTimer) {
+        clearInterval(pingTimer);
+        pingTimer = null;
+      }
+
+      const pingBtn = document.getElementById('pingBtn');
+      const pingStatus = document.getElementById('pingStatus');
+      
+      pingBtn.textContent = '\u63a2\u6d4b';
+      pingBtn.classList.remove('btn-danger');
+      pingBtn.classList.add('btn-primary');
+      pingStatus.textContent = '\u5df2\u505c\u6b62';
+      pingStatus.style.color = '#94a3b8';
+
+      log('INFO', '\u63a2\u6d4b\u5df2\u505c\u6b62\uff0c\u5171 ' + pingCount + ' \u6b21\uff0c\u6210\u529f ' + pingSuccessCount + ' \u6b21');
+    }
+
+    async function doPing(pingAddress) {
+      const pingStatus = document.getElementById('pingStatus');
+      const pingStats = document.getElementById('pingStats');
+      const pingDetails = document.getElementById('pingDetails');
+      pingCount++;
+      try {
+        const pairing = FashePairing.assertReady();
+        if (new URL(pairing.broker_url).hostname !== pingAddress) throw new Error('探测目标不属于当前配对');
+        const result = await FashePairing.probe();
+        if (result.ok) pingSuccessCount++;
+        pingStatus.textContent = result.ok ? 'TLS/WebSocket 可达（不代表 MQTT 已授权）' : 'TLS/WebSocket 不可达';
+        pingDetails.textContent = result.ok ? `${result.ms} ms · 已配对 WSS` : '检查 CA 信任、服务器证书和网络；无明文回退。';
+      } catch (error) { pingDetails.textContent = FashePairing.redact(error.message); }
+      pingStats.textContent = `发送: ${pingCount}  成功: ${pingSuccessCount}  失败: ${pingCount - pingSuccessCount}`;
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // 自动获取本机真实 IP（纯前端检测，不依赖外部服务）
+    // ══════════════════════════════════════════════════════════
+
+    // 判断是否为局域网私网 IPv4
+    function isLanIPv4(ip) {
+      if (!ip || !/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(ip)) return false;
+      if (ip.split('.').some(part => Number(part) < 0 || Number(part) > 255)) return false;
+      if (ip.startsWith('192.168.') || ip.startsWith('192.169.')) return true;
+      if (ip.startsWith('10.')) return true;
+      if (/^172\.(1[6-9]|2\d|3[01])\./.test(ip)) return true;
+      return false;
+    }
+
+    // 方式1：window.location.hostname（通过局域网IP访问时直接可得）
+    function fetchIPFromLocation() {
+      const h = window.location.hostname;
+      if (h && isLanIPv4(h)) return h;
+      return null;
+    }
+
+    // 方式2：仅本机 ICE 候选；不依赖公共 STUN 或向外部服务发送本机信息。
+    function fetchIPViaWebRTC() {
+      return new Promise(resolve => {
+        try {
+          const pc = new RTCPeerConnection({
+            iceServers: []
+          });
+          pc.createDataChannel('');
+          const collected = new Set();
+
+          pc.onicecandidate = e => {
+            if (e.candidate) {
+              const m = e.candidate.candidate.match(/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/);
+              if (m) collected.add(m[1]);
+            } else {
+              pc.close();
+              // 只接受局域网私网 IP
+              const lanIP = [...collected].find(ip => isLanIPv4(ip));
+              resolve(lanIP || null);
+            }
+          };
+
+          pc.createOffer().then(o => pc.setLocalDescription(o)).catch(() => resolve(null));
+          setTimeout(() => { try { pc.close(); } catch(e){} resolve([...collected].find(ip => isLanIPv4(ip)) || null); }, 4000);
+        } catch(e) { resolve(null); }
+      });
+    }
+
+    // 主入口：按优先级依次尝试获取本机局域网 IPv4
+    async function autoDetectIP() {
+      const statusEl = document.getElementById('ipDetectStatus');
+      const hintEl   = document.getElementById('ipHint');
+      const btn      = document.getElementById('detectBtn');
+      const localInput = document.getElementById('localIP');
+
+      btn.textContent = '⏳ 检测中...';
+      btn.disabled    = true;
+      if (statusEl) statusEl.textContent = '检测中...';
+      if (hintEl)   hintEl.style.display = 'none';
+      if (localInput) localInput.value = '检测中...';
+
+      let detectedIP = null;
+      let method = '';
+
+      // ── 最高优先：从 URL 参数读取 ──
+      const urlIP = new URLSearchParams(location.search).get('local_ip');
+      if (urlIP && isLanIPv4(urlIP)) {
+        detectedIP = urlIP;
+        method = '启动参数';
+        log('INFO', `[IP检测] URL 参数: ${detectedIP}`);
+      }
+
+      // ── 从访问URL直接读（通过局域网IP访问时可用）──
+      if (!detectedIP) {
+        detectedIP = fetchIPFromLocation();
+        if (detectedIP) { method = '访问地址'; log('INFO', `[IP检测] location: ${detectedIP}`); }
+      }
+
+      // ── WebRTC + STUN（需要网络）──
+      if (!detectedIP) {
+        try {
+          if (statusEl) statusEl.textContent = 'WebRTC...';
+          detectedIP = await fetchIPViaWebRTC();
+          if (detectedIP) { method = 'WebRTC'; log('INFO', `[IP检测] WebRTC: ${detectedIP}`); }
+        } catch(e) {}
+      }
+
+      if (statusEl) statusEl.textContent = '';
+
+      if (detectedIP) {
+        if (localInput) localInput.value = detectedIP;
+
+        if (hintEl) {
+          hintEl.textContent = `已检测到本机 IP：${detectedIP}（${method}）`;
+          hintEl.style.color   = '#10b981';
+          hintEl.style.display = '';
+        }
+        log('SUCCESS', `[IP检测] 本机局域网 IP：${detectedIP}（来源: ${method}）`);
+      } else {
+        if (localInput) {
+          localInput.value = '';
+          localInput.placeholder = '请输入本机局域网 IP，例如 192.0.2.102';
+        }
+        if (hintEl) {
+          hintEl.innerHTML = '自动检测失败（当前为本地文件模式）。<br>'
+            + '请输入有效的本机局域网 IPv4 地址，再点击「开机」。<br>'
+            + '推荐关闭此页面并通过「启动FAshe.bat」重新打开。';
+          hintEl.style.color   = '#f59e0b';
+          hintEl.style.display = '';
+        }
+        log('WARN', '[IP检测] 自动检测失败，已阻止使用无效身份自动开机');
+      }
+
+      btn.textContent = '🔍 自动检测';
+      btn.disabled    = false;
+    }
+
+    // ══════════════════════════════════════════════════════════
+    // 开机即广播：页面加载后自动检测 IP → 开机 → 搜索服务器 → 连接 MQTT → 实时广播
+    // ══════════════════════════════════════════════════════════
+    window.onload = async function() {
+      // 0. 优先加载保存的设置（服务器地址等）
+      loadSettings();
+      log('INFO', 'FAshe 模拟麦克接收机已启动');
+      log('INFO', 'FAshe 连接稳定性版本：stability2');
+      if (networkTimers.mode === 'page-fallback') log('WARN', '后台通信计时器不可用，当前退回网页计时；请保持页面前台并检查完整安装。');
+
+      FashePairing.render();
+      // Server socket peer is authoritative; local IP detection is a manual fallback.
+      await connect();
+    };
+    window.addEventListener('beforeunload', () => { checkpointChannels(); releaseInstanceLease(); });
+    window.addEventListener('pagehide', () => {
+      checkpointChannels(); powerRequest++; powerStarting = false;
+      isPoweredOn = false; mqttClient = null; connectionPulse.stopped();
+      stopUpdates(); releaseInstanceLease(); receiverOwner.release();
+      if (reconnectTimer) networkTimers.clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    });
+    window.addEventListener('pageshow', event => { if (event.persisted) connect(); });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') checkpointChannels();
+      else resumeReceiverConnection();
+    });
+    window.addEventListener('online', resumeReceiverConnection);
+    window.addEventListener('fashe-network-timer-warning', () => {
+      log('WARN', '后台通信计时器不可用，已退回网页计时；请保持页面前台并检查完整安装。');
+    });
+  </script>
+  <script src="src/single-page.js?v=1.0.3-eight-cards1"></script>
+</html>

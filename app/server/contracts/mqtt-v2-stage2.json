@@ -1,0 +1,50 @@
+{
+  "contract": "daty-mqtt-stage2-readonly-v1",
+  "status": "isolated-candidate-not-deployed",
+  "schema": "daty-device-read-v1",
+  "server_id": "stage2-server",
+  "endpoint": "/mqtt-readonly",
+  "logicalTopic": "daty/v2/stage2-server/devices/read",
+  "privateTopic": "daty/prototype/v2/stage2-server/view/{assignedClientIdentifier}/events",
+  "required": ["schema", "server_id", "boot_id", "stream_id", "seq", "kind", "payload"],
+  "kinds": ["device_list", "device_update", "heartbeat"],
+  "session": {
+    "protocol": "MQTT5 over verified WSS",
+    "clientId": "empty; server assigned view-<32 hex characters>",
+    "cleanStart": true,
+    "sessionExpiryInterval": 0,
+    "keepaliveSeconds": [1, 30],
+    "willAllowed": false,
+    "browserUsernamePasswordAllowed": false,
+    "retainedAllowed": false,
+    "publishAllowed": false,
+    "subscribe": "exactly one logical read topic, QoS 0 or 1; no wildcards",
+    "origin": "reuse http_transport.origin_allowed; reject duplicate/null/cross-site/navigation origins; native absent Origin allowed"
+  },
+  "ordering": {
+    "initial": "seq=1 complete device_list, including an empty devices array",
+    "next": "strictly increasing per-subscription sequence including heartbeat",
+    "duplicate": "ignore; does not refresh liveness",
+    "gapOrBootChange": "mark owned devices offline; close and reconnect for a fresh full snapshot",
+    "scope": "existing Bridge canonical event order; not a DB revision or transaction snapshot",
+    "display": "trusted server-fifo-v1 actual numeric GROUP then numeric CH, unknown last; stable ties; sort before pagination"
+  },
+  "payload": {
+    "device_list": "unchanged original SSE payload with devices; complete list semantics reuse current handlers",
+    "device_update": "unchanged original SSE payload with devices; omitted fields preserve, explicit null clears, numeric zero valid",
+    "heartbeat": null,
+    "units": "frequency integer kHz; RF dBm; AF -40..0 dBFS; battery percent",
+    "identity": "receiver identity + CH; GROUP is never a routing identity"
+  },
+  "limits": {
+    "readers": 32,
+    "canonicalQueueEvents": 50,
+    "mqttPacketBodyBytes": 1048576,
+    "jsonPublicationBytes": 921600,
+    "heartbeatIdleSeconds": 1,
+    "clientSourceIdleMs": 5000,
+    "clientReconnectMs": 1000,
+    "backpressure": "disconnect 1013 then fresh snapshot; never silent drop"
+  },
+  "excluded": ["control", "command_update", "RPC", "persistence receipts", "timeline", "file transfer", "pairing renewal", "production deployment"]
+}

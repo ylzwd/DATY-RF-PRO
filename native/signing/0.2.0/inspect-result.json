@@ -1,0 +1,17 @@
+{
+  "Mode": "Inspect",
+  "Version": "0.2.0-r19-native-dev1",
+  "InputHashesMatch": true,
+  "TotalFiles": 416,
+  "ExistingValidSignatures": 396,
+  "FilesToSign": [
+    "Acornima.dll",
+    "Daty.Native.Contracts.dll",
+    "Daty.Native.Core.dll",
+    "DATY.RF.Native.dll",
+    "DATY.RF.Native.exe",
+    "Jint.dll"
+  ],
+  "SigningPerformed": false,
+  "CertificatesAvailable": 0
+}

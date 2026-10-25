@@ -1,0 +1,93 @@
+{
+  "schema": "daty-plugin-source-registry-v1",
+  "plugins": [
+    {
+      "id": "shure-scp",
+      "name": "Shure SCP",
+      "brand": "Shure",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "files": [
+        "shure_active_discovery.py",
+        "shure_fields.py",
+        "shure_freshness.py",
+        "shure_hardware.py",
+        "shure_known_receivers.py",
+        "shure_metering.py",
+        "shure_protocol.py",
+        "prototypes/mqtt-stage6/m6_shure_control.py",
+        "shure_control_contract.py",
+        "shure_discovery.py",
+        "shure_programmer.py",
+        "shure_readonly_adapter.py",
+        "shure_plugin.py",
+        "shure_scan_file.py",
+        "shure_scan_client.py",
+        "shure_scan_profiles.py",
+        "shure_scan_sdt.py",
+        "shure_scan_session.py",
+        "shure_scan_endpoint.py",
+        "shure_scan_wire.py",
+        "shure_systemapi.py",
+        "shure_legacy.py",
+        "shure_legacy_control.py"
+      ],
+      "integration": {
+        "host": "DATY RF PRO r19 Python / MQTT server",
+        "assembly": "prototypes/mqtt-stage6/m6_runtime.py",
+        "bridge": "mqtt-bridge.py",
+        "sharedDependencies": [
+          "command_journal.CommandError",
+          "ReceiverBus",
+          "RuntimeGroupPolicy",
+          "existing durable command journal and telemetry persistence"
+        ],
+        "legacyReferences": [
+          "shure_discovery.py",
+          "shure_programmer.py",
+          "shure_readonly_adapter.py"
+        ],
+        "notes": "安装后由 SCP 直接发现、读取和控制，不依赖 SystemAPI。旧固件按实时 REP 组合识别兼容协议，型号推定来源明确标记。已知频段按硬件范围校验；旧固件不报频段时按协议命令范围下发并由接收机实际回读确认，不能把命令范围当成硬件频段。"
+      },
+      "release": {
+        "host_api": "daty-brand-plugin-host-v1",
+        "observation_format": "shure-v2",
+        "entrypoints": {
+          "discovery": {
+            "file": "shure_plugin.py",
+            "class": "ShurePluginDiscovery"
+          },
+          "control": {
+            "file": "shure_plugin.py",
+            "class": "ShurePluginControl"
+          },
+          "scan_files": {
+            "file": "shure_scan_file.py",
+            "class": "ShureScanFiles"
+          },
+          "scan_live": {
+            "file": "shure_scan_client.py",
+            "class": "UlxdScanClient"
+          }
+        },
+        "capabilities": {
+          "discover": true,
+          "read_frequency": true,
+          "write_frequency": true,
+          "read_rf": true,
+          "read_af": true,
+          "mute": true,
+          "read_only": false,
+          "scan": true,
+          "scan_readiness": "probe-required",
+          "read_scan_file": true,
+          "confirmation": "post-write-readback",
+          "frequency_requires_verified_band": false,
+          "systemapi_identity": false,
+          "direct_scp": true
+        }
+      }
+    }
+  ]
+}

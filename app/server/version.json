@@ -1,0 +1,8 @@
+{
+  "product": "DATY RF PRO",
+  "version": "1.0.3",
+  "bridgeVersion": "2.0",
+  "localServiceVersion": "3.0",
+  "coordinationEngine": "p0-2026-09-10-retain1",
+  "frequencyValidation": "integer-khz-p0-2026-09-10"
+}

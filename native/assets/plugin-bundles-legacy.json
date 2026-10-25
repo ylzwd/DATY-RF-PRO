@@ -1,0 +1,18 @@
+[
+  {
+    "id": "shure-scp",
+    "version": "70a25ac350d4",
+    "fileName": "DATY-shure-scp-70a25ac350d4-SystemAPI-6.10.0.240-full.zip",
+    "sha256": "00dad0ea0306d8bc142de3c62fe5e02c94d59fab0fd00ebe367a94a6af0fdd3f",
+    "bytes": 220127456,
+    "pluginSha256": "8f9d529cf99fd9868d919183933f17bb85dc0f1af051258ed26ef6dd80d45c88"
+  },
+  {
+    "id": "shure-scp",
+    "version": "be57e1906da7",
+    "fileName": "DATY-shure-scp-be57e1906da7-full.zip",
+    "sha256": "1dd8e29558f6932be2d46259bb2dc34d7f14835634a92a914c33c2c258002933",
+    "bytes": 52311,
+    "pluginSha256": "e6b1a6210882fbbbfb54d4012ce96242f7c3aa9e2eed76c04b441525ab5be5af"
+  }
+]

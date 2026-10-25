@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "referenceKind": "independent-arithmetic-reference-not-WWB-or-field-measurement",
+  "datyReferenceRules": {"minimumChannelSpacingKHz":250,"intermodSpacingKHz":250,"coordinationStepKHz":250,"coordinationOriginKHz":0,"source":"user-confirmed-spacing-and-candidate-grid; project-engineering-IMD-guard"},
+  "frequencyCases": [
+    {"value": 641.25, "unit": "MHz", "expectedKHz": 641250},
+    {"value": "641.250", "unit": "mhz", "expectedKHz": 641250},
+    {"value": 641250, "unit": "kHz", "expectedKHz": 641250},
+    {"value": 641250000, "unit": "Hz", "expectedKHz": 641250},
+    {"value": 641.25, "unit": "auto", "expectedKHz": 641250},
+    {"value": 641250, "unit": "auto", "expectedKHz": 641250},
+    {"value": 641250000, "unit": "auto", "expectedKHz": 641250},
+    {"value": 30, "unit": "MHz", "expectedKHz": 30000},
+    {"value": 3000, "unit": "MHz", "expectedKHz": 3000000},
+    {"value": null, "unit": "MHz", "expectedKHz": null},
+    {"value": true, "unit": "MHz", "expectedKHz": null},
+    {"value": [], "unit": "MHz", "expectedKHz": null},
+    {"value": "", "unit": "MHz", "expectedKHz": null},
+    {"value": "NaN", "unit": "MHz", "expectedKHz": null},
+    {"value": 641250, "unit": "MHz", "expectedKHz": null},
+    {"value": 641.2505, "unit": "MHz", "expectedKHz": null},
+    {"value": 641250.5, "unit": "kHz", "expectedKHz": null},
+    {"value": 641250500, "unit": "Hz", "expectedKHz": null},
+    {"value": 641.25, "unit": "unknown", "expectedKHz": null},
+    {"value": "641_250", "unit": "kHz", "expectedKHz": null},
+    {"value": "６４１２５０", "unit": "kHz", "expectedKHz": null},
+    {"value": "0x9c8e2", "unit": "kHz", "expectedKHz": null},
+    {"value": "6.4125e2", "unit": "MHz", "expectedKHz": 641250},
+    {"value": 641.25, "unit": null, "expectedKHz": null},
+    {"value": "1e308", "unit": "MHz", "expectedKHz": null}
+  ],
+  "imdCases": [
+    {"id": "two-tone-third", "method": "calculateImd3KHz", "sourcesKHz": [620000, 621000], "productsKHz": [619000, 622000]},
+    {"id": "two-tone-fifth", "method": "calculateImd5KHz", "sourcesKHz": [620000, 621000], "productsKHz": [618000, 623000]},
+    {"id": "three-tone-third", "method": "calculateImd3ThreeToneKHz", "sourcesKHz": [600000, 601000, 603000], "productsKHz": [598000, 602000, 604000]}
+  ],
+  "analysisCases": [
+    {"id": "exact-imd-hit", "frequenciesKHz": [600000, 601000, 602000], "conflictType": "intermod-3", "minImdMarginKHz": -250},
+    {"id": "safe-three-carriers", "frequenciesKHz": [600000, 601000, 603000], "conflictType": null, "minImdMarginKHz": 750},
+    {"id": "exact-guard-boundary", "frequenciesKHz": [600000, 600500, 601250], "conflictType": null, "minImdMarginKHz": 0},
+    {"id": "inside-guard", "frequenciesKHz": [600000, 600500, 601225], "conflictType": "intermod-3", "minImdMarginKHz": -25},
+    {"id": "three-tone-only-hit", "frequenciesKHz": [600000, 601000, 604000, 605000], "conflictType": "intermod-3", "minImdMarginKHz": -250}
+  ],
+  "retentionCases": [
+    {"id":"clean-current-plan","frequenciesKHz":[600000,601000,603000],"expectedFrequenciesKHz":[600000,601000,603000],"protectedDeviceIds":[1,2,3]},
+    {"id":"new-channel-cannot-displace-clean-channel","frequenciesKHz":[0,600000],"expectedFrequenciesKHz":[600250,600000],"protectedDeviceIds":[2]}
+  ],
+  "solverCases": [
+    {"id": "three-fit-skipping-imd-candidate", "rangeStartKHz": 600000, "rangeEndKHz": 601250, "stepKHz": 250, "channels": 3, "maximumAssigned": 3, "expectedFrequenciesKHz": [600000, 600250, 600750]},
+    {"id": "three-consecutive-candidates-cannot-fit-imd", "rangeStartKHz": 600000, "rangeEndKHz": 600500, "stepKHz": 250, "channels": 3, "maximumAssigned": 2, "expectedFrequenciesKHz": [600000, 600250]},
+    {"id": "spacing-below250-cannot-fit", "rangeStartKHz": 600000, "rangeEndKHz": 600225, "stepKHz": 25, "channels": 2, "maximumAssigned": 1, "expectedFrequenciesKHz": [600000]},
+    {"id": "exact250-two-carriers-fit", "rangeStartKHz": 600000, "rangeEndKHz": 600250, "stepKHz": 25, "channels": 2, "maximumAssigned": 2, "expectedFrequenciesKHz": [600000, 600250]},
+    {"id": "explicit-engineering350-restricts-capacity", "rangeStartKHz": 600000, "rangeEndKHz": 601000, "stepKHz": 250, "minChannelSpacingKHz":350,"channels": 3, "maximumAssigned": 2, "expectedFrequenciesKHz": [600000, 600500]}
+  ]
+}

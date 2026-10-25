@@ -1,0 +1,13 @@
+.pairing-button{grid-column:1/-1;}
+#pairingDialog{width:min(560px,calc(100vw - 32px));max-height:calc(100dvh - 32px);margin:auto;border:1px solid #475569;border-radius:12px;background:#111c31;color:#e2e8f0;padding:18px;box-shadow:0 16px 64px #0008;overflow:auto;}
+#pairingDialog::backdrop{background:#020617bb;}
+#pairingDialog h2{margin:0 0 10px;font-size:18px;}
+#pairingDialog p,#pairingDialog label{font-size:12px;line-height:1.55;}
+#pairingDialog .pairing-identity{width:100%;height:124px;resize:none;font-family:Consolas,monospace;font-size:12px;background:#0b1223;color:#a5f3fc;border:1px solid #334155;border-radius:6px;padding:8px;margin:6px 0;}
+#pairingDialog .pairing-trust{display:flex;gap:8px;align-items:flex-start;margin:10px 0;}
+#pairingDialog .pairing-trust input{width:16px;height:16px;flex-shrink:0;margin-top:2px;}
+#pairingFingerprint{overflow-wrap:anywhere;color:#94a3b8;}
+#pairingFeedback{min-height:36px;color:#fbbf24;}
+.pairing-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;}
+.pairing-actions .btn{font-size:12px;padding:8px 12px;}
+#pairingFile{display:none;}

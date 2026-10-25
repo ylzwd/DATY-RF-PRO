@@ -1,0 +1,40 @@
+{
+  "id": "manufacturer-model-band-mode",
+  "manufacturer": "REPLACE_ME",
+  "models": ["REPLACE_ME"],
+  "tuningRangeKHz": [600000, 650000],
+  "intermodSource": true,
+  "priority": 20,
+  "frequencyStepKHz": 25,
+  "frequencyOriginKHz": 0,
+  "minimumChannelSpacingKHz": 250,
+  "spacingProvenance": {"kind":"custom","title":"请替换为该品牌/型号最小间隔的厂商资料或实测记录","revision":"REPLACE_ME","verified":false},
+  "coordinationGrid": {"stepKHz":25,"originKHz":0},
+  "imdPolicy": {"orders":[3],"includeThreeTone":true},
+  "compatibility": {
+    "robust": {"channelSpacingKHz": 500, "intermodSpacingKHz": 350, "scanThresholdDbm": -85},
+    "standard": {"channelSpacingKHz": 350, "intermodSpacingKHz": 250, "scanThresholdDbm": -78},
+    "more-frequencies": {"channelSpacingKHz": 250, "intermodSpacingKHz": 150, "scanThresholdDbm": -72}
+  },
+  "bands": [
+    {"id": "REPLACE_BAND", "label": "真实硬件频段", "tuningRangeKHz": [600000, 650000], "region": "REPLACE_REGION", "verified": false}
+  ],
+  "modes": [
+    {"id": "robust", "label": "Robust", "settings": {"channelSpacingKHz": 500, "intermodSpacingKHz": 350, "scanThresholdDbm": -85}},
+    {"id": "standard", "label": "Standard", "settings": {"channelSpacingKHz": 350, "intermodSpacingKHz": 250, "scanThresholdDbm": -78}},
+    {"id": "more-frequencies", "label": "More Frequencies", "settings": {"channelSpacingKHz": 250, "intermodSpacingKHz": 150, "scanThresholdDbm": -72}}
+  ],
+  "defaultBandId": "REPLACE_BAND",
+  "defaultModeId": "standard",
+  "provenance": {
+    "kind": "custom",
+    "title": "厂商文档或实测记录标题",
+    "url": "REPLACE_WITH_SOURCE",
+    "revision": "REPLACE_WITH_REVISION",
+    "verified": false,
+    "checkedAt": "2026-09-08"
+  },
+  "deploymentEligible": false,
+  "source": "custom",
+  "note": "模板中的250不是其他品牌的官方最小间隔，必须替换并填写来源。DATYaudio 由用户确认最小间隔250且协调候选栅格250，DATY Profile的coordinationGrid须改为250/0。所有兼容档和模式不得低于品牌/Profile下限。imdPolicy与全局要求取并集；可加[3,5]。精确频段、调谐栅格与协调栅格分别校验；verified不替代厂商/现场验证。其他品牌下发需同品牌已验证Profile及间隔资料、明确的FAshe可写和品牌ACK能力；Shure只读。"
+}

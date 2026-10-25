@@ -1,0 +1,71 @@
+{
+  "schema": "daty-mqtt-data-v1",
+  "stage": 4,
+  "status": "isolated-candidate-not-production",
+  "transport": {
+    "protocol": "MQTT5 over WSS",
+    "path": "/mqtt-data",
+    "request_topic": "daty/v2/stage4-server/data/request",
+    "reply_topic": "daty/v2/stage4-server/data/reply",
+    "assigned_connection_identity": true,
+    "source": "actual socket IP; precise existing browser Origin policy",
+    "browser_credentials": false,
+    "retained_commands": false,
+    "wildcard_subscriptions": false,
+    "offline_write_queue": false,
+    "automatic_replay_or_http_fallback": false,
+    "maximum_inline_json_bytes": 786432,
+    "oversize": "explicit MESSAGE_TOO_LARGE_USE_M5; no truncation or partial mutation"
+  },
+  "request": {
+    "required": ["schema", "server_id", "boot_id", "client_session_id", "request_id", "method", "deadline_at_ms", "body"],
+    "maximum_deadline_ms": 30000,
+    "mutations_require": ["operation_id", "epoch"],
+    "operation_intent": "immutable method and full business body; socket/session/reconnect IDs are not business identity",
+    "ownership": "network:<actual peer IP>, preserving current HTTPS operation receipt semantics; not an authenticated user"
+  },
+  "reads": [
+    "database.status", "database.resources.list", "database.resources.get", "database.operations.get",
+    "database.channels", "database.overview", "database.draft.get", "database.business_snapshot", "database.import.preview",
+    "projects.list", "projects.get", "timeline.list", "discovery.status",
+    "state.health", "state.stats", "state.capabilities", "state.clock", "operations.get"
+  ],
+  "mutations": [
+    "database.write", "database.batch", "database.draft.save", "database.import.commit",
+    "projects.save", "planning.run.create", "timeline.append", "discovery.scan", "discovery.cancel"
+  ],
+  "database": {
+    "engine": "existing unified SQLite database, WAL, synchronous=FULL",
+    "schema_change": false,
+    "receipt_storage": "immutable legacy_snapshots extension records in the same business transaction; reserved sourceOrigin daty-mqtt-stage4",
+    "reserved_resource_keys": ["mqtt4-operation:", "mqtt4-request:"],
+    "reserved_internal_operation_prefix": "m4internal_",
+    "commit": "business projection, versions, audit, native receipt and RPC receipt commit together",
+    "conflicts": "preserve existing expected_revision, epoch, import preview digest, draft head and atomic batch rules",
+    "query": "operations.get returns M4 outcome; database.operations.get preserves original native receipt DTO",
+    "history": "same high-water cursor, immutable versions, tombstones, source JSON and original scan units",
+    "alerts": "unchanged <=200 per batch; confirmed ids/revisions/epoch; no deletion of new lifecycle, Timeline or immutable audit",
+    "stored_channels": "historical persistence projection, not online/control identity; existing keyset pages preserved; displays retain real GROUP/CH sorting"
+  },
+  "discovery": {
+    "scope": "existing server-owned Shure read-only discovery; client cannot select arbitrary hosts or ports",
+    "precondition": "expected_generation; cancel also requires exact scan_operation_id",
+    "start": "persist dispatch claim before starting once",
+    "states": ["dispatching", "accepted", "completed", "cancel_requested", "cancelled", "failed", "not_started", "unknown"],
+    "receipt_semantics": "accepted is not scan complete; cancel_requested is not cancellation complete",
+    "recovery": "interrupted accepted/dispatching becomes unknown, never auto-rescan; unresolved scan blocks another scan",
+    "completion": "persist final generation, actual snapshot and error before reporting completed"
+  },
+  "native": {
+    "interfaces": ["MQTT network factory", "clock", "timers", "existing repository request port", "existing confirmation and pending-operation storage"],
+    "response_shape": "status and original JSON DTO; no HTTP networking behind the injected port",
+    "permanent_display_order": "actual numeric GROUP ascending, then numeric CH ascending, unknown last; sort complete display set before paging"
+  },
+  "not_in_stage4": [
+    "production deployment or live receiver control", "M1/M2/M3 cross-process integration",
+    "file transfer, archive lifecycle and pairing renewal over MQTT (M5)",
+    "large JSON/chunk transport (M5)", "automatic multi-host arbitration",
+    "manual resolution of an interrupted uncertain discovery operation",
+    "browser window/background freeze or physical Shure hardware acceptance"
+  ]
+}

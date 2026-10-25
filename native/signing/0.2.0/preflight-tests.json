@@ -1,0 +1,25 @@
+[
+  {
+    "Test": "actual_release_inspection",
+    "Passed": true
+  },
+  {
+    "Test": "missing_certificate_rejected_without_output",
+    "Passed": true,
+    "Evidence": "Signing certificate not found. Complete CA identity verification first."
+  },
+  {
+    "Test": "changed_release_hash_rejected",
+    "Passed": true,
+    "Evidence": "Input hash changed: Accessibility.dll"
+  },
+  {
+    "Test": "manifest_path_escape_rejected",
+    "Passed": true,
+    "Evidence": "Invalid manifest path: ../outside.dll"
+  },
+  {
+    "Test": "signtool_existing_vendor_signature",
+    "Passed": true
+  }
+]

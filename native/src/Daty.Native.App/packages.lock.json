@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0-windows7.0": {
+      "Acornima": {
+        "type": "Transitive",
+        "resolved": "1.7.0",
+        "contentHash": "a2I4O4qkuAdB0oSaGz6/k0n/bXxMbGcLBra5dNTTVSLmTwM7uORA8ebpOrNMmDfFWOMwvuaRL6gPprRV4HTV0w=="
+      },
+      "Jint": {
+        "type": "Transitive",
+        "resolved": "4.16.2",
+        "contentHash": "/sN+uRO1bUOgp490lM5+K40buKqpghO3E9sV1hNxf2Kg+3bS7MqDtosa6vixFBnFQGIaYnByFwQ6Fft/IEr4WA==",
+        "dependencies": {
+          "Acornima": "1.7.0"
+        }
+      },
+      "MQTTnet": {
+        "type": "Transitive",
+        "resolved": "5.2.0.1603",
+        "contentHash": "iNuWVo/568aRo2ExEN2qkC4J5b07ckKqt+9Uok2kIbbK7PMBsXvYiKVENPHmOBWFB5ExhlNQb/qQ8M9/IYRTdQ=="
+      },
+      "daty.native.contracts": {
+        "type": "Project"
+      },
+      "daty.native.core": {
+        "type": "Project",
+        "dependencies": {
+          "Daty.Native.Contracts": "[1.0.0, )",
+          "Jint": "[4.16.2, )",
+          "MQTTnet": "[5.2.0.1603, )"
+        }
+      }
+    },
+    "net10.0-windows7.0/win-x64": {}
+  }
+}

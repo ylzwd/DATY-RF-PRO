@@ -1,0 +1,7 @@
+# Existing release manifests hash exact bytes, including line endings.
+* -text
+*.png binary
+*.jpg binary
+*.ico binary
+*.zip binary
+*.cer binary

@@ -1,0 +1,407 @@
+{
+  "schema": "daty-trusted-plugin-catalog-v1",
+  "releases": [
+    {
+      "id": "shure-scp",
+      "name": "Shure SCP",
+      "brand": "Shure",
+      "version": "3aee959ed650",
+      "sha256": "b6e7055ab3b3dbe45a094b01f9c483219269742d28afb5757e8ea9dfecfb5b12",
+      "host_api": "daty-brand-plugin-host-v1",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "observation_format": "shure-v1",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_active_discovery.py",
+          "class": "ShureDiscovery"
+        },
+        "control": {
+          "file": "prototypes/mqtt-stage6/m6_shure_control.py",
+          "class": "ShureControlRouter"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": false,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": true
+      }
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": false,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": true,
+        "systemapi_identity": true
+      },
+      "version": "6532c4ea490f",
+      "sha256": "0a55243bbcfa9f0bd6a47523a0a5788980399b63026533fbd8b31c6658c1cabe"
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": false,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": false,
+        "systemapi_identity": false,
+        "direct_scp": true
+      },
+      "version": "49ec1299d32b",
+      "sha256": "03c8030dc87a9813c00889748003f393232d1561496b99bfcf9a187fba82f36c"
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": false,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": false,
+        "systemapi_identity": false,
+        "direct_scp": true
+      },
+      "version": "70a25ac350d4",
+      "sha256": "8f9d529cf99fd9868d919183933f17bb85dc0f1af051258ed26ef6dd80d45c88"
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": false,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": false,
+        "systemapi_identity": false,
+        "direct_scp": true
+      },
+      "version": "be57e1906da7",
+      "sha256": "e6b1a6210882fbbbfb54d4012ce96242f7c3aa9e2eed76c04b441525ab5be5af"
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        },
+        "scan_files": {
+          "file": "shure_scan_file.py",
+          "class": "ShureScanFiles"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": false,
+        "read_scan_file": true,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": false,
+        "systemapi_identity": false,
+        "direct_scp": true
+      },
+      "version": "8f4292022cd0",
+      "sha256": "e1f20d01ef4e9a541aae4bc6302219a6313d799c4a3a29d9d13be395998fc6de"
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        },
+        "scan_files": {
+          "file": "shure_scan_file.py",
+          "class": "ShureScanFiles"
+        },
+        "scan_live": {
+          "file": "shure_scan_client.py",
+          "class": "UlxdScanClient"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": true,
+        "scan_readiness": "probe-required",
+        "read_scan_file": true,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": false,
+        "systemapi_identity": false,
+        "direct_scp": true
+      },
+      "version": "8754f0edddee",
+      "sha256": "13a09eb41e20f0ab1b6d0b3b1e2640c6ffdda763a361ece3def4d23626e359cb"
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        },
+        "scan_files": {
+          "file": "shure_scan_file.py",
+          "class": "ShureScanFiles"
+        },
+        "scan_live": {
+          "file": "shure_scan_client.py",
+          "class": "UlxdScanClient"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": true,
+        "scan_readiness": "probe-required",
+        "read_scan_file": true,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": false,
+        "systemapi_identity": false,
+        "direct_scp": true
+      },
+      "version": "26e15567bebd",
+      "sha256": "1feefc75240755030e4b3a18a11ee382b34cd0058b2c4a8ac47487dcce7aec7a"
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        },
+        "scan_files": {
+          "file": "shure_scan_file.py",
+          "class": "ShureScanFiles"
+        },
+        "scan_live": {
+          "file": "shure_scan_client.py",
+          "class": "UlxdScanClient"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": true,
+        "scan_readiness": "probe-required",
+        "read_scan_file": true,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": false,
+        "systemapi_identity": false,
+        "direct_scp": true
+      },
+      "version": "125c7767f99f",
+      "sha256": "36fea8b95344615de88b1be4fa188744331da6bd26f7bd6ae13aede0987e1290"
+    },
+    {
+      "id": "shure-scp",
+      "brand": "Shure",
+      "name": "Shure SCP",
+      "adapterKeys": [
+        "shure-scp"
+      ],
+      "host_api": "daty-brand-plugin-host-v1",
+      "observation_format": "shure-v2",
+      "entrypoints": {
+        "discovery": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginDiscovery"
+        },
+        "control": {
+          "file": "shure_plugin.py",
+          "class": "ShurePluginControl"
+        },
+        "scan_files": {
+          "file": "shure_scan_file.py",
+          "class": "ShureScanFiles"
+        },
+        "scan_live": {
+          "file": "shure_scan_client.py",
+          "class": "UlxdScanClient"
+        }
+      },
+      "capabilities": {
+        "discover": true,
+        "read_frequency": true,
+        "write_frequency": true,
+        "read_rf": true,
+        "read_af": true,
+        "mute": true,
+        "read_only": false,
+        "scan": true,
+        "scan_readiness": "probe-required",
+        "read_scan_file": true,
+        "confirmation": "post-write-readback",
+        "frequency_requires_verified_band": false,
+        "systemapi_identity": false,
+        "direct_scp": true
+      },
+      "version": "f9f657916929",
+      "sha256": "a2441d94a4fd120d75f05e81e004ba54620ef0d7bfe4173b4218ce35bb9708a4"
+    }
+  ]
+}

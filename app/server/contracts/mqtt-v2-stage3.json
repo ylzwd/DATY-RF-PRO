@@ -1,0 +1,66 @@
+{
+  "contract": "daty-mqtt-stage3-control-v1",
+  "status": "isolated-candidate-not-deployed",
+  "productionEnabled": false,
+  "schema": "daty-command-rpc-v1",
+  "server_id": "stage3-server",
+  "endpoint": "/mqtt-control",
+  "topics": {
+    "request": "daty/v2/stage3-server/commands/request",
+    "reply": "daty/v2/stage3-server/commands/reply",
+    "privateRequest": "daty/prototype/v2/stage3-server/rpc/{server_assigned_session}/request",
+    "privateReply": "daty/prototype/v2/stage3-server/rpc/{server_assigned_session}/reply"
+  },
+  "requestFields": ["schema", "server_id", "boot_id", "client_session_id", "request_id", "method", "deadline_at_ms", "body"],
+  "methods": {
+    "commands.targets": {"body": [], "sideEffect": false},
+    "commands.get": {"body": ["operation_id"], "sideEffect": false},
+    "commands.request": {"body": ["operation_id", "target", "command", "expected_value"], "sideEffect": true}
+  },
+  "targetFields": ["device_id", "receiver_id", "receiver_mac", "receiver_ip", "receiver_session_id", "channel_number", "expected_brand"],
+  "commands": {
+    "set_freq": "expected_value is integer kHz, 400000..900000; retains existing hardware/profile/planning gate upstream",
+    "mute": "expected_value is boolean true",
+    "unmute": "expected_value is boolean false"
+  },
+  "identity": {
+    "target": "exact trusted receiver/device identity + CH + socket peer + pairing session + registered brand",
+    "group": "display only; trusted GROUP ascending, same group CH ascending, unknown last",
+    "browser": "exact HTTPS Origin, server assigned ctl-<32 hex>; no credentials, no user-selected reply topic",
+    "receiver": "existing daty-pairing-v1 and fashe-realtime-v1 command_id status receipt; no telemetry-only ACK downgrade"
+  },
+  "deduplication": {
+    "request_id": "durable correlation uniqueness; different operation/digest/entry is a conflict",
+    "operation_id": "durable global intent uniqueness within this server ledger, across UI sessions and restarts",
+    "digest": "canonical JSON of server_id, boot_id, deadline_at_ms and complete body",
+    "command_id": "server generated once, never supplied by requester",
+    "singleEntry": "one configured active entry; MQTT mode rejects both new HTTPS mutation and old /api/command; original direct sender is disabled in isolated Bridge",
+    "controllerLease": "Windows OS byte-range lock; one live controller per journal, automatically released on process death",
+    "commit": "SQLite WAL + synchronous FULL before reserve/dispatch decision; uncertain commit fences further dispatch",
+    "restart": "reserved/dispatching/published recover to unknown; no resume queue, no retry",
+    "scope": "at most one server dispatch attempt per operation; not exactly-once hardware execution"
+  },
+  "states": ["reserved", "dispatching", "published", "acknowledged", "rejected", "not_sent", "timeout", "unknown"],
+  "receipt": {
+    "mqttPuback": "Broker receipt only; not accepted business decision, device execution or durable commit",
+    "published": "socket send completed; does not mean receiver execution",
+    "acknowledged": "matching paired current receiver/session, command_id, device/CH, brand and exact actual value, durably recorded",
+    "timeoutOrUnknown": "may already have executed; query only, no automatic resend, HTTP fallback, optimistic success or inferred cancellation",
+    "lateOrWrongAck": "never promotes terminal timeout/unknown; wrong session/ID/channel/brand/value ignored",
+    "targetFence": "pending, timeout or unknown blocks another operation on the target until a separately reviewed reconciliation mechanism is implemented"
+  },
+  "limits": {
+    "requestBytes": 32768,
+    "connections": 32,
+    "concurrentRpcJobs": 32,
+    "maximumRequestDeadlineMs": 30000,
+    "clientDefaultExecutionTimeoutMs": 8000,
+    "legacySocketSendTimeoutSeconds": 2,
+    "brokerRequestExpirySeconds": 5,
+    "retainAllowed": false,
+    "sessionExpirySeconds": 0,
+    "offlineQueueAllowed": false,
+    "automaticReplayAllowed": false
+  },
+  "notImplemented": ["production cutover", "exactly-once firmware", "device-side expiry/cancellation", "manual uncertain-outcome reconciliation UI", "M1/M2 distributed integration", "unified production database migration", "clock transport migration", "real receiver acceptance"]
+}

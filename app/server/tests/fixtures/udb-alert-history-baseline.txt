@@ -1,0 +1,217 @@
+// 实时告警 -> 待归档日志 -> 本地告警历史。只存事件，不生成遥测、不发送设备指令。
+const ALERT_ARCHIVE_INTERVAL_MS = 30000;
+const ALERT_ARCHIVE_KEY = 'daty_db_alerts';
+const ALERT_PENDING_KEY = 'daty_pending_alerts_v1';
+const ALERT_ARCHIVE_META_KEY = 'daty_alert_archive_meta_v1';
+let alertLogView = 'archive';
+let alertLogPage = 1;
+const ALERT_LOG_PAGE_SIZE = 20;
+let _alertArchiveTimer = null;
+let _alertArchiveStarted = false;
+let _alertArchiveSerial = 0;
+let _alertPendingCheckpointAt = 0;
+const _pendingAlertArchive = new Map();
+let _alertArchiveError = '';
+let _alertArchiveSavedAt = 0;
+
+function _readAlertRecords(key) {
+  const records = JSON.parse((globalThis.DatyPlatform?.storage || localStorage).getItem(key) || '[]');
+  if (!Array.isArray(records) || records.some(item => !item || typeof item !== 'object' || Array.isArray(item))) {
+    throw new Error('告警存储格式异常，原数据已保留');
+  }
+  return records;
+}
+
+function _alertRecordId(alert) {
+  if (!alert.archiveId) {
+    // 同一生命周期一直复用 ID；恢复后重新创建的告警获得新的 ID。
+    const token = typeof crypto !== 'undefined' && crypto.randomUUID
+      ? crypto.randomUUID() : `${Date.now()}-${++_alertArchiveSerial}-${Math.random().toString(36).slice(2)}`;
+    alert.archiveId = `alert-${token}`;
+  }
+  return alert.archiveId;
+}
+
+function _mergeAlertRecord(previous, incoming) {
+  if (!previous) return {...incoming};
+  // 另一页面的过时活动快照不能重新打开已结束的同一事件。
+  if (previous.archiveState === 'ended' && incoming.archiveState !== 'ended') return previous;
+  const previousTime = previous.endedAt || previous.lastSeen || previous.ts || 0;
+  const incomingTime = incoming.endedAt || incoming.lastSeen || incoming.ts || 0;
+  return incomingTime >= previousTime ? {...previous, ...incoming} : previous;
+}
+
+function _loadPendingAlertRecords() {
+  for (const item of _readAlertRecords(ALERT_PENDING_KEY)) {
+    const key = item.archiveId || `legacy-pending:${item.id}:${item.ts}`;
+    _pendingAlertArchive.set(key, _mergeAlertRecord(_pendingAlertArchive.get(key), {...item, archiveId:key}));
+  }
+}
+
+function updateAlertArchiveStatus() {
+  const label = document.getElementById('logArchiveStatus');
+  if (!label) return;
+  label.textContent = _alertArchiveError
+    ? `保存失败：${_alertArchiveError}；待存 ${_pendingAlertArchive.size} 条，下次重试`
+    : `每 30 秒自动保存 · 待存 ${_pendingAlertArchive.size} 条` +
+      (_alertArchiveSavedAt ? ` · 最近保存 ${new Date(_alertArchiveSavedAt).toLocaleTimeString('zh-CN')}` : '');
+  label.style.color = _alertArchiveError ? 'var(--danger, #fb7185)' : 'var(--muted)';
+  label.title = label.textContent;
+}
+
+function _checkpointPendingAlerts() {
+  // 写入小型待存队列，避免短暂告警在下一个 30 秒周期前消失或刷新丢失。
+  _loadPendingAlertRecords();
+  (globalThis.DatyPlatform?.storage || localStorage).setItem(ALERT_PENDING_KEY, JSON.stringify([..._pendingAlertArchive.values()]));
+  _alertPendingCheckpointAt = Date.now();
+}
+
+function queueAlertForArchive(alert, archiveState = 'active') {
+  if (!alert || typeof alert !== 'object') return;
+  const archiveId = _alertRecordId(alert);
+  const previous = _pendingAlertArchive.get(archiveId);
+  const firstSeen = alert.firstSeen ?? alert.ts ?? Date.now();
+  const record = {...alert, archiveId, ts:firstSeen, firstSeen,
+    lastSeen:alert.lastSeen ?? alert.ts ?? firstSeen, archiveState};
+  if (archiveState === 'ended') record.endedAt = Date.now();
+  _pendingAlertArchive.set(archiveId, _mergeAlertRecord(previous, record));
+  try {
+    if (!previous || archiveState === 'ended' || Date.now() - _alertPendingCheckpointAt >= 1000) {
+      _checkpointPendingAlerts();
+    }
+  } catch (error) {
+    // 留在内存并在下一次归档重试，不阻断实时告警引擎。
+    _alertArchiveError = error.message || String(error);
+  }
+  updateAlertArchiveStatus();
+}
+
+function readAlertArchive() {
+  return _readAlertRecords(ALERT_ARCHIVE_KEY);
+}
+
+function flushAlertArchive() {
+  try {
+    _loadPendingAlertRecords();
+    for (const alert of ALERTS) queueAlertForArchive(alert);
+    const records = readAlertArchive();
+    const positions = new Map(records.map((item, index) => [item.archiveId || `legacy:${index}`, index]));
+    const changed = _pendingAlertArchive.size;
+    for (const [id, record] of _pendingAlertArchive) {
+      if (positions.has(id)) {
+        const index = positions.get(id);
+        records[index] = _mergeAlertRecord(records[index], record);
+      } else {
+        positions.set(id, records.length);
+        records.push({...record});
+      }
+    }
+    // 必须成功写入历史后才能清空待存；清理失败再次重试也是幂等的。
+    if (changed) {
+      (globalThis.DatyPlatform?.storage || localStorage).setItem(ALERT_ARCHIVE_KEY, JSON.stringify(records));
+      (globalThis.DatyPlatform?.storage || localStorage).removeItem(ALERT_PENDING_KEY);
+      _pendingAlertArchive.clear();
+      _alertArchiveSavedAt = Date.now();
+      // 状态标签的辅助时间写入失败，不把已成功归档的数据误报为未保存。
+      try { (globalThis.DatyPlatform?.storage || localStorage).setItem(ALERT_ARCHIVE_META_KEY, JSON.stringify({savedAt:_alertArchiveSavedAt})); } catch (_) {}
+    }
+    _alertArchiveError = '';
+    updateAlertArchiveStatus();
+    if (typeof renderLog === 'function' && alertLogView === 'archive') renderLog();
+    return {success:true, changed, count:records.length};
+  } catch (error) {
+    _alertArchiveError = error.message || String(error);
+    updateAlertArchiveStatus();
+    return {success:false, error:_alertArchiveError};
+  }
+}
+
+function initializeAlertArchiving() {
+  if (_alertArchiveStarted) return;
+  _alertArchiveStarted = true;
+  try {
+    _loadPendingAlertRecords();
+    _alertArchiveSavedAt = JSON.parse((globalThis.DatyPlatform?.storage || localStorage).getItem(ALERT_ARCHIVE_META_KEY) || '{}').savedAt || 0;
+  } catch (error) { _alertArchiveError = error.message || String(error); }
+  for (const alert of ALERTS) queueAlertForArchive(alert);
+  _alertArchiveTimer = setInterval(flushAlertArchive, ALERT_ARCHIVE_INTERVAL_MS);
+  // 浏览器后台计时器可能节流；切换后台/关闭前同步补存，返回时再补存。
+  window.addEventListener('pagehide', flushAlertArchive);
+  document.addEventListener('visibilitychange', flushAlertArchive);
+  window.addEventListener('storage', event => {
+    if (event.key === ALERT_ARCHIVE_KEY && alertLogView === 'archive') renderLog();
+  });
+  updateAlertArchiveStatus();
+}
+
+async function addAlertToStorage(alert) {
+  queueAlertForArchive(alert);
+  const result = flushAlertArchive();
+  if (!result.success) throw new Error(result.error);
+  return result.count;
+}
+
+async function getAllAlertsFromStorage() { return readAlertArchive(); }
+async function getAlertCountFromDB() { return readAlertArchive().length; }
+
+async function exportAlertsToDB() {
+  const result = flushAlertArchive();
+  if (result.success) {
+    showAlertArchive();
+    notify('💾', '保存成功', `已处理 ${result.changed} 条待存告警，历史共 ${result.count} 条`);
+  } else notify('❌', '保存失败', result.error + '；待存告警保留，稍后重试');
+}
+
+async function clearAlertsFromStorage() {
+  // 不删除实时告警或待存事件。仍在发生的告警会在下个周期重新入库。
+  (globalThis.DatyPlatform?.storage || localStorage).removeItem(ALERT_ARCHIVE_KEY);
+  (globalThis.DatyPlatform?.storage || localStorage).removeItem(ALERT_ARCHIVE_META_KEY);
+  _alertArchiveSavedAt = 0;
+}
+
+async function clearAllAlertsFromDB() {
+  try {
+    const count = readAlertArchive().length;
+    if (!count) { notify('ℹ️', '无需清理', '存储中没有告警记录'); return; }
+    if ((globalThis.DatyHostFactory ? message => globalThis.DatyHostFactory.invokeMessage(globalThis, 'confirm', message)
+      : globalThis.DatyPlatform === undefined || globalThis.DatyPlatform?.kind === 'browser' ? confirm
+      : () => { throw new TypeError('DatyHost: native confirmation capability is unavailable'); }
+    )(`确定永久删除本浏览器已归档的 ${count} 条告警吗？\n实时告警不受影响，仍在发生或待存的告警会在下一周期保存。`) !== true) return;
+    await clearAlertsFromStorage();
+    showAlertArchive();
+    updateAlertArchiveStatus();
+    notify('🗑️', '存储已清空', `已删除 ${count} 条本地历史记录，无法撤销`);
+  } catch (error) { notify('❌', '清空失败', error.message || String(error)); }
+}
+
+function showAlertArchive() { alertLogView = 'archive'; alertLogPage = 1; renderLog(); }
+function changeAlertLogPage(delta) {
+  if (alertLogView === 'timeline') { window.changeServerTimelinePage?.(delta); return; }
+  if (alertLogView !== 'archive') return;
+  alertLogPage = Math.max(1, alertLogPage + delta); renderLog();
+}
+
+// 告警归档与服务端 Timeline 共用 20 条分页；只切分显示，不删历史数据。
+function renderAlertLogPagination(count, page = 1) {
+  const pages = Math.max(1, Math.ceil(count / ALERT_LOG_PAGE_SIZE));
+  page = Math.min(Math.max(1, page), pages);
+  const paging = document.getElementById('logPagination');
+  if (paging) { paging.hidden = count === 0; paging.style.display = count ? 'flex' : 'none'; }
+  const info = document.getElementById('logPageInfo');
+  if (info) info.textContent = `第 ${page}/${pages} 页 · 每页 ${ALERT_LOG_PAGE_SIZE} 条 · 共 ${count} 条`;
+  const prev = document.getElementById('logPrevPage'), next = document.getElementById('logNextPage');
+  if (prev) prev.disabled = !count || page <= 1;
+  if (next) next.disabled = !count || page >= pages;
+  return page;
+}
+
+function clearDataLog() {
+  // “清空当前”只清画面，不能删除首页告警或已归档历史。
+  alertLogView = 'cleared';
+  const body = document.getElementById('logBody');
+  if (body) body.innerHTML = '<tr><td colspan="5" class="log-message-cell">当前显示已清空，点击“告警记录”重新读取；自动保存继续运行。</td></tr>';
+  const count = document.getElementById('logCount');
+  if (count) count.textContent = '0';
+  const paging = document.getElementById('logPagination');
+  if (paging) { paging.hidden = true; paging.style.display = 'none'; }
+}

@@ -1,0 +1,1880 @@
+{
+  "reason": "保护设备身份、协议、实际控制回执及已确认界面；技术变更必须经过审查。",
+  "schemaVersion": 1,
+  "baselineUtc": "2026-09-12T17:09:51.697Z",
+  "reviewedChanges": [
+    {
+      "stage": "source-publication-privacy-20261025",
+      "authorization": "源码发布准备：移除本机路径及内部沟通记录，现场地址改用文档示例或显式输入。",
+      "paths": [
+        "FAshe/index.html",
+        "fuwuqi1.0.3/src/modules/render.js"
+      ],
+      "evidence": "仅更新经审查的当前源码摘要；接收机配对、业务数据库、私钥和旧 Git 历史不进入发布快照。"
+    },
+    {
+      "stage": "native-planning-scan-sources-range-20261007",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/src/modules/coordination.js"
+      ],
+      "evidence": "163 shared-engine cases; 199 native core and 12 contracts; 33 isolated domain cases; 3 isolated MQTT/TLS/SQLite native scenarios; WPF 5 viewports and 15 stable planner tab scenes. Exact 632450/633790/673790/632700 kHz sources, 12 three-tone products, preserved grid origin, hardware limits, scan gaps and manual/deployment consistency. No physical receiver commands."
+    },
+    {
+      "stage": "native-planning-imd-products-20261007",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/src/modules/coordination.js"
+      ],
+      "evidence": "Five explicit independent product choices, 3/5/7/9 two-tone and third-order three-tone; current carriers and fixed victim protection with duplicate-tone guard preservation. 152 Node tests, 188 native core tests, 38 isolated storage cases; WPF controls persist through real MQTT/TLS/SQLite and process reload. DATY execution ACK and Shure independent readback verified only against loopback simulated receivers."
+    },
+    {
+      "stage": "r19-standalone-docs1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/README-r19.md",
+        "app/server/docs/alert-audit-structure-r19.md",
+        "app/server/docs/brand-plugin-import.md",
+        "app/server/docs/data-management-structure-r19.md",
+        "app/server/docs/operation-audit-retention-r19.md",
+        "app/server/docs/shure-active-discovery-analysis.md",
+        "app/server/prototypes/mqtt-stage1/README.md",
+        "app/server/prototypes/mqtt-stage2/README.md",
+        "app/server/prototypes/mqtt-stage3/README.md",
+        "app/server/prototypes/mqtt-stage4/README.md",
+        "app/server/tests/fixtures/README.md",
+        "docs/alert-sound-switch.md",
+        "docs/automatic-brand-discovery.md",
+        "docs/brand-plugin-import-verification.md",
+        "docs/brand-plugin-import.md",
+        "docs/brand-plugin-inventory.md",
+        "docs/brand-plugin-source-export.md",
+        "docs/channel-card-layout.md",
+        "docs/command-auto-reconciliation.md",
+        "docs/data-management-retirement.md",
+        "docs/git-development.md",
+        "docs/known-issues.md",
+        "docs/monitoring-rules-database.md",
+        "docs/native-development.md",
+        "docs/native-rf-offline.md",
+        "docs/native-spectrum-parity.md",
+        "docs/native-table-edit-deployment.md",
+        "docs/native-transmitter-state.md",
+        "docs/native-window-shutdown.md",
+        "docs/native-window-theme.md",
+        "docs/planning-settings-database.md",
+        "docs/platform-optimization.md",
+        "docs/plugin-export-removal.md",
+        "docs/plugin-platform-rules.md",
+        "docs/portable-migration.md",
+        "docs/rf-storage-lite.md",
+        "docs/rfutils-shure-integration.md",
+        "docs/shure-battery-startup.md",
+        "docs/shure-control.md",
+        "docs/shure-discovery-cards.md",
+        "docs/shure-field-coverage-20260922.md",
+        "docs/shure-legacy-control.md",
+        "docs/shure-metadata-recovery.md",
+        "docs/shure-mute-response.md",
+        "docs/shure-offline-bundle.md",
+        "docs/shure-realtime-af.md",
+        "docs/shure-report-catalog.md",
+        "docs/shure-report-deep-review.md",
+        "docs/shure-six-fixes.md",
+        "docs/shure-startup-reconnect.md",
+        "docs/shure-systemapi-plugin.md",
+        "docs/shure-telemetry-and-control-preparation.md",
+        "docs/shure-ulxd4-107.md",
+        "docs/skills/daty-rf-pro-development/SKILL.md",
+        "docs/skills/daty-rf-pro-development/references/data-and-protocol.md",
+        "docs/skills/daty-rf-pro-development/references/decisions.md",
+        "docs/skills/daty-rf-pro-development/references/ui.md",
+        "docs/skills/daty-rf-pro-development/references/workflow.md",
+        "docs/standalone-development-verification.md",
+        "docs/standalone-development.md",
+        "docs/system-settings-database.md",
+        "docs/transmitter-offline-20260929.md",
+        "docs/ui-remove-receiver-card.md",
+        "docs/unified-boot-groups.md",
+        "docs/unified-layout-verification.md",
+        "docs/writer-recovery-and-startup.md",
+        "native/README.md",
+        "native/docs/architecture-decision.md",
+        "native/signing/0.2.0/签名申请与执行说明.md",
+        "docs/skills/daty-rf-pro-development/agents/openai.yaml",
+        "README.md",
+        "AGENTS.md",
+        "scripts/project-build.py",
+        "scripts/native.ps1"
+      ],
+      "evidence": "Explicit document removal only; publication scripts stop copying the removed native README. No application or database behavior changes."
+    },
+    {
+      "stage": "r19-standalone-dev1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/prototypes/mqtt-stage6/m6_gateway.py",
+        "app/server/prototypes/mqtt-stage6/m6_readonly.py"
+      ]
+    },
+    {
+      "stage": "r19-storage-lite1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/prototypes/mqtt-stage6/test_process_persistence.py",
+        "app/server/prototypes/mqtt-stage6/test_stage6.py",
+        "app/server/rf_sample_storage.py",
+        "app/server/tests/test_compact_sample_history.py",
+        "app/server/tests/test_data_management_v2.py",
+        "app/server/tests/test_plugin_mqtt.py",
+        "app/server/tests/test_rf_sample_storage.py",
+        "app/server/tests/test_shure_control_chain.py",
+        "app/server/tests/test_shure_metadata_recovery.py",
+        "app/server/tests/test_unified_live.py",
+        "app/server/tests/test_unified_runtime.py",
+        "app/server/unified_database.py",
+        "app/server/unified_live.py",
+        "app/server/unified_schema.py",
+        "docs/rf-storage-lite.md",
+        "native/src/Daty.Native.App/Daty.Native.App.csproj",
+        "scripts/compact-sample-history.py",
+        "scripts/native.ps1",
+        "scripts/test-rf-storage.py"
+      ],
+      "previousSha256": {
+        "app/server/prototypes/mqtt-stage6/test_process_persistence.py": "06db9abe29b4c94b38d8aebea0b441e764d29c07b9ecb36ebf40abff3731f78f",
+        "app/server/prototypes/mqtt-stage6/test_stage6.py": "ac1210cbed11cf95f867fec7195d94339a3bf7e95c10434d5a874c902cbbcd29",
+        "app/server/rf_sample_storage.py": null,
+        "app/server/tests/test_compact_sample_history.py": null,
+        "app/server/tests/test_data_management_v2.py": "82e7edc8854545fd7a85f40a8f8200748d370bc1e107b16fcb17508c15bf8376",
+        "app/server/tests/test_plugin_mqtt.py": "1a1af96c9cb78e78b3c15f0e9cda233cb6b8929bbf90b71012dc64a6932f89c3",
+        "app/server/tests/test_rf_sample_storage.py": null,
+        "app/server/tests/test_shure_control_chain.py": "e986ec0b6d525e9b585eb549aededf06ff6afaef1a0f26731a6d486d83013d00",
+        "app/server/tests/test_shure_metadata_recovery.py": "b0663497da213788c4884291858bfffee37da7f4455b9bb0a29f6aeef88f5106",
+        "app/server/tests/test_unified_live.py": "58ba62d7c69cf262a043aea40caff8c5209100860850a811ac954bcb9ce2ed7f",
+        "app/server/tests/test_unified_runtime.py": "f65f7b547eafffb66d952f19d7ebf3f94a87d6f843088d30dd15f24742834981",
+        "app/server/unified_database.py": "7e8c3fc3253e62cb3b3c27db47431bd79398b0747b7c55cf9f335f2e6b93319b",
+        "app/server/unified_live.py": "62c583dceb5b31d88239f11777884b1095922d46d776df44c95ea7d4afccec79",
+        "app/server/unified_schema.py": "1eaf0f57f3cda7e8db6c25238b05b6a978cc89b83de23ff29d8956df4c3a4c5b",
+        "docs/rf-storage-lite.md": null,
+        "native/src/Daty.Native.App/Daty.Native.App.csproj": "7bec87e71a4b002347c62afe313f7de20b07ed6553d1dd4a270e3487806815ae",
+        "scripts/compact-sample-history.py": null,
+        "scripts/native.ps1": "0e4b123fbd7136dd549c4130c6516f4d3a12355bb64152cfb2224c820e3b5fe8",
+        "scripts/test-rf-storage.py": null
+      },
+      "evidence": "Lossless per-session/minute zdict payloads; exact schema 1/2 checksums preserved; explicit offline cleanup and reversible schema 3. 112 isolated SQLite/MQTT/TLS checks; identical-input 12000-sample size -82.54%, exact decoded hashes. Full release evidence in work/storage-lite-20261006. No live device SET."
+    },
+    {
+      "stage": "r19-platform-opt1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/plugin_removal.py",
+        "app/server/tests/test_plugin_export_removal.py",
+        "app/server/tests/test_plugin_removal_scheduling.py",
+        "docs/platform-optimization.md",
+        "native/README.md",
+        "native/src/Daty.Native.App/Daty.Native.App.csproj",
+        "native/src/Daty.Native.Contracts/R19Application.cs",
+        "native/src/Daty.Native.Core/R19DeviceStream.cs",
+        "native/src/Daty.Native.Core/R19MqttClient.cs",
+        "native/tests/Daty.Native.Tests/Program.cs",
+        "native/tests/Daty.Native.Tests/ReducerPerformance.cs",
+        "native/tests/Daty.Native.Tests/StreamReducerCases.cs",
+        "scripts/native.ps1",
+        "scripts/test-plugin-export-removal.py",
+        "scripts/test-native-platform.py"
+      ],
+      "previousSha256": {
+        "app/server/plugin_removal.py": "3f38dfc645e5388e0fcee8950f1dc9a2d28565f1103f9dde377658023b3fd3d7",
+        "app/server/tests/test_plugin_export_removal.py": "de7ee85f23b956e2440067655d4ca803cf127906e882bed4a573b04c1f5a6cdd",
+        "app/server/tests/test_plugin_removal_scheduling.py": null,
+        "docs/platform-optimization.md": null,
+        "native/README.md": "862f89a198a78e3a1fb00da8940dbe1bf71cea8c69649b081ab08cd541d10aa4",
+        "native/src/Daty.Native.App/Daty.Native.App.csproj": "5da21c2237226b4c283c12a7a2a8166513abc5e77e2db1c93703a741982d8532",
+        "native/src/Daty.Native.Contracts/R19Application.cs": "9b91697454e7a690a62f9abf41b86fdcc0dbb9a2abc5c85b92dc89a2f461b35f",
+        "native/src/Daty.Native.Core/R19DeviceStream.cs": "3750a71c1fae339d09fc8ad75dd498307cedb60dd81b8493fd97b7fa351897fe",
+        "native/src/Daty.Native.Core/R19MqttClient.cs": "935e493699b67525f4a69ab10ca89e125c74795993960dd8dc3ee52a14947d90",
+        "native/tests/Daty.Native.Tests/Program.cs": "0bd853b42fb42a62a817d9239983f7df216861e4f231456750e1aa1f318553c0",
+        "native/tests/Daty.Native.Tests/ReducerPerformance.cs": null,
+        "native/tests/Daty.Native.Tests/StreamReducerCases.cs": null,
+        "scripts/native.ps1": "da3f40c05ac2e94ce74df0c51a908967e0008c4c8d6a1cd829a47749417d0912",
+        "scripts/test-plugin-export-removal.py": "f0c94c43c9baa7d237cbda13fc1332663bd2f868e0cc9ca3a91a2083a6bb096a",
+        "scripts/test-native-platform.py": null
+      },
+      "evidence": "Atomic copy-on-write live reducer, immutable parsed channels/contract, event-driven removal and registry lock isolation. 145 native,12 contract,20 backend checks and identical-input benchmark. No live SET or schema/settings change."
+    },
+    {
+      "stage": "r19-plugin-export-remove1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/plugin_discovery.py",
+        "app/server/plugin_install.py",
+        "app/server/plugin_removal.py",
+        "app/server/plugin_runtime.py",
+        "app/server/prototypes/mqtt-stage6/m6_contract.py",
+        "app/server/prototypes/mqtt-stage6/m6_service.py",
+        "app/server/tests/test_plugin_export_removal.py",
+        "contracts/r19-mqtt-app.json",
+        "docs/brand-plugin-import.md",
+        "docs/brand-plugin-source-export.md",
+        "docs/plugin-export-removal.md",
+        "docs/skills/daty-rf-pro-development/references/data-and-protocol.md",
+        "native/README.md",
+        "native/src/Daty.Native.App/Daty.Native.App.csproj",
+        "native/src/Daty.Native.App/MainWindow.xaml.cs",
+        "native/src/Daty.Native.App/PluginManagement.cs",
+        "native/src/Daty.Native.App/PluginOfflineManagement.cs",
+        "native/src/Daty.Native.App/SettingsPage.cs",
+        "native/src/Daty.Native.Core/PluginExportRemovalService.cs",
+        "native/tests/Daty.Native.Mqtt.Tests/Program.cs",
+        "scripts/native.ps1",
+        "scripts/test-native-offline-bundle.py",
+        "scripts/test-plugin-export-removal.py"
+      ],
+      "previousSha256": {
+        "app/server/plugin_discovery.py": "26f68d3b2980b2c273a608ff50adcdc48c2406955e64aa331708abd4d9416426",
+        "app/server/plugin_install.py": "60f86201f83a4c69ad8253d51f3921b473262a1e61aded27928e7cea069cb713",
+        "app/server/plugin_removal.py": null,
+        "app/server/plugin_runtime.py": "1e10199358f6595feb3fb3c5e9b855f742f2ab65781c55de719bd7216f25c75f",
+        "app/server/prototypes/mqtt-stage6/m6_contract.py": "9b1ecb441517dbca0cc7690e565c577bd3d93266f6ee632c6637d51a73f760d9",
+        "app/server/prototypes/mqtt-stage6/m6_service.py": "14ca112b519219f6e6c0eb7c5e5fa90ee91fc9e72510ba5dec408b745342360b",
+        "app/server/tests/test_plugin_export_removal.py": null,
+        "contracts/r19-mqtt-app.json": "a8b7cf7f86756291951482b57ccce3cd28d492a011e590302039a6f729bb228e",
+        "docs/brand-plugin-import.md": "0dffbef0014b16c9c714eb8c1504d9f666fbc9549d722015100a6c50f63f437d",
+        "docs/brand-plugin-source-export.md": "8ecf83869d1477490d69ce44959408c4d71dda9d25e06151ae8c1a7c81ce595d",
+        "docs/plugin-export-removal.md": null,
+        "docs/skills/daty-rf-pro-development/references/data-and-protocol.md": "62fb7cb161a991878a6633bb82828a43bfa62e1e807f431fae363ddd179ca2a8",
+        "native/README.md": "2529c7a6449eb33036a0d21464b762b24f412505467300db70e2d6160c666bd0",
+        "native/src/Daty.Native.App/Daty.Native.App.csproj": "3e1414734b351f9c1c7c1ca2bc54baa5c523c279403858dd3544e6039333ae85",
+        "native/src/Daty.Native.App/MainWindow.xaml.cs": "415e281dc97742aed15963ce814281634f9627996cdce51fb80513e4e33611df",
+        "native/src/Daty.Native.App/PluginManagement.cs": "8032e6d03d338a0bbf4874cc9f2b9f7ccfe2ba19be3674e7464ec1a1e93c5690",
+        "native/src/Daty.Native.App/PluginOfflineManagement.cs": "c6b38cbdc9193dfdfaa4a91c762ded1fe74de38e37c27022972024211e4fd837",
+        "native/src/Daty.Native.App/SettingsPage.cs": "7455cba941eb3587c8aa34208fbf233cd2df2c818549a4959bb9041dcc2a27d4",
+        "native/src/Daty.Native.Core/PluginExportRemovalService.cs": null,
+        "native/tests/Daty.Native.Mqtt.Tests/Program.cs": "e7fbabd42a0d2f3c12ea6d3a212ad3a1b4fb908fd08ccfdf25683c67febb36fd",
+        "scripts/native.ps1": "471e5259a47767dbd6c49ec4ee989260869f3e7622b6887fdd92365a320f7bab",
+        "scripts/test-native-offline-bundle.py": "e56b288de629258451feab7112fbb6bad7182924e4fce8bb0e8a525a4f4caa4f",
+        "scripts/test-plugin-export-removal.py": null
+      },
+      "evidence": "Verified file before durable removal; operation/revision gating; in-flight/readback drain; isolated TLS/MQTT/SQLite and native complete-bundle reimport tests. No live SET."
+    },
+    {
+      "stage": "r19-shure-systemapi-plugin1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/public/candidate-manifest.json",
+        "app/public/src/modules/discovery.js",
+        "app/server/contracts/brand-plugin-exports.json",
+        "app/server/contracts/trusted-plugin-packages.json",
+        "app/server/plugin_install.py",
+        "app/server/plugin_runtime.py",
+        "app/server/scripts/build-plugin-exports.py",
+        "app/server/shure_legacy.py",
+        "app/server/src/modules/plugin-source-catalog.js",
+        "app/server/tests/plugin-export.test.cjs",
+        "app/server/tests/test_plugin_install.py",
+        "app/server/tests/test_plugin_mqtt.py",
+        "native/assets/plugin-sources.json",
+        "native/src/Daty.Native.App/Daty.Native.App.csproj",
+        "native/src/Daty.Native.App/DevicePages.cs",
+        "scripts/native.ps1",
+        "app/server/plugin_maintenance.py",
+        "app/server/shure_plugin.py",
+        "app/server/shure_systemapi.py",
+        "app/server/tests/fixtures/shure-original-package.zip",
+        "app/server/tests/test_shure_package_v2.py",
+        "app/server/tests/test_shure_systemapi.py",
+        "plugins/packages/DATY-shure-scp-6532c4ea490f.zip",
+        "scripts/build-shure-plugin.py",
+        "scripts/test-shure-systemapi-plugin.py",
+        "scripts/update-brand-plugin.py",
+        "docs/shure-systemapi-plugin.md",
+        "native/README.md",
+        "docs/brand-plugin-import.md",
+        "docs/brand-plugin-source-export.md",
+        "app/server/docs/brand-plugin-import.md"
+      ],
+      "previousSha256": {
+        "app/public/candidate-manifest.json": "035f3aeb43f39a12293ea040739d4fcb526a48565c8dc0856d228511d3ab9ba6",
+        "app/public/src/modules/discovery.js": "129f582a6bc6f0a364efd0352df2f50f1aacf199d18eccbe58c3b0ee957fd9a8",
+        "app/server/contracts/brand-plugin-exports.json": "7b84a1d9b2582095de95ec0aa2b79b6f03bfa32257336b10d2f17a0e987dcc11",
+        "app/server/contracts/trusted-plugin-packages.json": "7918ac728a1937f98afe90ef0cd076a8fba9fcfcb6cf2a6956084fe8fe2462fa",
+        "app/server/plugin_install.py": "3fc5297eaa8fbf2ca2e5a3797cf8a04f8de6d2a67a67445b075dd6969964aff0",
+        "app/server/plugin_runtime.py": "e9729253fb32ee9a42f5422c2e9c79be6b0f4543042ee1989fe452105982055f",
+        "app/server/scripts/build-plugin-exports.py": "839a3252fffa112ea59717b61fe7437434962c8a372b136c24d29800d528a8e0",
+        "app/server/shure_legacy.py": "c0dd0aad85c5d3bb60e2c2316a79b474ea4a8c305be5699761611a930c065813",
+        "app/server/src/modules/plugin-source-catalog.js": "8a64c5a71115a417ca17ed4a3454362331b0007983f5ef782cbe4b7648224edb",
+        "app/server/tests/plugin-export.test.cjs": "440123cdd626b3a2f0a5d67b87af2f37a284eea5ede42aaa886c387c73f50b8a",
+        "app/server/tests/test_plugin_install.py": "c280657151202f2ff74093e7217d34278dd48823081994a0fb5ab81ccf7747aa",
+        "app/server/tests/test_plugin_mqtt.py": "e56b36ecb63df6235819ff8f95b5e0ba6a2a928eda5f8d4d4ef980424ce6e2cd",
+        "native/assets/plugin-sources.json": "0373b4ba32bd05ebca8bca3835dd359e86b0826c1bd4b3b692b165d0489b454c",
+        "native/src/Daty.Native.App/Daty.Native.App.csproj": "520db67d1ab0ea21ddbfbc63b2850451c5363feadd9001a14b27318d8e6c6989",
+        "native/src/Daty.Native.App/DevicePages.cs": "1453cf7c8a1878d494ad9b716e2dfab59a844f10863d044cbd5951b921a4f972",
+        "scripts/native.ps1": "4f6f22263d1394de6f63b4d66e526f26affc0c8523d0ce870090244ea9d36f0b",
+        "app/server/plugin_maintenance.py": null,
+        "app/server/shure_plugin.py": null,
+        "app/server/shure_systemapi.py": null,
+        "app/server/tests/fixtures/shure-original-package.zip": null,
+        "app/server/tests/test_shure_package_v2.py": null,
+        "app/server/tests/test_shure_systemapi.py": null,
+        "plugins/packages/DATY-shure-scp-6532c4ea490f.zip": null,
+        "scripts/build-shure-plugin.py": null,
+        "scripts/test-shure-systemapi-plugin.py": null,
+        "scripts/update-brand-plugin.py": null,
+        "docs/shure-systemapi-plugin.md": null,
+        "native/README.md": "ad9e354136f4ffc720d74287601c6954d804a22aa1b2c116bdc47d46a3b65499",
+        "docs/brand-plugin-import.md": "f48cc58ec39fc91f990be24e0a3503c1515615421cf162f1f02c65e522c7e6b6",
+        "docs/brand-plugin-source-export.md": "27e8536a5cb6ccb480554a7d0b8abd04fbd24f6a983127e89f960c517c88f2ae",
+        "app/server/docs/brand-plugin-import.md": "f48cc58ec39fc91f990be24e0a3503c1515615421cf162f1f02c65e522c7e6b6"
+      },
+      "evidence": "33 current-package checks, 30 original-package regressions, isolated TLS/MQTT/SQLite and loopback control; package-owned adapters, verified local SystemAPI, offline leased maintenance; no live SET."
+    },
+    {
+      "stage": "r19-shure-legacy-control1-identity-freshness",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/shure_metering.py",
+        "app/server/tests/test_plugin_auto_discovery.py"
+      ],
+      "evidence": "16 targeted isolated regression tests passed; SystemAPI/ARP timestamps renew only after actual verification and same-connection FW_VER, never from SAMPLE."
+    },
+    {
+      "stage": "r19-shure-legacy-control1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/plugin_runtime.py",
+        "app/server/shure_hardware.py",
+        "app/server/shure_legacy.py",
+        "app/server/shure_legacy_control.py",
+        "app/server/tests/test_shure_legacy_control.py",
+        "scripts/test-shure-legacy-control.py",
+        "docs/shure-legacy-control.md",
+        "docs/automatic-brand-discovery.md",
+        "app/server/shure-hardware.json"
+      ],
+      "previousSha256": {
+        "app/server/plugin_runtime.py": "40f9ecf7589cc1ea5edc038d20971a20732a0d40bf432bb1c1eadab8417e6157",
+        "app/server/shure_hardware.py": "5b7f6f78af254bb5d6aa32d1dfc307d1cad6d1b5d6b78a2ddd8c6e2e55885814",
+        "app/server/shure_legacy.py": "1a010a9ea464b6975067842e773817d28a9389232020cd7eaa00a33cc7f6ac03",
+        "app/server/shure_legacy_control.py": null,
+        "app/server/tests/test_shure_legacy_control.py": null,
+        "scripts/test-shure-legacy-control.py": null,
+        "docs/shure-legacy-control.md": null,
+        "docs/automatic-brand-discovery.md": "79aee82c10bba8676fa1269fcfac381bbf2cf8cabef3c0bcddf7834208166339",
+        "app/package-manifest.json": "9cd6de87981449f9f3085fe81778e1fcad06ce38f3cd56693c5cbe1c17355515",
+        "project-layout.json": "96524ee3a6a46f33c2d418983e9a086a8c4955da0826bd8e9d43964d8163fe1e",
+        "app/server/contracts/preservation-v1.json": "910a3d40ec433dc2a29e7fd56eff245f414c7814ca1ae03872c5ae299fec4f5b",
+        "app/server/shure-hardware.json": "686be65805239aa27d5f7405e2c95098c2aa80cb11eb0a0dbe6eebe736dee7ba"
+      },
+      "evidence": "30 isolated TLS/MQTT/SQLite and loopback tests; original imported package retained; official UUID/serial and actual local ARP identity; one SET/new connection readback; mode/band/grid/session checked; unknown never replayed."
+    },
+    {
+      "stage": "r19-auto-discovery1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "app/server/mqtt-bridge.py",
+        "app/server/plugin_runtime.py",
+        "app/server/prototypes/mqtt-stage6/m6_runtime.py",
+        "app/server/shure_metering.py",
+        "app/server/plugin_discovery.py",
+        "app/server/shure_legacy.py",
+        "app/server/tests/test_plugin_auto_discovery.py",
+        "app/server/tests/test_plugin_mqtt.py",
+        "scripts/test-plugin-auto-discovery.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/mqtt-bridge.py": "c1eca6c3edaa1d16744ecf3d7a8573900f6880e52b15ab836a459cd04aaa76da",
+        "fuwuqi1.0.3/shure_metering.py": "27a57ff698bbff1954b8334cd402618812988e55fc4751167d72290a76ec222d"
+      },
+      "evidence": "18 isolated MQTT/TLS/SQLite and loopback regressions; host scheduler respects pending manual receipts; legacy model from verified local SystemAPI, no device-name inference; legacy control remains disabled; imported ZIP/TLS/settings preserved."
+    },
+    {
+      "stage": "r19-settings-db1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/modules/data-catalog.js",
+        "fuwuqi1.0.3/src/app/system-settings.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "ace37555470a1841db88a35e93525ec48c1a9e3174f4cfe74b0f03869f4242a7",
+        "fuwuqi1.0.3/src/modules/render.js": "e8f2669bc1b53a6c7b068746c332eccd15e18dd001490bf3f69301179c54e806",
+        "fuwuqi1.0.3/src/modules/data-catalog.js": "b13a2a5332453179898f1db2c4c330ad55dd718fb6ba55489de9b3d130c63411"
+      },
+      "previousUiSha256": "0614928eb25faec03dce79db1017ce40e5c3049860fa5c7108d23b2ff0175021",
+      "evidence": "Only settings persistence/UI wiring and typed network settings validation changed. MQTT controls, plugins, identity, retired data policy and algorithms retained. Isolated native process restart/actual database receipts and client failure/CAS tests required before deployment."
+    },
+    {
+      "stage": "r19-data-lite1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/src/modules/planning-deploy.js",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/platform/browser-platform.js",
+        "fuwuqi1.0.3/src/modules/data-catalog.js",
+        "fuwuqi1.0.3/src/modules/alert-history.js",
+        "fuwuqi1.0.3/src/app/server-storage.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/mqtt-bridge.py": "1b5266f0daddc11a3439fe0225c97074cfbc747de4f0163a39faee43ba0b3476",
+        "fuwuqi1.0.3/src/modules/planning-deploy.js": "75583df64f79719922c43e141d140c21cb0733a72d8f9d3e909562d98755eabf",
+        "fuwuqi1.0.3/src/modules/render.js": "49f163c2cc5df2490efc92928623ef20b623266cd302b2d9d59f4af902ecd81f",
+        "fuwuqi1.0.3/src/platform/browser-platform.js": "02885d0940d2346bbb10145d092f489a28c69fcd3fc58e7ad3d99d7c1468e2fb",
+        "fuwuqi1.0.3/src/modules/data-catalog.js": "9dd594ad980170d0e66dfb43349692d8fea97f4e739046beeed8245918a22f06",
+        "fuwuqi1.0.3/src/modules/alert-history.js": "8f71acafe19ea4d653dc14eee73b2ef96140b607e96eea19e1c178faa1ebe503",
+        "fuwuqi1.0.3/src/app/server-storage.js": "c10ff00897f8dc78c87762dd0c976cabbe6b407036f90871fb161337b3f153d8"
+      },
+      "previousUiSha256": "c9372ab04ee1d1815ee7de983ea8617f26aed7bc6e973fe8638ce72a414a80d8",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Real isolated TLS/MQTT/SQLite rejects retired writes including batch/upload bypass before dispatch; settings and real DATY ACK/Shure readback preserved. Native 81 core checks and 120 offscreen scenes; source/public web checks. No schema change, no database clearing or device SET."
+    },
+    {
+      "stage": "r19-reset-20260923",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/platform/browser-platform.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/platform/browser-platform.js": "ab068a81d585cf80867892f9919ae8b8d7f1e555f34b7327ff7c5de11f3ecbfc"
+      },
+      "evidence": "Fresh empty schema2 database; old epoch rejected; old browser automatic migration blocked; exact native server alert/pending caches retired offline.",
+      "rollback": "Old business data deliberately not backed up; cannot restore deleted data."
+    },
+    {
+      "stage": "r19-plugin-import2",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [],
+      "previousSha256": {},
+      "previousUiSha256": "dda5180eb38a6f605475d37e6cfab614d2eb6284ec9db75abd0e8d7e563cea56",
+      "addedPaths": [
+        "app/server/tests/plugin-import-mqtt-live.cjs",
+        "app/server/tests/test_plugin_ui_mqtt.py"
+      ],
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Real shipped importer/boot/MQTT.js with TLS/MQTT/SQLite and exact original Shure ZIP; file/confirmation UI edges injected. Same active digest/version skips install. Cancel, untrusted package and lost receipt query checked. Production read-only verification; backend/device commands unchanged. No browser-window acceptance claim."
+    },
+    {
+      "stage": "r19-plugin-import1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "40c50be81d4e1c76ccb9830968c8e112a83f1ffb677073868ac7adcc24aac0bb"
+      },
+      "previousUiSha256": "c0ae2b4bf86319fffa8045a1072c28fe6451371fbe407129e841aafda7b2902a",
+      "addedPaths": [
+        "app/server/plugin_install.py",
+        "app/server/plugin_runtime.py",
+        "app/server/contracts/trusted-plugin-packages.json",
+        "app/server/docs/brand-plugin-import.md",
+        "app/server/tests/plugin-import.test.cjs",
+        "app/server/tests/test_plugin_install.py",
+        "app/server/tests/test_plugin_mqtt.py",
+        "app/server/src/modules/plugin-import.js",
+        "app/server/src/platform/plugin-import-host.js",
+        "docs/brand-plugin-import.md"
+      ],
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Trusted whole-archive catalog, verified isolated namespaces, FULL installation registry and operation receipts before activation; external receiver admission/discovery/telemetry/control gates. Original Shure source ZIP imported unchanged. Original Commands, execution/readback/persistence and DATYaudio paths preserved. Isolated MQTT/TCP/SQLite, process restart/tamper and binary UI host checks. Browser visual verification unavailable."
+    },
+    {
+      "stage": "r19-plugin-toolbar1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "40c50be81d4e1c76ccb9830968c8e112a83f1ffb677073868ac7adcc24aac0bb",
+        "fuwuqi1.0.3/src/styles/main.css": "0a523c96ea744b2e3b02c715064fdd27ec0e7bb9dac47b3273b6fc4cdd95ed4d"
+      },
+      "previousUiSha256": "677d4a31c5f8b22e8c927e34348633cb177c026760d203d3cc9e809ca1051f30",
+      "addedPaths": [
+        "app/server/contracts/brand-plugin-exports.json",
+        "app/server/scripts/build-plugin-exports.py",
+        "app/server/src/platform/plugin-export-host.js",
+        "app/server/src/modules/plugin-source-export.js",
+        "app/server/src/modules/plugin-source-catalog.js",
+        "app/server/tests/plugin-export.test.cjs"
+      ],
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Toolbar only uses common outline styling. Explicit source registry produces deterministic Shure ZIP containing 12 exact source files, per-file hashes and integration README. Capability-gated brand selection, ZIP integrity verification and isolated binary save port. No runtime control, database, security or installed-plugin rules changed. 22 source and 22 public checks passed; browser tool unavailable (apikey auth). No visual acceptance claimed."
+    },
+    {
+      "stage": "r19-spectrum-import-hide1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [],
+      "previousSha256": {},
+      "previousUiSha256": "de26acca5df3b4c7eea4c5f67caa674a4dc3afc1fd610925fbd2fbf7ca55a246",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Add only the hidden attribute to the specified button in source and public HTML. Retain importScan and all other controls. No JS, CSS, backend, database, or configuration changes."
+    },
+    {
+      "stage": "r19-shure-mute-fast1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/fashe.js",
+        "fuwuqi1.0.3/src/modules/navigation.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/fashe.js": "77641ed174686c7e2a48b4d3a3bbc04546b5e30cc7cdccfe376a3e40c896fc6f",
+        "fuwuqi1.0.3/src/modules/navigation.js": "83336985d0e05cf7a4a4589aa7333dabfcee1406a46480e5bd449f428e1635c8"
+      },
+      "previousUiSha256": "de26acca5df3b4c7eea4c5f67caa674a4dc3afc1fd610925fbd2fbf7ca55a246",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Remove redundant pre-SET mute-value query while retaining fresh identity, one SET and independent post-write readback. Apply only validated saved Shure readback observations to the exact live target; newer field telemetry, offline/session changes and expiry supersede the temporary view. No optimistic success, repeated SET, authority or persistence weakening."
+    },
+    {
+      "stage": "r19-shure-discovery2",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "c8fd5e870bf37c4a87302fc40ef7dd4bacbe27391be67beb744fb5040ac11262"
+      },
+      "previousUiSha256": "de26acca5df3b4c7eea4c5f67caa674a4dc3afc1fd610925fbd2fbf7ca55a246",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Normalize receiver-card MAC identity from verified discovery settings and actual channel metadata; source-bound reconciliation rejects conflicting MACs and ambiguous aliases. Render Shure control availability from current channel capabilities, preserve offline and stale states and newer live data. UI only; no device writes, backend or database changes."
+    },
+    {
+      "stage": "r19-channel-plugin-filter1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "95954d1d194ec096a5ed38fb43827259675553abbe00d7c6486d8eb2f71cd533"
+      },
+      "previousUiSha256": "40446cbe56e3a32d81a304cf18ed17455e4f4cf8afb2b65d07026a5701016acd",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Share the existing server-capabilities installed-plugin controller with channel brand options. Derive canonical filter names from the same registered plugin cards, remove hard-coded choices, preserve selection and server-bound cache, reset removed/unknown choices, reject stale responses, keep offline installed plugins visible. UI-only; no backend, protocol, device commands, database or restart changes."
+    },
+    {
+      "stage": "r19-card-mute-size1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/styles/main.css": "b515a4c1d23cc3b16861af89aa69633cc0b1a4bc432cba8d7263030ed6ee7529"
+      },
+      "previousUiSha256": "912c81b57cb43c397d90fb42e0dd63ea6e9bc7782a67f6f49da00b98c5f58141",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "CSS only: reserve a 22px metadata row with vertically centered transmitter/mute badge; reserve a 112x26px mute control slot for mute/unmute and pending labels. Keep right alignment, nowrap, actual-state visibility, routing and controls. Browser compares muted/unmuted/pending fixture card dimensions and content bounds at multiple widths. HTML CSS cache only; no JS, device commands, backend, database or restart changes."
+    },
+    {
+      "stage": "r19-card-mute-right1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/styles/main.css": "5530ad8e0b0a68c4e28ebb7eb1755b408f7edffba5bb3792cfaaa62eed3a9c7c"
+      },
+      "previousUiSha256": "f5cfd20c0470d0b757cbd945776cba36193f3c144d0b84e49c0d6988431eb755",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Only CSS: transmitter metadata flex-grow fills the remaining row; mute badge auto left margin aligns its right edge with the row. Preserve existing nowrap, compact typography, model ellipsis/tooltip and realtime state visibility. Browser isolated narrow/wide card layout verified right alignment and no overlap/overflow. HTML CSS cache parameter only; no JS, control, runtime, database or restart changes."
+    },
+    {
+      "stage": "r19-card-meta-nowrap1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "0f054b3459a5a22a72cf123bf2d5a92e87b8f56d29ff1c5a59158baf15c6aca9",
+        "fuwuqi1.0.3/src/styles/main.css": "959b432d648ed03014cdd770679b8cb95e980b0a69dc16d12fbfbae617bc5384"
+      },
+      "previousUiSha256": "192a19ffc38ef2441479e01ad53793165624b95c99980196b752e50ce327f74d",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Only channel-card display changes Group to GUP; original server numeric GROUP identities and sorting remain. Metadata row and transmitter group nowrap; compact gaps/badge, shrinkable model with ellipsis and existing complete tooltip for unusually long values. Reviewed source/public minimal diff and existing tests. Browser verifies normal narrow/wide row, long values, hidden unmuted badge, no overlap. No runtime, control, planning, database or restart changes."
+    },
+    {
+      "stage": "r19-card-mute-position1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "26e6bd64edf567b36e6172f478d8b503cb1b2e43118c6f92d86bd2d1ed96e2cc",
+        "fuwuqi1.0.3/src/styles/main.css": "13cdbc91240514216aefced62dcff08a90fb4a813940e2d8842dc956750cfabf"
+      },
+      "previousUiSha256": "42ae6ad72dc4d391150ffa6b23b05bc6a19c7cb9b098d68a7974459ef031c16f",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Move existing mute status badge after actual transmitter label inside wrapping metadata group. Keep live data-role updates and footer controls unchanged. Reviewed six-file diff, 6 source and 6 public telemetry checks, isolated browser narrow/wide card verification. HTML changes cache parameters only. No telemetry, control, backend, database or restart changes."
+    },
+    {
+      "stage": "r19-brand-plugins2",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "457aa8daa4a92b67da293be3a3bf535123153199e2f39457ad5050da62253d92"
+      },
+      "previousUiSha256": "42ae6ad72dc4d391150ffa6b23b05bc6a19c7cb9b098d68a7974459ef031c16f",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Reviewed running MQTT state.capabilities and runtime assembly: DATYaudio MQTT and Shure SCP only; unknown-readonly is not a brand plugin. Existing server-authoritative controller preserved byte-for-byte. Remove five unimplemented cloud catalogue placeholders; preserve truthful no-installer behavior. Source/public five existing UI checks each passed. HTML only updates discovery cache version. No backend, control, database, CSS or restart changes."
+    },
+    {
+      "stage": "r19-topbar-hide-refresh1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [],
+      "previousSha256": {},
+      "previousUiSha256": "f898b7d140db043b835694e59539435bd40453a63aa1baef1fafc9898d147e15",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Source/public HTML each add only the hidden attribute to the shared topbar doScan refresh-devices button. Add-device button and previously hidden channel refresh retained. Reviewed exact minimal HTML diff and target counts. No CSS/JS/backend/scan/control/restart/database changes."
+    },
+    {
+      "stage": "r19-channel-hide-refresh1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [],
+      "previousSha256": {},
+      "previousUiSha256": "f1af4b18cdc48dc0ac6c5ae8003760ec72bd6447508cb48f94431b13680d4414",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Source/public HTML each change only one hidden attribute on the exact refreshChannels button. Topbar refresh-devices action, filters, sorting and live channel updates retained. Reviewed exact minimal HTML diff and target counts. No CSS/JS/backend/database/controls/restart changes."
+    },
+    {
+      "stage": "r19-card-usage-right1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/styles/main.css": "9b227e6f2ed60ee40b3ea41a2fc1e025537c5d417b82c2f9c489b0661d07fe5f"
+      },
+      "previousUiSha256": "597943f9cc393ae82578c9193398af587a6743e3de54583aa67d01fcb395ac21",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Add only margin-left:auto and text-align:right to channel usage. Existing flex wrapping, max-width and overflow-wrap adapt long text to the available card width. Keep frequency typography and empty-label hiding. Browser preview verified right edges, wrapping, no overlap/overflow and typography. Only source/public CSS plus CSS cache parameter; no JS, lock, device, protocol, restart or database changes."
+    },
+    {
+      "stage": "r19-card-usage-style1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/styles/main.css": "913171125fea188e09bae78a9fd1d32635947ce48a7f2951a7277280e5a11117"
+      },
+      "previousUiSha256": "a9b63f83250d1ce1eb1649fa5638cd472064f492d790090a33402af21cacb219",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Share the existing frequency typography selectors with channel usage: same 18px, 700 weight, Cascadia Code/Consolas/monospace, cyan and line height. Remove the old 12px usage override. Only source/public CSS and CSS cache parameter changed; existing identity-bound usage, wrapping and hidden semantics retained. Browser computed-style and narrow-width checks passed. No JavaScript/backend/lock/control/database changes."
+    },
+    {
+      "stage": "r19-card-usage1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "0d4af71913f6d2531c7bc3ffbdbf1e2b8a1b66fb3d3718cee9e53e3eda286c0f",
+        "fuwuqi1.0.3/src/styles/main.css": "b851398280095f0041b1bc89650e243bbd3ae769789e89efd7aa6376c1a15177"
+      },
+      "previousUiSha256": "4b312b623d0cd2af1b73976c2c039e010d016e7fbb9a5dc5f300d551b5e9e56c",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Read the existing unique receiver/channel lock reason as usage; absent/default/ambiguous locks show no label. Keep actual device frequency. Initial HTML escapes text; real-time patch uses textContent and includes usage in render state. Resolve lock view once per card-list render. Confirmed edits, removal, initialization and history restore refresh the cards without waiting for telemetry. Source/public 36/32 tests passed, including no-telemetry updates, same-CH receiver separation, history identity replacement and escaping. CUA isolated 6-card preview at 1280/348px: short usage follows MHz, long usage wraps without overflow. No live lock edits, device controls, restart, database or protocol changes."
+    },
+    {
+      "stage": "r19-card-tx-model1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "2de76c89122576c74bc5379fb52399fe357a177606543b2fa16d12c56a6af320"
+      },
+      "previousUiSha256": "4b312b623d0cd2af1b73976c2c039e010d016e7fbb9a5dc5f300d551b5e9e56c",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Display validated receiver-reported shure.transmitter_type using existing field freshness, with explicit unknown/expired fallback. Initial card and realtime patch both use the same label helper. Keep prior GROUP/CH row, detailed mute tooltip and controls. 12 source and 12 public telemetry checks passed. HTML only render cache parameter; no CSS/backend/database/control changes."
+    },
+    {
+      "stage": "r19-card-mute-label1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "f88cfdfc562d656964006f660eb2cac21f0864d5ebd68cbf2c2a50e66c9d2df5",
+        "fuwuqi1.0.3/src/styles/main.css": "940fabf52dbeb2c28ae74a6d9655da30a46e24e3fa7bd9ee59e9e818636fc902"
+      },
+      "previousUiSha256": "d480286570bc2ab20b5e0f073d91f4e699ae8a777969732eac13fd3685b8f14e",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Move existing transmitter status after the separate GROUP/CH span in a wrapping flex row. Existing data-role selectors retain independent real-time updates. Source/public render and CSS updated locally, HTML only cache parameters. 12 source and 12 public telemetry checks passed; CUA isolated 50-card layout at 1280px and 348px has no metadata overflow. No controls, sorting, telemetry, database or server runtime changes."
+    },
+    {
+      "stage": "r19-shure-reconnect1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/shure_active_discovery.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/shure_active_discovery.py": "ee579bf82ee3a09aab689881df00798744b4b74d4dd6089750f1f5e09a410894"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Persist only bounded model/MAC/IP reconnect hints after verified SCP; recover known direct-subnet targets on startup, fresh exact identity required before online/GROUP allocation. Retry offline peers without subnet sweep or old control/scan replay. Cache failures preserve telemetry and corrupt files; no cached telemetry restored. 45 unit/domain/TCP/TLS/MQTT/SQLite checks passed. Existing AF/battery/frequency/mute/ACK/group-order/database-epoch/security preserved."
+    },
+    {
+      "stage": "r19-shure-mute-direct2",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [],
+      "previousSha256": {},
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Only explicit pre-reservation TARGET_PENDING_OR_UNCERTAIN for a NEW mute/unmute intent can invoke current-state/revision checked release. Preserve old unknown outcome and exact target, no old intent replay or fabricated human review. New target/session/generation/abort checks before one subsequent request. Inflight/unknown state/lost reply/lost review receipt stops. Frequency and scan confirmations retained. 87 frontend,10 generated bundle tests,4 isolated real MQTT/TCP/SQLite checks passed. No backend, device SET, restart, scan or DB schema changes."
+    },
+    {
+      "stage": "r19-shure-mute-direct1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/navigation.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/navigation.js": "3b69f15b559bd333b4f42badaeeae62c824f2333aab12a914949ce47d09b98dc"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Reviewed single-line removal in source/public navigation. Direct mute and unmute mock readback regression passed, 77 related frontend checks passed. In-flight guards, exact targets, readback/ACK, audit and unknown/no-replay behavior retained. Frequency deployment confirmation retained. No backend, layout or device changes."
+    },
+    {
+      "stage": "r19-shure-control1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/shure_active_discovery.py",
+        "fuwuqi1.0.3/shure_metering.py",
+        "fuwuqi1.0.3/shure_protocol.py",
+        "fuwuqi1.0.3/src/modules/activity.js",
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/modules/planning-deploy.js",
+        "fuwuqi1.0.3/src/modules/render.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/mqtt-bridge.py": "90ca9e8a291f816ead72ba55632a4e2d32376f6e4fa6d4be001dbef59e914c86",
+        "fuwuqi1.0.3/src/modules/discovery.js": "2c2a80a66d39f22d7f813c202c616e9bbed91d02f934dbdb6a62b571b7c9ff5f",
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js": "70e0070a892da30d3661a37b3cedb833b222b5700bd2fd64d551e46c75ec64f9",
+        "fuwuqi1.0.3/src/modules/navigation.js": "eff850ff9c5114ce0086a9f68b878b79061f2e5dda20a26b1a43ad4aa38bdc93",
+        "fuwuqi1.0.3/src/modules/planning-deploy.js": "22cf844d172c0ce3d9dcd755a11536d2133d08105b8aeabd8e27876789131aa7",
+        "fuwuqi1.0.3/src/modules/render.js": "735d2cfa7727c1c1bfa44adcaa790cbecacf0790ee225aa0482a113ae8c899c8",
+        "fuwuqi1.0.3/shure_protocol.py": "b2bd05fee01e092e840c434317588324f02904273e8a73041c2d42e7fa1f7b31",
+        "fuwuqi1.0.3/shure_active_discovery.py": "d3a63fdd81af3e2eb43ba9ecf56ac8fbfabfeb1816990f3582aa4552b3c96e89",
+        "fuwuqi1.0.3/src/modules/activity.js": "3a42dabf961ccb229aea130344802e4e9f79db75281c50bc7177e5d2acf326cc",
+        "fuwuqi1.0.3/shure_metering.py": "bdcd42a0025f4babb41cf3eb2ebe22060a698ec0bc6f9ffddd83835b760401e2"
+      },
+      "previousUiSha256": "a644ebebc5c726de7ee575cb9fccb070b91b0e56b674183d6c4f07b4f8549542",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Existing authenticated MQTT command journal routes SCP once, fresh model/MAC/mode/band validation, new-connection post-write readback with separate readback_confirmed terminal state; never forged device ACK, never replay unknown. ULXD L51 normal 632-696MHz/25kHz/350kHz spacing from official guide8964. Automatic RF_BAND/model-suffix identification; ULXD .107 does not report band, user label bound to actual MAC/model explicitly distinguished. Existing DATY ACK/identity/group/timeout, DB FULL commit, core RF constraints and all telemetry retained. 79 backend tests,13 Shure/TLS/MQTT/SQLite tests,5 DATY/journal regressions,77 frontend tests and isolated Edge cancel/confirm/mixed progress at1024/1366 passed. No production frequency/mute SET, no DB deletion/migration, no TLS/pairing edits. AD4 physical and24h acceptance outstanding."
+    },
+    {
+      "stage": "r19-plugins1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "b81e798a20f2568c1d7a61766b94fe3f7e8aa58c57019bad050a8c72e1016511",
+        "fuwuqi1.0.3/src/modules/navigation.js": "d6ad3486dab7b0cef0e687ed08387613b0aec051f991fc01f60ec7b673f201c6",
+        "fuwuqi1.0.3/src/styles/main.css": "aad6a9844665b88e6db4ce3b4b87c509a1e7950d39886ca8b49e1e3d62655134"
+      },
+      "previousUiSha256": "3e163f1440cf367e1b2d6215f7fc0ddb305b26ccb4e32a6ebee3ec49fc435216",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Use existing read-only state.capabilities through platform transport. Show verified DATYaudio MQTT and Shure SCP built-in adapters independent of online devices; remove unimplemented brand placeholders and unsupported version/model claims. Visible-settings polling only, cancellation and stale-response guards, truthful unknown status. Five current plugin UI checks and isolated Edge seven states/two widths passed. No installer/control/backend/database changes."
+    },
+    {
+      "stage": "r19-proto-online1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "89c82f62733c3d1b4d841340068b8c767d573db290ffb1a41abdf66a68d6e368",
+        "fuwuqi1.0.3/src/styles/main.css": "543bf8fdeb74e14f702859f0371253935bb07951db0355d857ba1cfc127bfd9c"
+      },
+      "previousUiSha256": "91e2ddd95904d9f51d3c28dae76ef81472e62466a6dc37f94651f6064660155b",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Only reviewed visibility changes: reuse existing online receiver counts, default hidden cards, scoped hidden CSS, empty-state hint. Preserve layout dimensions, all card details, discovery entry, transport, controls, identity and persistence. Isolated Edge six states and two viewport checks passed."
+    },
+    {
+      "stage": "r19-shure-complete1-detail",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/shure_active_discovery.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/shure_active_discovery.py": "ca9c69fcfefec7dc58bbf167d4ca6680709f220d19a58b2740c22ec87a93dfd5"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Deep-merge field_times in discovery channel snapshots exactly as the main telemetry DTO already does. Values, ordering, controls and transport unchanged. Seven focused regressions pass, including independent timestamps surviving a partial update. Only this source and its regression test changed."
+    },
+    {
+      "stage": "r19-shure-complete1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/shure_active_discovery.py",
+        "fuwuqi1.0.3/shure_metering.py",
+        "fuwuqi1.0.3/shure_protocol.py",
+        "fuwuqi1.0.3/src/modules/activity.js",
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/render.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/mqtt-bridge.py": "c12171885e50f91933b500a5d097e66a646dbc1dfa6a55fbbc052b918d13d29b",
+        "fuwuqi1.0.3/src/modules/discovery.js": "4bcaae163d3e846c4f0656d36829e95a0e9f630082ca764156eacdad8ae689b6",
+        "fuwuqi1.0.3/src/modules/render.js": "1cec7619a6712bcecfe78f9b4e6f4939c53af5b4c6d4f4c0179aaa3c20731874",
+        "fuwuqi1.0.3/shure_protocol.py": "b55ea21e70b21cfc4e668d45f7c4e39162ed49985f4788bf7088b16536ee0666",
+        "fuwuqi1.0.3/shure_active_discovery.py": "bf487782b4852af48f4268ab8e1cbed0c6b56da93283926b6705c4538480e03b",
+        "fuwuqi1.0.3/src/modules/activity.js": "49d111702bb49fdb3d8b03fc1c80ba6ad8309c78e276b574124b2aa386f93685",
+        "fuwuqi1.0.3/shure_metering.py": "dbae6067cb3e21b5946eef3c1987d70bb6da33eb6838a860811dabf3549aac4c"
+      },
+      "previousUiSha256": "3375d19281828b70309e6022a54a317e93226cd45dc89bcea902dcb7a4058e67",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Reviewed six-gap diff only. Dedicated battery bar threshold defaults to1 with real settings save validation; vendor fault edges, unknown pending episodes and original sound gate retained. ULXD encryption enums; independent metadata observation/staleness with reconnect invalidation; brace-aware bounded framing and escaped labels; AD4 battery/mute and four SAMPLE layouts with separate RF branches. 78 backend/domain tests, original and new front-end checks,4 TCP/TLS/MQTT/SQLite integrations including AD4 fault edges, and isolated Edge UI at1024/1366 passed. Existing missing historical archive fixture and three missing legacy preservation paths remain unchanged. No device frequency/mute/encryption writes, no DB migration/deletion, TLS/pairing/GROUP identity rules retained. AD4 hardware and24h not certified.",
+      "priorUiCacheReview": {
+        "recorded": "3375d19281828b70309e6022a54a317e93226cd45dc89bcea902dcb7a4058e67",
+        "actualBefore": "34eb693d23646bbc2913ca04e930b17ac63f32a3c0ebb6504c466d06037d9b54",
+        "review": "Only the already-authorized r19-card-layout1 CSS cache parameter differs; exact comparison against its prechange backup passed. No prior markup drift."
+      }
+    },
+    {
+      "stage": "r19-sound-switch1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/notification.js",
+        "fuwuqi1.0.3/src/app/business-database.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/notification.js": "9ed09798260d2a388ae6b0b537cee422d522db1986e456552278088f6c90284f",
+        "fuwuqi1.0.3/src/app/business-database.js": "06b806e618b0059d259996a97c799f875f7dc47b851f2f5cf13c32ee2a451595"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Observed saved server alert_sound=false revision1 while existing browser controller/UI remained enabled. Reviewed two identical source/served modules only; existing generated MQTT adapters untouched. Saved sound boolean overrides stale local sound cache; initial server preference gates playback. Single read-only sound refresh over existing MQTT approximately every1s and focus refresh; same-origin storage events stop other tabs. Synchronous switch before all awaits, cancellation/revision/scope guards, no replay of unknown writes, no background server writes or draft hydration. Old controller disposed on remount. 52 targeted Node checks pass in aggregate; CUA isolated actual modules verify OFF startup, remote ON/OFF, no repeat after OFF and offline immediate stop with honest save error. HTML changes script cache versions only. Live validation follows; no backend/restart/receiver controls/database schema changes."
+    },
+    {
+      "stage": "r19-shure-battery-fast1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/shure_metering.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/shure_metering.py": "cababdf58271a93ce5576e03ec4fba12834f516c478c4ae373de89ca6f6009f7"
+      },
+      "evidence": "Reviewed narrow backend diff. Per-channel GET BATT_BARS/BATT_CHARGE on verified connection and RF onset, bounded .25/.5s retries, then 1Hz lightweight reads; valid zero/bars with unknown percentage stop fast retry. No wait for replies; unchanged metadata is not republished. Existing SAMPLE cadence/expiry/rate restoration retained. 43 Shure unit checks and three isolated TCP/TLS/MQTT/SQLite integrations pass; delayed battery reached MQTT in 378.98ms with saved sample verified. Candidate live 20s:153 samples,130ms median/146ms max; hardware startup has not been power-cycled. No UI, frequency, mute, identity, database or security changes.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-card-layout1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/styles/main.css": "d9381e5e8e3a253ff7aa1b364f4a3325348c5238c01bd19d16b1884093b0a0f9"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Reviewed additive CSS limited to channel panel and its narrow-window shell; HTML changes CSS cache parameter only. Source and generated CSS append identical rules; no JS, telemetry, ACK, database or ordering changes. Replace fixed 10x5 squeezed grid with responsive readable cards and inner scrolling, retaining existing 50-item pagination. Wrapping labels, normal-flow badges and full-width meter values. CUA browser visual/geometry checks on isolated 50-card real-renderer fixture at 348x638, 1366x768, 1920x1080: no clipped text or body horizontal overflow, including long model, IP and muted/Shure state. Live page verification follows."
+    },
+    {
+      "stage": "r19-af-live1-receipt-fix",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/shure_protocol.py",
+        "fuwuqi1.0.3/shure_metering.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/shure_protocol.py": "2d623ee1cdf64835cfb23ae9c25e069f70fc17d83c0f17d2395cf0e181f64341",
+        "fuwuqi1.0.3/shure_metering.py": "004fb263823a048c1a4665fdc071a1771c0ab47dbfb4a66243ab46b79b9c14de"
+      },
+      "evidence": "The non-secret meter_session marker matched the business credential-field guard and prevented scan completion receipt persistence. Rename to meter_stream_id; do not relax security validators. Added real TCP/live discovery/MQTT scan-receipt regression and business JSON validation; 40 backend and regression integration pass. Original failed scan will remain truthfully unknown after restart and be reviewed without replay.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-af-live1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/shure_protocol.py",
+        "fuwuqi1.0.3/shure_active_discovery.py",
+        "fuwuqi1.0.3/shure_metering.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/mqtt-bridge.py": "74cbe7b15f5c0669923a576c3748b821f618a2f8edf82de36647972ed2b7fa1d",
+        "fuwuqi1.0.3/src/modules/render.js": "f73dae63ad36066082d08e8bd81f3e389f3f17ddf83cd972ed97e33f7272877b",
+        "fuwuqi1.0.3/shure_protocol.py": "d601fd2d2e22addb917e017ce258cd796bb51ebc9ef5e1908b6a6cacd66619ca",
+        "fuwuqi1.0.3/shure_active_discovery.py": "747df154749ce002ae6aaae30f3659087d41a40c663f2fea44bfaea2d223ad2f"
+      },
+      "evidence": "Reviewed precise source/generated diffs; existing MQTT transformations retained. ULXD document8338 validates SAMPLE positions and 100ms METER_RATE telemetry subscription. One persistent socket per verified receiver, independent channel samples and slower metadata, no stale GET overwrite. 1s meter expiry, bounded reconnects and restoration of last acknowledged owned rate. No frequency/mute control. Original canonical ranges, groups, alarm edges, every accepted snapshot persistence and real receipts retained. 40 backend, 38 served frontend, 7 source frontend and real TCP/TLS/MQTT/SQLite integration pass. Live isolated session: 149 samples/20sec, 130ms median/146ms max, current audio floor only; varying live input and browser screenshot not yet confirmed.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-shure-telemetry2",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "68e0b8fff7524a7f0bcf83f6ec5326124379e6e3171fef3be6dd01bd5ade8a8a"
+      },
+      "evidence": "Narrow channel grid uses 10 columns with clipped dc-ch text. Compact visible transmitter mute to 5-7 Chinese characters and keep full transmitter model/output/transmitter states in title. Override only status-row reserved brand padding. No CSS/global layout/controls/data change; same live-source renderer tests rerun. Browser unavailable (apikey authentication).",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-shure-telemetry1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/fashe.js",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/shure_protocol.py",
+        "fuwuqi1.0.3/shure_active_discovery.py",
+        "fuwuqi1.0.3/shure_control_contract.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/mqtt-bridge.py": "e0067907d725b56df13dddfffd8a98d74a8e52338d40cbfc18a45f8efa0a5243",
+        "fuwuqi1.0.3/src/modules/discovery.js": "6ce02e38445a5058747bb2d779ff1149025afdaf55ee87513cfc3dead87521d8",
+        "fuwuqi1.0.3/src/modules/fashe.js": "f86aaacb732308549f573a5a2df0c1ea65218b756116a4817b4c86f164a2b4ad",
+        "fuwuqi1.0.3/src/modules/render.js": "91b264e946009505827f08caf0f53926ef9f923375f9ccde625910e57970364f",
+        "fuwuqi1.0.3/shure_protocol.py": "2cbc8aca58d63574970f6f1c10fab850eb3f195ad1fa8de1b081ee4b115860b9",
+        "fuwuqi1.0.3/shure_active_discovery.py": "23a96bb7956e58789518f7857651ebe014d843b636991bd113466d64aee2e550"
+      },
+      "evidence": "Manually reviewed precise shared source/generated diffs. Official Shure ULXD document8338 and AD4 document7483 confirm per-model AF offset/floor and sentinel values. Versioned telemetry DTO carries bars/time/receiver versus TX mute. Unknowns remain null and canonical DATY ranges/alarms retained. Runtime write capabilities remain false; new control contract is network-free checked preview/readback matching, never an execution ACK. 31 protocol/Bridge, 3 offline preparation, 113 frontend regressions, 6 actual generated-view checks and real TLS/Broker/SQLite integration pass. No live device SET. HTML cache-only changes preserve normalized UI; CSS unchanged.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-unified-boot-groups",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/mqtt-bridge.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/mqtt-bridge.py": "6dc03d9d3ce82fa664b3a694c189e77ae97a4612f635341a2ecbe846263eb687"
+      },
+      "evidence": "Reviewed exact bridge diff: only trusted adapter runtime GROUP allocation/stamp and comment. Shared allocator uses one locked sequence, namespaced adapter keys stay outside credential registry. 24 boot/enrollment cases, 27 Shure cases, real isolated MQTT Shure and two-restart integration pass. No UI/identity/frequency/mute/pairing/TLS/database schema changes. Initial restart test lacked copied FAshe build dependency; copied original dependency and reran unchanged assertions successfully.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-shure1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/styles/main.css",
+        "fuwuqi1.0.3/shure_active_discovery.py",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "5493ea5311c2b9dd8259f1ffe78f350102323b63d7fd7a584d709a6cf014e78a",
+        "fuwuqi1.0.3/src/modules/navigation.js": "beb4231424f4d11c9db8504fa648be4c741ea6d9a3231b10b9a331da8629f15e",
+        "fuwuqi1.0.3/src/styles/main.css": "fe8a3b8927ccb3c78e9256d4021605bb058a675b67c3e02fdac74ec1a59ba525",
+        "fuwuqi1.0.3/shure_active_discovery.py": "fd17b1755045b36b7a56cdb2dfe56b0d8ec3d00b97a2bf23c69a5876891f4dfb",
+        "fuwuqi1.0.3/unirf-app.html": "b94b24c6c1b0647ea4653295f1609ca033bddd4e026621ce5423d13e09da76ea"
+      },
+      "evidence": "Scoped HTML/JS/CSS panel and manual-only discovery monitor lifecycle; 14 new UI, 25 existing UI, 27 Shure, 2 real isolated MQTT tests passed. No RF parser, device SET, database schema, TLS, pairing or FAshe changes.",
+      "rollback": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-ui-remove-receiver-card",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/unirf-app.html": "f951ce435e270bf7d9e5137fa445d9fe4502072ee4ce90c4fcbd27603866640d"
+      },
+      "evidence": "Only the receiver card markup is removed. Its endpoint input remains hidden to preserve existing startup/storage behavior. No JavaScript, control, identity, MQTT, TLS or database changes.",
+      "rollback": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-formal-reset1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "previousSha256": {
+        "fuwuqi1.0.3/src/platform/browser-platform.js": "fbc2fc0b43307958bc5c892728071e7aec1b75de7eefc1797c7bcdcb0080e45c",
+        "fuwuqi1.0.3/src/app/server-storage.js": "d1dd6a98fbd222a51a35695db84df71bd5084bd15f0160a0e80a9d6ed2b059e9"
+      },
+      "paths": [
+        "fuwuqi1.0.3/src/platform/browser-platform.js",
+        "fuwuqi1.0.3/src/app/server-storage.js"
+      ],
+      "evidence": "Explicit reset epoch; clear business caches once before hydration; reject automatic old cache imports/exports only for this epoch; preserve fresh writes, TLS, pairing, commands and algorithms.",
+      "rollback": "No old-data backup by explicit request; deleted data cannot be restored."
+    },
+    {
+      "stage": "r19-auditclear1",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/activity.js": "f669f2b6b7ffcda63a7ffe938ee265cd90064de3f8a853438e9f3776821a51eb",
+        "fuwuqi1.0.3/unified_activity.py": "c6ed8cd9953de7d3920fb79fc30cf8cc3a4142c3a7716f2ec1b8faea79228994"
+      },
+      "paths": [
+        "fuwuqi1.0.3/src/modules/activity.js",
+        "fuwuqi1.0.3/unified_activity.py"
+      ],
+      "evidence": "Read-only inspection and scoped audit backup; filter all operation categories and old detail IDs through maintenance receipt. New records remain visible; old business versions, actual ACK and alarm history remain. Only trusted maintenance actor controls boundary; existing network API cannot forge it. 13 isolated database tests including clear, new saves, cursor invalidation, restore and actor isolation.",
+      "rollback": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "r19-activity2-bootstrap",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "previousSha256": {
+        "fuwuqi1.0.3/src/app/server-storage.js": "329afda924e5206f044f3faedcd1c216d57fc6daffd40bdc05aa226e6aa4ef4c"
+      },
+      "paths": [
+        "fuwuqi1.0.3/src/app/server-storage.js"
+      ],
+      "evidence": "Stored pending export has source browser-cache-at-full-archive; initialization reuses byte-only operation ID with another source, causing OPERATION_ID_CONFLICT. Scoped fix hashes full cache export intent including source and owner; preserves exact retry, strict receipt validation, old files and cache. 40 archive/alert UI tests passed, including reproduction across two purposes and three recovery kinds.",
+      "rollback": "Same task backup plus bootstrap-hotfix-deployment.json. File-only update; no backend restart."
+    },
+    {
+      "stage": "r19-activity1",
+      "reviewedDateUtc": "2026-09-21T01:20:03.407551+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/data-management.css",
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/alert-history.js",
+        "fuwuqi1.0.3/src/modules/activity.js",
+        "fuwuqi1.0.3/unified_activity.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "20ac4d5fd05567e8c1cdecb26325d058a55a31c406c5eeb3e1f28d50c9ea8223",
+        "fuwuqi1.0.3/src/styles/data-management.css": "c156a558e99af639cafc92b7060c067abde9ba34c678a3f3a4ac50b6ad99a1b8",
+        "fuwuqi1.0.3/unirf-app.html": "4dacb3d2fe9ae5595f5e92c99de80cc87898e4017588febe17dfb96229fc4961",
+        "fuwuqi1.0.3/src/modules/alert-history.js": "9d0738b3761b9d72874f2e54c4864bfd350dd1a7eec36893b86e829a84f80bbf"
+      },
+      "evidence": "Manual review: HTML activity area and cache/script references only; render changes confined to archive filtering/summary/details. Alarm engine, saving queue/ACK, all FAshe/control/identity/planning code unchanged. CSS append only. Added read-only activity queries over existing audit/event tables, with bounded pagination and query deadline. UI test at 1366x900 and 1024x600 passed; exact final test evidence in final-verification.json.",
+      "rollback": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "data-structure-r19-data6",
+      "reviewedDateUtc": "2026-09-21T00:45:20.712441+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/styles/data-management.css",
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/data-catalog.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/navigation.js": "c3922847ff62b28d5b06378b3519115d9c9cddb6be014c71229fe8f2d45e676b",
+        "fuwuqi1.0.3/src/styles/data-management.css": "158e05494a3fc2f95be300f89aa36eb19a980419dea19ce7bd863a6f9e2669e2",
+        "fuwuqi1.0.3/unirf-app.html": "092136792ac49f0b07e5ac2cb301c9aeb9aa6e31e5cb30589a4277a3e040426c"
+      },
+      "evidence": "Manual scoped review: HTML outside data panel unchanged after script-cache normalization and new catalog script inclusion; navigation changes only invoke read-only catalog; CSS only appends scoped data styles. No device controls/identity/frequency rules/FAshe changes. 95 database tests, 186 Node tests, six-tab UI checks at 1366x900 and 1024x600. Seven MQTT cases checked; original alert timer interference corrected and affected case rerun successfully. Full initial failure evidence preserved.",
+      "rollback": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "data-management-r19",
+      "reviewedDateUtc": "2026-09-20T13:53:10.128Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/styles/data-management.css"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/navigation.js": "ccc47381ea07a0f1095b8154334c7421175596afb00923fae3c19c390e2e7645",
+        "fuwuqi1.0.3/src/modules/render.js": "75ec92189cba916cbdd97e358f94bcb75476de8519d32c540abdebd78fa0b716",
+        "fuwuqi1.0.3/unirf-app.html": "8051e00f0e6cabd735df1d8999125a05584d9044d62865fc41d813ec54777728"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Reviewed exact diff: render changes start in history/log rendering only; navigation adds only server archive layout classes; HTML changes limited to four data tabs, independent helper/style inclusion and changed-asset cache queries. Existing main.css, RF/control/receiver code and all FAshe files remain unchanged. 149 isolated Python regressions pass; four-view browser checks and five-size history/log/Timeline checks pass with reachable short-window internal scrolling. 861 behavioral Node tests pass; only this authorized preservation gate was outstanding. Added scoped CSS protection. Fixed MQTT integration and final totals are recorded in docs/data-management-r19.md.",
+      "followup": {
+        "previousCssSha256": "e34e126f99d45d62d43fd626b4585db71597e342ea5c082bf5e7565e13b1aecb",
+        "reason": "Visual review reproduced missing time-column paint in small Edge viewport with collapsed table borders and sticky header. Separate border model plus explicit cell separators fixes actual text painting; all 4 views rerendered for review."
+      }
+    },
+    {
+      "stage": "server-boot-group-fifo-r17",
+      "reviewedDateUtc": "2026-09-20T08:47:48.505949+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/receiver_enrollment.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/receiver_enrollment.py": "915b1d81b423feedc9d83b83c8085b6bf40590e251d890d91d67ffe2466ba09a"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Reviewed sole protected diff: enrollment GROUP allocation is delegated to a method whose default retains the exact legacy behavior. MQTT6 overrides it to defer boot-only allocation until the signed credential save succeeds. No FAshe/UI/identity/control/ACK/schema changes. 7 boot allocation/enrollment failure/concurrency tests and 47 existing enrollment/pairing tests passed; real TLS/Broker/SQLite restart test passed with reverse arrival, same trust/registry bytes/epoch, reconnect slot retention and stale command-target rejection. Final fixed package and deployment checks are recorded separately."
+    },
+    {
+      "stage": "server-ingress-and-durable-history-throughput",
+      "reviewedDateUtc": "2026-09-17T05:26:13.024927+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/receiver_pairing.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/mqtt-bridge.py": "84d7e6aa4486c76dd920b83cd04f1d9b0d7b6384b1a98413d8415b2a0f999a3e",
+        "fuwuqi1.0.3/receiver_pairing.py": "2e17597b0256251e2266fb36a5e1dbc0124ac036fe0eaed8890ea8656b353da8"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Manually reviewed scoped diffs: async legacy 1 Hz history/Timeline on existing FIFO writer; preserved original sample time/null/zero/state edges and explicit unconfirmed failure; FULL durability and per-observation savepoints retained. Bounded ingress batching and byte/count limits, current per-packet pairing both before and after queue, single consistent registry version for GROUP; no time-based authorization cache. Existing ACK/target/brand/source checks and synchronous command audit unchanged. Isolated 100CH 500/s, 10000 deltas all processed, all samples retained, zero controls, integrity/FK check passed. High-rate 1000-2000/s stress can still reach 1013 during long commit stalls: no unlimited-capacity claim. Background PASSIVE checkpoint respects pinned readers; no truncate/delete/schema/migration. 129 focused backend cases: one transient HTTPS 10053 in combined run, affected 14-case API suite separately rerun passed. UI/FAshe/algorithms untouched; other 41 preservation entries unchanged. Full default verification and live deployment results recorded in joint log. Final independent-process Python 157/157 and default 855/855 pass. Only Bridge reloaded after no-in-flight check; two receivers/100 channels retain exact stable fields. At 157 seconds: no new remote close events, zero ingress refusals, all 26348 observations committed, no writer errors/refusals, checkpoint pending0. Independent read-only SQLite proves current boot/channel/sample/legacy rows. Web page matches disk; no UI changes or field controls."
+    },
+    {
+      "stage": "batch-deployment-throughput",
+      "reviewedDateUtc": "2026-09-17T04:45:27.690325+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/planning-deploy.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/planning-deploy.js": "4b31ba526d0f8c4af8d01fa67f3f5d49eadc0041a65b1e68431814eac26da0df"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Manually reviewed targeted diff: immutable-plan mathematical validation reused only inside one confirmed batch; all live Profile/identity/source/GROUP/CH/options/frequency guards retained per command. Coalesced table redraw, one visible-panel completion refresh, exact ACK accounting and safe view-error cleanup. Nonblocking measured client diagnostic uses existing Timeline API, never executes/retries commands. 49 focused control tests, existing isolated real FAshe-handler deployment browser and 100-channel continuous-telemetry replay pass; 99 controls are intercepted fixture commands only. Baseline 23.9s/99 full redraws/103 analyses versus 5.9s/0/2; three viewports and 1024x600 screenshot reviewed. Separate runtime FIFO savepoint batch optimization preserves each observation, bounded 32/8ms, FULL commit, failure gaps and no retry; 19 runtime and 2 disk cases pass; temporary 2000-snapshot benchmark saves all 2000 in 82 commits. Temporary HTTPS Timeline plus independent SQLite verifies exact diagnostics. HTML changes only script query; other 42 hashes retained. FAshe, MQTT routing/ACK decision, algorithms, CSS and DB schema unchanged. Full verification/deployment results to follow in joint log. Final default verification 855/855, 43 preservation/42 JS/40 assets passes. Deployment preflight found zero in-flight controls; only Bridge reloaded. Two live receivers return 100 channels with identical stable identity, GROUP, CH, brand/model, frequency and mute. HTTPS assets byte-match. New runtime first 8502 observations committed with zero failures/refusals; prior process gaps retained in before-database-status.json, not claimed recovered. No production test writes or receiver controls."
+    },
+    {
+      "stage": "realtime-alert-source-and-application-clear",
+      "reviewedDateUtc": "2026-09-17T02:49:12.359Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "49e2f0eb94ee5d4fdd8723f902110a85e9d09aceced22fb3439a0b9d2c712e19",
+        "fuwuqi1.0.3/unirf-app.html": "bbdda504bc7b44ad517e5033afefd5201b076eb59eaf55e730978bccd20693d6"
+      },
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+      "evidence": "Reviewed scoped runtime diff: existing DatyDialogs async confirmation replaces system confirm, fixed selected lifecycles and connection scope, serial all-batch archival then exact unchanged/confirmed removals, new/changed events retained and errors visible. Same clear button icon/text/classes. Alert labels and persisted source include actual IP, authoritative GROUP, CH, reported brand/model; source metadata refreshes without changing lifecycle identity. Cards and alerts share canonical AF; explicit invalid/unknown cannot fall back to stale aliases, true 0 dBFS remains overload. 87 focused tests pass, isolated real HTTPS/SQLite integration verifies dashboard clear, two same-CH sources and fresh-client persistence with zero controls. Three-size isolated browser verifies source/AF/cancel/failure and no system dialogs; 1024x600 overview/modal screenshots visually reviewed. Live read-only snapshot has 24 channels; first 8 each below -3, CH9-12 each report 0. No unsupported claim of real sender RF safety; online status is not AF state. Only render and necessary HTML hashes updated; other 41 entries unchanged. No FAshe/backend/schema/CSS, production test writes, device commands or service restart. Final default verification 848/848; HTTPS HTML/render bytes match disk, health ok and MQTT connected."
+    },
+    {
+      "stage": "actual-online-channel-count-spread-selected-range",
+      "reviewedDateUtc": "2026-09-17T02:01:33.016Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/coordination.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/coordination.js": "80aa543a8c58b092c7253d27e5a7748aa025370639e7b41b90182f1ae2a87c6e"
+      },
+      "evidence": "Manually reviewed scoped source diff and rollback. Current UI requests minimumFrequencyCount 0 and spread-range; pure engine legacy defaults and historical explicit pools remain. Only candidate preferences change, using actual GROUP/CH ranks and fixed lock anchors; all Profile/grid/order/scan/spacing/positive IMD checks remain. No invented devices or reserved current UI targets. Distribution evidence follows existing history/run JSON transactions and exports. 89 focused tests pass including count/range changes, offline exclusion, locks, IMD, scan, bands, unknown GROUP fallback, search limit and real command targets. Temporary real HTTPS/SQLite three-mode draft/history/run/independent SQL/CSV/JSON/TXT/reload and three viewport checks pass, no controls; both 1024x600 screenshots visually inspected. Read-only production snapshot offline yields compact 24/24 across 640-690 MHz; standard and robust 14/24 reach existing node limit, not maximum capacity. Only this protected hash changes; other 42 entries including normalized HTML unchanged. No backend/schema/FAshe/CSS changes, production test writes, device controls or restart. Final default verification passes 842/842, 43 preservation entries, 42 JS and 40 resources. Verified HTTPS HTML and both changed JS assets match disk with certificate validation; Bridge health ok and two receivers have 24 online channels.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "daty-compact-minimum25-unbound-frequency-pool",
+      "reviewedDateUtc": "2026-09-17T01:40:53.579Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js",
+        "fuwuqi1.0.3/src/modules/coordination.js",
+        "fuwuqi1.0.3/src/modules/navigation.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js": "a419ea2ebc792c5ad0472e28a9ad76155e3a18d224fb0f4db2e0d6bfded45d5c",
+        "fuwuqi1.0.3/src/modules/coordination.js": "1f58ee8e5fa04b9b213d016fb14a11aabf193ef033d4d17c813c7b7bb942156a",
+        "fuwuqi1.0.3/src/modules/navigation.js": "2e45aaa6fffa97dce992c9dae8e7a00be60848c0a4a38576464360fad4ec5683"
+      },
+      "evidence": "Reviewed scoped source diff. DATY compact preset is 0, other parameters unchanged. Pure optional frequency pool supplements actual assignments to minimum count; no invented receiver/CH identities or added control targets. Common Profile unary restrictions and joint primary/backup/reserve guards are enforced; shortage/search limit marks incomplete without weakening constraints. Real GROUP/CH assignment order retained. UI/results/report and CSV separately expose unbound frequencies, persist as existing JSON run/history evidence. 126 focused cases and 45 deployment cases pass, including minimum vs cap, shortage, scan/spacing/manual protection, unchanged actual command targets and stale CSV pool. Real temporary HTTPS/SQLite three-mode drafts/history/runs/independent SQL/CSV/JSON/report/reload test passes; three viewports with result warning inside card and details screenshot inspected. Existing 16-channel snapshot offline returns compact 16+9=25; standard/robust each find 14 at node limit, not maximum capacity. Only these 3 hashes change; other 40 entries including normalized HTML unchanged. No backend/schema/FAshe/CSS changes, live control, production test writes or restart. Final default validation passes 837/837; HTTPS HTML and four JS assets match disk, health ok with two connected receivers.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "daty-compact-imd-50khz",
+      "reviewedDateUtc": "2026-09-17T01:19:07.571Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js",
+        "fuwuqi1.0.3/src/modules/coordination.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js": "f1afecd18d13fbdab8fc2061a1ba2789b512047dcc277f589c8a2760c2e0c8d1",
+        "fuwuqi1.0.3/src/modules/coordination.js": "1d21e7b4b7dd9ed4a8b46b91423d1632a3b18fcf4114bc571640bc5c55cdacaf"
+      },
+      "evidence": "Manually reviewed exact runtime diff: DATY built-in compact setting 0 to 50 plus provenance/note, engine version only, matching hint and script cache queries. Existing solver and zero-value historical/custom compatibility retained. 39 brand/constraint tests pass including exact IMD collision, 49 kHz rejection, 50 kHz acceptance, manual guards and legacy zero. Real temporary HTTPS/SQLite three-mode draft/history/run/reload/clean-context/export passes, three viewports and 1024x600 screenshot reviewed, zero device commands. Only these two hashes changed; other 41 entries including normalized HTML retained.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "daty-user-confirmed-mode-table2",
+      "reviewedDateUtc": "2026-09-17T01:09:16.449Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/coordination.js",
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/coordination.js": "a54bbb195aee4b2790dd8e7e48fac59ee1dba9ac5d31893b45b023f7302b45a9",
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js": "6fc9f3e3b3622d02377caca3e92b16f2612acba4ca7781af25435fae8ac9cd1a"
+      },
+      "evidence": "Reviewed scoped source diff and rollback snapshot. Only DATY built-in presets changed; numeric zero is allowed exclusively for DATY compact. All-zero scenes skip IMD avoidance and report null margin; mixed-brand, actual hardware, manual guards, channel spacing, scans, locks and actual GROUP/CH order remain enforced. Engine version invalidates older results. Backend Profile/planning-record validation independently reviewed; no schema migration or historical rewrite. Temporary real HTTPS/SQLite three-mode drafts/history/runs/reload/export and three viewport checks pass, zero controls; 55 Python domain/database tests pass. Final default regression passes 830/830, 43 preservation entries and 42 JS/40 resources. Bridge-only deployment passed existing TLS/identity preflight; two receivers and 16 channels reconnected with stable identity/GROUP/CH/frequency/mute fields unchanged. Web/IP PIDs unchanged; HTTPS HTML and three JS resources match local bytes. Only these two digests change; other 41 entries including normalized HTML remain exact.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "planning-compatibility-effective-policy",
+      "reviewedDateUtc": "2026-09-17T00:47:55.813Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/equipment-profiles.js",
+        "fuwuqi1.0.3/src/modules/coordination.js",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "evidence": "Reviewed scoped diff: planner-only preset resolver, actual hardware/manual floors, versioned per-device effective evidence, strict level validation; existing RF simulation mode resolver unchanged. 179 focused tests, 69 simulation/brand tests, real temporary HTTPS/SQLite three-mode draft/history/run/reload/clean-context/export verification, three-size feature and five-size planner layout pass. No production controls/writes/restart. Only these 3 reviewed hashes changed; other 40 entries preserved.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "receiver-discovery-card-auto-restore",
+      "reviewedDateUtc": "2026-09-16T23:39:18.012Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/fashe.js"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/discovery.js": "96ca625a904576cea7f20ac65543c2e128492ba0bf1ee41c2db0f3192a5c28c0",
+        "fuwuqi1.0.3/src/modules/fashe.js": "020a46b2542602051573975ca58af56eb9b399b0b36a70bdeea4d13ae1a480ea"
+      },
+      "evidence": "Reviewed exact changes to discovery and server-page SSE adapter only. Startup restores stats/devices with GET without another active scan. Full/delta snapshots and disconnection update a separate scoped display; existing cards stay during scans, absent cards are marked offline within the page. Late HTTP snapshots cannot overwrite newer SSE channels; server changes isolate old cards; retained display never enters DEVICES/planner/control targets. Existing identity/CH grouping and GROUP/CH display order retained. Equal markup keeps DOM, unknown metadata is not fabricated. 43 scoped tests and existing three-size browser suite cover refresh without click, live fields, disconnection/reconnect, hidden summary, DOM reuse and zero controls. HTML only changes two script cache versions; normalized HTML and CSS unchanged.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "hide-receiver-scan-summary-card",
+      "reviewedDateUtc": "2026-09-16T23:16:53.604Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/unirf-app.html": "1a5b7d16972ff139dc60439a814ed68ec89679c60ce2f0389405539c46616930"
+      },
+      "evidence": "Manually reviewed one-attribute HTML diff: hidden on the scanModeReceiver summary card only. All child DOM, IDs, button binding, discovery JS, CSS, tab, result list and top refresh entry remain unchanged. Existing isolated Shure discovery browser suite passed at 1920x1080, 1366x768 and 1024x600: scans still populate results/errors and preserve GROUP/CH ordering; smallest screenshot confirms summary card hidden. No backend, storage, FAshe or control changes.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "server-archive-file-cleanup",
+      "reviewedDateUtc": "2026-09-16T19:16:19.459Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/styles/main.css",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/styles/main.css": "2ffdcf73447a6b3d547f60ab3819b4202da9db929b5ea94249308d9aff0c5195",
+        "fuwuqi1.0.3/unirf-app.html": "beaab6e40c46662e095b5cbb23776a4aedacf4d74e2a84ddfcd5c0378872d0de"
+      },
+      "evidence": "Reviewed exact runtime diff: file cleanup uses server-frozen selections, explicit application confirmation, immutable cleanup receipt, manifest fingerprints, no deletion replay, generated payload whitelist, busy download/archive guards, and preserves live SQLite. HTML adds clear-file action/help and cache versions. CSS scoped to archive action column and small-window controls/error states; prior five alert buttons unchanged. 21 temporary storage Python cases, 7 injected UI cases and real temporary HTTPS/SQLite browser test passed; five viewports, cancellation, single/all removal, late files, lost reply, original DB rows and fresh hydration verified; no live control or production cleanup.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "alert-log-unified-button-ui",
+      "reviewedDateUtc": "2026-09-16T18:57:34.074Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/styles/main.css",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/styles/main.css": "0aa0adc2cc17411c3ff8b626159bcf6b6d26af5ce2cde6f6b481c8ba86def008",
+        "fuwuqi1.0.3/unirf-app.html": "2966be3ed35c450c8d368eb8f5561be5a403173b44d9a397b9204250629233c4"
+      },
+      "evidence": "Reviewed exact CSS/HTML diff. Scoped log-action neutral surfaces, equal height/radius/border/spacing, shared hover/pressed/focus/disabled/busy treatment; current source remains highlighted. Source group outer frame removed. HTML only changes CSS cache version; all five button markup and handlers byte-identical. Existing isolated five-viewport browser checks passed, including 1024x600 screenshots inspected, 20-row paging, source switching, save, clear confirmation/cancel, display-only clear and Timeline write-disabled behavior. No business JS, database, FAshe or control changes.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "alert-log-five-database-actions",
+      "reviewedDateUtc": "2026-09-16T18:46:11.233Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/render.js": "fcb056e7ff9f09dfb03b6843b354200645124c4f23db10d01774762fe1168e59",
+        "fuwuqi1.0.3/src/modules/navigation.js": "123a22d3403e8e06c14d94dca208b79e5c7e72dfb62249250a8967b4f4868499",
+        "fuwuqi1.0.3/unirf-app.html": "1ed76b4af385f6c32e298571ee6f5bf8c8931f4156dd9ad8b2a18411ccf4dad7"
+      },
+      "evidence": "Reviewed exact diffs. Navigation only refreshes the selected log source on entry. renderLog uses explicit server loading/error/cache states and source-correct headers/badges. HTML retains layout/action IDs, adding source tooltips/header IDs and five cache versions. Alert and Timeline adapters separately reviewed: fresh reads, whole captured pending-save sequence, per-batch receipt checkpoints, latest response guards, display-only clear, unchanged confirmed 200-record tombstone boundary, read-only current-connection Timeline with timeout and latest-200 scope. Isolated real HTTPS/SQLite verified all five handlers including 205 saves, 206 deletes, old source/audit/Timeline retention and new lifecycle save. Five viewport browser checks passed with injected database port; 1024x600 screenshot inspected. No CSS/backend/schema/device-control or FAshe changes.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "alert-archive-clear-fix",
+      "reviewedDateUtc": "2026-09-16T18:22:01.815Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/unirf-app.html": "418dffe8da4fe5cf988285e7390ff9799da90b5058cd4f2553ae55d0d69bee4b"
+      },
+      "evidence": "Reviewed exact file diff. Only protected HTML change is the clear-storage tooltip correcting local to server storage, plus four script-cache versions (normalization excludes cache versions). Existing layout, icons, buttons, ordering and action bindings remain. Alert adapters separately reviewed: exact content/scoped archive receipts, prepared ID/revision/epoch clear scope, flush coordination, 200-record tombstones and no POST replay. 68 scoped regressions and real isolated HTTPS/SQLite clear of 205 records, reload, audit retention, old-source preservation and new lifecycle storage passed. No production delete/control or restart. UI automation unavailable; no layout or style changes.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "receiver-reported-product-display",
+      "reviewedDateUtc": "2026-09-16T17:59:16.781Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/device-views.js",
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/fashe.js",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/modules/planning-deploy.js",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/src/modules/device-views.js": "712fe2afda69909c8edc6e37f1bff5f5fd2489080d3f300b3c2e24a9a786e959",
+        "fuwuqi1.0.3/src/modules/discovery.js": "bbcb283a31a692cdd8488fe7c93eacf9122122699a276cd50a380aaba4d76098",
+        "fuwuqi1.0.3/src/modules/fashe.js": "382d6100cadc2ff2ba1e5f92f58962133048a6abf8d42783ac75fbd0d05b5bab",
+        "fuwuqi1.0.3/src/modules/navigation.js": "1410141034923771fd0a12cbad06b32a2a97da628c8f9c49b06e7d80655cf743",
+        "fuwuqi1.0.3/src/modules/planning-deploy.js": "edbf90a27506ccf63ea1d295452bed88451b3a4c1806a7041108d66b87f546ce",
+        "fuwuqi1.0.3/src/modules/render.js": "e6260dc0f99740e04aef7bd3b14a35c34a2055e0c79f5ce791b899e8550d122b",
+        "fuwuqi1.0.3/unirf-app.html": "72c36834c7dae621942dde790acfc44e7fda8a4f0effd042ca350794d56ba71c"
+      },
+      "evidence": "Reviewed work/receiver-product-display-20260917-015108/review.diff. Existing brand/model formatter and deduplicated summaries now drive discovery, data source and planning progress. Unknown metadata stays unknown; exact-target product deltas refresh without identity/GROUP/CH changes. Only presentation and metadata mapping changed; no transport, ACK, thresholds, solver, storage, backend or FAshe source changes. 79 scoped Node cases and 3-viewports discovery/data/spectrum browser verification passed, including mixed models, sparse updates and escaping; small-window screenshots inspected. Required HTML labels, display IDs, wrapping and cache versions only.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "shure-active-discovery",
+      "reviewedDateUtc": "2026-09-16T17:38:22.382Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/ip-service.py",
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/shure_protocol.py",
+        "fuwuqi1.0.3/shure_active_discovery.py"
+      ],
+      "previousSha256": {
+        "fuwuqi1.0.3/ip-service.py": "0ee9d01e0180d8fe821b18650fea17e4031561b3dc813845379babdce434cd93",
+        "fuwuqi1.0.3/mqtt-bridge.py": "4d4c2b8896c5f8f8b1f76b853794229803f3f620138a83802fad8aed26339232",
+        "fuwuqi1.0.3/src/modules/discovery.js": "8c3008d54304f5f68d074e1b4555f72457d9cb3a55c04340425222f5f3e2f82f",
+        "fuwuqi1.0.3/src/modules/navigation.js": "3d9d62ef2447a9f02af6d0d6f08bd9c08a199d12f747d94c927602c78d91be22",
+        "fuwuqi1.0.3/unirf-app.html": "dfc8795a4755f73b1a02c48a1a72b91b22e640225997c0f1faf651259efdf829"
+      },
+      "evidence": "Reviewed work/shure-discovery-20260917-005814/review.diff and new modules. GET-only TCP 2202; strict MODEL and model-specific units; cancellation/deadline/bounds; independent known-host polling. 26 new isolated Python cases, 21 discovery Node cases, existing control/identity/RTT/direct-control/storage regression, 3 viewport screenshots and GROUP/CH ordering. Only 3 necessary Shure help strings in HTML; layout/CSS/algorithms/locks/FAshe/ACK unchanged. No SET or field commands; hardware not verified.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "lock-editor-explicit-confirmation",
+      "reviewedDateUtc": "2026-09-16T16:55:01.579Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/planning-ui.js",
+        "fuwuqi1.0.3/contracts/planner-ui-v1.d.ts"
+      ],
+      "previousSha256": "fa34e5021c7361237ca433e874db164927f6377b449cda63ac8ee82827f62ff9",
+      "evidence": "Manual diff and 1024x600 UI review; original failing preselection regression now passes. Six added isolated lock cases plus existing lock/history/solver cases pass. Temporary HTTPS/SQLite confirms pending edits are not locks, confirmed locks persist across reload, removal preserves other channels. Three-size constraints and five-size layout pass. GROUP/CH and all other protected bytes unchanged; no production device commands or service restart.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "directory-repair-existing-shure-discovery",
+      "reviewedDateUtc": "2026-09-16T16:26:00Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/ip-service.py"
+      ],
+      "previousSha256": "4b0da8a9e96e72a0add0418d2fe7ae7e41e912261beaca6d371d3c9f9c4d0cfc",
+      "evidence": "work/repair-six-20260917-000011; 12 secure deployment tests and existing Shure parsing tests passed; remaining 40 protected contents unchanged."
+    },
+    {
+      "stage": "receiver-background-stability2",
+      "reviewedDateUtc": "2026-09-16T05:25:39.014697+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "FAshe/index.html",
+        "FAshe/launch-fashe.py",
+        "FAshe/src/auto-pair.js",
+        "FAshe/src/pairing-ui.js",
+        "FAshe/vendor/mqtt-5.10.4/mqtt.min.js",
+        "FAshe/vendor/mqtt-5.10.4/README.md",
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "FAshe/src/connection-stability.js",
+        "FAshe/src/network-timers.js",
+        "FAshe/src/receiver-timer-worker.js",
+        "FAshe/vendor/mqtt-5.10.4/mqtt.upstream.min.js",
+        "FAshe/scripts/build-mqtt-scheduler.cjs"
+      ],
+      "evidence": "Reviewed bounded diff and rollback. FAshe rendered markup/CSS identical after removing scripts/comments/blank lines; server UI, GROUP/CH sort, algorithms, target and ACK handlers unchanged. Original MQTT source SHA remains exact inside a reproducible lexical scheduler adapter. Real browser MQTT reproduces upstream CONNECT stall with all page timers paused; adapted 2 receivers remain live for 90 s, clock ACK/telemetry fresh, CH3 command+ACK isolated, state retained and link retry 3091 ms. 42 FAshe Node tests, 12 launcher Python cases, lifecycle and 3-size enrollment browser pass. 73 current Bridge Python checks pass; historical candidate runtime class cannot assemble due old source digest and is excluded without updating its SHA. Server retains actual pairing rejects, distinguishes handshake timeout, and persists allowlisted reasons/timestamps to server Timeline; errors do not block cleanup. Default server checks follow this manual review. No field controls or remote deployment claimed.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "device-table-group-order",
+      "reviewedDateUtc": "2026-09-15T17:44:58.370725+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/device-views.js"
+      ],
+      "evidence": "Manually reviewed runtime diff: enable existing strict group sort on the display copy before the existing 20-row pagination; explanatory comment updated. No data, identity, editing, commands, frequency algorithm or layout changes; HTML cache query only. Existing four device-view unit tests pass. Scoped isolated browser validates numeric GROUP2/10 and CH2/10, all 205 rows across pages, realtime regroup, stable telemetry row reuse and exact edit-action targets, unknown group display, usage/lock/history paths and five viewports. Excludes unrelated historical save-dialog path, not claimed as complete mixed-suite pass. Only this one protected digest updated; other 36 protected entries including normalized HTML retained.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "frequency-planning-group-order",
+      "reviewedDateUtc": "2026-09-15T17:25:05.165066+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/coordination.js",
+        "fuwuqi1.0.3/src/modules/planning-deploy.js"
+      ],
+      "evidence": "Manually reviewed focused runtime diff and rollback. Group mode adds ordered candidate admission within the existing solver, disables automatic original-frequency protection only when confirmed groups exist, keeps explicit locks as anchors and refuses inverted locks or unsafe/incomplete allocation. Unary, spacing/IMD, profile logic and automatic per-channel recommendations remain unchanged. New metadata is pure; deployment adds only a stale GROUP/CH preflight guard. Fixed numeric groups/CH, reversed originals, unknowns, locks, bands/grid, scan/exclusions/carriers/IMD/backups, exhaustive small-grid oracle and unchanged default/recommendation checks pass. UI/history/report/routing and no-command-on-group-change pass. Five-viewport browser and existing single/all/current-FAshe-ACK/cancel/error browser pass. Live 8-channel GET snapshot solves offline with groups 4 then 5; no production control. Same result round-trips unchanged through isolated server SQLite repository. Unit run passes 763 behavioral cases, with the sole pending expected preservation gate resolved by these two reviewed hashes. All other 35 protected entries and normalized HTML remain exact. Final default verification after this manual review passes 764/764 cases, 42 JS, 40 resources and 37 preservation entries. Four actual HTTPS resources match disk bytes with trusted certificates; Bridge health remains ok.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "channel-cards-group-order",
+      "reviewedDateUtc": "2026-09-15T17:01:47.436Z",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/device-views.js",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "evidence": "Reviewed exact diff: GROUP from existing strict server-confirmed reader sorts first, unknown last; selected CH/RF/battery/frequency sort applies within each group. Filtered and direct live render paths sort before 50-card pagination; source objects and device-management ordering stay unchanged. Dropdown default label/title reflect grouping; other layout/styles and control handlers unchanged. Current helper validation checks numeric GROUP2 before GROUP10, unknowns, real-time regroup, within-group RF, all 205 cards across five pages and no input mutation. Scoped isolated browser validates rendered group/CH order, filters, live regroup and five viewport layouts without live commands. Device view unit cases pass. Original mixed browser program reaches an unrelated old add-device save wait timeout; not reported as a complete pass; scoped card/pagination validation excludes that workflow.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "fashe-connection-stability-v1",
+      "reviewedDateUtc": "2026-09-15T16:35:43.740481+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "FAshe/index.html",
+        "FAshe/launch-fashe.py",
+        "FAshe/src/pairing-ui.js",
+        "FAshe/启动FAshe.bat",
+        "FAshe/src/connection-stability.js"
+      ],
+      "evidence": "Reviewed exact diff: original visible markup/CSS unchanged; paired WSS, identity/CH/GROUP, original frequency/mute checks, values and ACK ordering retained. Valid clock ACK precedes timer-independent current telemetry fallback. Non-expiring Web Lock with heartbeat-renewed fallback, retired-session fencing, resume/shutdown cancellation, receiver-owned applied-state checkpoint with no credentials/identity/command replay. Portable Python standard library only, no server absolute paths or site packages. 38 Node and 12 Python tests, 120 clock pulses with paused timers, reload/dedup/stale events/lease fencing, 12 layout/control cases, authenticated auto-enrollment/recovery at 3 sizes and current planning single/all/cancel/wrong-ACK browser regression passed. Historical integrated-local-deploy.browser.cjs requires removed DatyAccess and is not current validation; unchanged in production. Remote local copies not deployed by this release.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "server-authoritative-storage",
+      "reviewedDateUtc": "2026-09-15T10:21:40.564878+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/web-service.py",
+        "fuwuqi1.0.3/src/modules/device-views.js",
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "evidence": "Manual source diff review: 7 legacy tables retained, strict schema startup, normalized business API and source-only runtime observation; existing ACK decision only gains evidence after its original match. No changes to solver, pairing, GROUP, FAshe, frequency/mute command checks or 250 kHz rules. Page changes delegate original save/import/paging handlers to CAS repositories; manual usage edit retains original classification path. Existing layout plus new scoped server archive tab inspected at 1024x600 and five dimensions. 746 Node cases, temporary real-TLS/SQLite browser workflow with 205 alerts, original scan text, profiles/settings/drafts/manual edits, independent browser recovery, full ZIP, and original isolated FAshe single/all/cancel/wrong-ACK regression pass. Protected summaries updated only for these explicit reviewed changes, all other values retained. Latest production backup rehearsal verifies every original row unchanged, 111 histories and 91 runs migrate, 51 CSVs/full SQLite archive. Production deployment and read-only runtime receipts recorded separately.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "planner-all-actions-native-preparation",
+      "reviewedDateUtc": "2026-09-15T08:40:34.479746+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/deploy-progress.js",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/modules/planning-ui.js",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "evidence": "Manually reviewed six runtime file diffs, existing/new tests, typed contract and native documentation; inspected 1024x600 safety/details/CSV/Profile screenshots. All 17 planner action classes delegate to original handlers. Scoped planner styles, title/content/footer windows, focus and cancellation keep original live safety editing, GROUP/CH/view-dependent pagination, lock/save/history, full report and solver behavior. New typed native views preserve literal details, field whitelist, input/host ownership and pagehide cancellation without browser fallback. CSV retains original columns/BOM/CRLF/escaping/full rows and uses existing async save capability with truthful saved/download-started/cancelled outcomes. Profile validates using original rules and confirms actual selected file before rechecking current file, store and host, then original atomic save. Native progress wraps injected synchronous open/update/close with one stop, true ACK counts, target filtering, stale host disposal and running-close guard. Original browser progress and navigation control tails are byte-equivalent; planning-deploy, algorithms, backend and FAshe digests match unchanged. 64 focused cases and six browser programs pass; five-size windows/pagination, real isolated CSV/TXT/files, original FAshe VM ACK/deployment cases and three-size progress checks. Only navigation/render/CSS and normalized HTML digests updated; other 32 protected entries retained. No service restart, live device controls, production database/security or user browser writes. This is web/native-port preparation, not complete WPF implementation.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "planner-report-app-export",
+      "reviewedDateUtc": "2026-09-15T08:12:26.540658+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/planning-ui.js"
+      ],
+      "evidence": "Manually reviewed exact two-file runtime diff and 1024x600 report dialog screenshot. Original report formatter and all other planner/auto-frequency bytes preserved. New pure prepareExport returns unchanged TXT, existing filename/MIME and dialog fields. Report button uses shared DatyDialogs with actual filename/range/channel/conflict counts, single pending operation and plan/input/channel-label/host recheck before output. Existing daty-text-export-v1 handles native saved/cancelled/failure with bound this, abort and no fallback. Browser reports download-started only; no automatic retry or stale text substitution. 19 focused report/file-export cases and five-viewport actual-page browser checks passed, including complete actual TXT comparison, native completion/cancellation/error, stale inputs, keyboard focus and pagehide. Export tests have zero browser system dialogs or external writes. Only normalized HTML digest changes for button id/type; all 35 protected source hashes retained. CSS/dialogs/platform code, planning engine, protocols, FAshe, production data and services unchanged.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "data-management-desktop-view",
+      "reviewedDateUtc": "2026-09-15T07:31:31.956067+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "evidence": "Manually reviewed exact runtime diff and 1024x600 log, empty and clear-confirmation screenshots. Existing three data tabs use semantic keyboard-operable buttons; page-local command surfaces and source selection follow the actual archive/timeline/cleared state. Empty markup escapes text. Clear archive uses the existing asynchronous DatyDialogs details/danger shell; waits for strict true, prevents duplicate operations and rechecks platform/storage/dialog owner and archived content before the original delete. Cancel, pagehide and missing/invalid capability do not delete. Auto-save, pending/realtime data, 20-row paging and Timeline request logic retained. Small-window Timeline time-cell line height fixes row clipping. 45 focused Node cases and five-viewport log/history/Timeline browser checks passed; separate history-action browser regression passed at five sizes. No system dialogs or external writes in log checks. Updated only navigation.js, render.js, CSS and normalized HTML digests; other 32 entries retained. alert-history.js and timeline.js separately reviewed. No backend/FAshe/security/database/user-browser modifications or service restart.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "planning-history-app-actions",
+      "reviewedDateUtc": "2026-09-15T07:11:13.672042+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/platform/browser-platform.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "evidence": "Manually reviewed runtime diff and 1024x600 delete/export screenshots. Three history actions use the existing asynchronous app dialog with optional read-only details and scoped danger styles; original deployment-confirmation default UI passes its browser regression. Single action, captured record ID/content/history revision/project/Bridge/inputs/host rechecked after async confirmation; cancellation has no writes. Load keeps existing receiver mapping/planned-only restoration and rejects busy deployment; stale row load does not open chooser. Delete preserves original local history/tombstone/project sync and local failure rollback, with no implicit retry. Export adds independently versioned async save port, preserving synchronous platform 1.0.0 and JSON/UTF-8 data; browser only reports download-started, native requires explicit saved/cancelled Promise and never falls back on missing capability. Cancel/late host outcomes do not report success. 79 focused cases and five-viewport production history UI browser checks pass, including real isolated JSON download, current-record deletion/draft retention, stale targets, native output, literal text and no browser dialogs/device commands. Only render.js, browser-platform.js, CSS and normalized HTML (stylesheet cache reference) digests updated; other 32 entries retained. storage/dialogs changes independently reviewed. No production history/database/security/FAshe modification or service restart.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "device-management-usage-editor",
+      "reviewedDateUtc": "2026-09-15T06:53:57.725703+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/navigation.js"
+      ],
+      "evidence": "Manually reviewed runtime diff and 1024x600 screenshot: edit modal uses existing unique lock reason with safe input.value, add modal retains device name. Save callback captures original ID (including quoted strings), rejects changed receiver identity and writes only an existing unique note through the planner adapter; defaults/unknown locks stay empty/disabled, clearing does not unlock. Usage-only save preserves live telemetry and names; existing invalidation clears stale planning values. Uses original project/history save with explicit success/failure result, pending input/save disabled, manual retry on failure; original modal reference avoids closing another dialog. Concurrent stale/duplicate/missing/replaced locks fail before write; simultaneous note and CH/IP edits are rejected before mutations to preserve identity. No new storage schema, protocol, device commands or FAshe edits. Two new isolated unit cases and five-viewport actual production-button browser save/cancel/failure/retry/restore/string-ID/manual-add/model-edit tests pass. Only navigation.js digest changed; normalized HTML and other 34 protected sources remain unchanged.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "device-management-locked-usage-column",
+      "reviewedDateUtc": "2026-09-15T05:17:07.325923+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/device-views.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "evidence": "Manually reviewed review.diff and 1024x600 screenshot. Device table reads the existing getLockedFrequencyView map by unique device ID with the existing receiver/history resolver. Displays lock reason using textContent and title; absent/default/invalid locks show an em dash. The column is read-only; device names remain intact. Planning adapter refreshes table on edits, removal, restore and initialization. No new storage/identity/control behavior. Isolated browser verifies same CH on two receivers, note edits and removal without telemetry, frequency stability, HTML text safety, duplicate/ambiguous locks, history restore after local IDs change, five viewports and 205 records/20-row/50-card pagination. Only required HTML, device-views.js and CSS digests changed; other 33 entries retained. planning-ui.js changes are three optional display refresh calls, also reviewed. No production controls or service restarts.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "device-management-real-group-column",
+      "reviewedDateUtc": "2026-09-15T05:05:53.816221+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/device-views.js",
+        "fuwuqi1.0.3/src/styles/main.css"
+      ],
+      "evidence": "Manual runtime diff and 1024x600 screenshot review: leading group column reuses the existing strict server-fifo-v1/group_number parser, unknown is an em dash. Adjusted name-cell indices, IP/CH action tooltip indices, nine-column empty state and status-color column. Only necessary table widths changed; numeric CH sort, 20-row pagination, device identity, live-name editing and actions preserved. 21 focused cases and five-viewport isolated table/50-card browser checks pass, including 205 records, live GROUP64 updates without recreating the name editor, same CH on different receivers, missing/boolean/untrusted values and group/channel/IP/frequency/status readability. Only device-views.js, CSS and normalized HTML hashes updated; other 33 entries retained. No backend, FAshe, algorithm, security, data or live control changes.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "spectrum-planner-margin-10mhz",
+      "reviewedDateUtc": "2026-09-15T04:56:34.795210+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/planning-ui.js",
+        "fuwuqi1.0.3/src/modules/spectrum.js"
+      ],
+      "evidence": "Manual exact runtime diff and 1024x600 screenshot review: visible spectrum inputs/separator/unit removed, legacy display-state IDs retained as hidden fields, two cache versions bumped. One-way pure integer-kHz-to-MHz padding, no reverse write into planner. Actual solver range and plan identity remain unchanged during temporary fit/restore; restore follows current padded planner bounds. History/startup and real scan bounds derive the view, old manual preferences cannot override it, invalid drafts retain last valid view. 140 focused cases, five viewport isolated planner/chart browser tests and RF axis/position/resize/DPR browser checks pass. Only normalized HTML digest updated; all other 35 protected source entries retained. CSS, backend, FAshe, algorithm and security unchanged; no live controls or restart.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "linked-spectrum-planning-range",
+      "reviewedDateUtc": "2026-09-15T03:44:38.148215+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/src/modules/planning-ui.js",
+        "fuwuqi1.0.3/src/modules/spectrum.js"
+      ],
+      "evidence": "Manual exact runtime diff and screenshots reviewed. HTML only changes the two spectrum input events/0.001 MHz step, removes redundant inline planner handlers and bumps two script cache versions. Planner uses one effective range for presets, custom inputs, real CSV and history; spectrum changes invalidate the plan via existing constraint/deployment flow. Invalid drafts do not save or plot fake default values; last valid view remains. 137 focused cases and five-viewport isolated browser link/pagination/planning checks pass. Isolated original single/all/ACK browser regression passes. Only the normalized HTML digest changes; all 35 protected source entries retain their original hashes. No backend, FAshe, database, security, style or live controls changed.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "planner-table-real-group-column",
+      "reviewedDateUtc": "2026-09-15T03:04:59.514475+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/src/styles/main.css",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "evidence": "Manual exact source diff and 1024x600 screenshot review: one leading column, nine-column empty state, necessary table widths and asset cache versions. A pure planner helper accepts positive server-fifo-v1 group_number only, using the same value for display and numeric GROUP/CH/stable sorting. Missing/invalid/untrusted numbers show an em dash without allocating local browser groups. 75 focused identity/planner/deployment cases and five viewport isolated browser pagination, actual planning, lock and clipping checks pass. Other 33 protected entries retained exactly. No receiver controls or service restart.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "planner-table-group-order",
+      "reviewedDateUtc": "2026-09-15T02:43:07.649603+00:00",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/modules/render.js",
+        "fuwuqi1.0.3/unirf-app.html"
+      ],
+      "evidence": "Manual exact diff review: one table heading, render asset cache version and view-copy sort only. Reuses existing displayed receiver GROUP; numeric GROUP then CH then original index, unknowns last. 75 focused planner/identity/deployment cases and five-viewport real browser pagination/layout pass, including GROUP2 before GROUP10 and unchanged device/action identities. Other 34 protected entries retain their original hashes; no source recapture. No service restart or receiver controls.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "remove-server-operator-access",
+      "reviewedDateUtc": "2026-09-14",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/access_control.py",
+        "fuwuqi1.0.3/http_transport.py",
+        "fuwuqi1.0.3/ip-service.py",
+        "fuwuqi1.0.3/mqtt-bridge.py",
+        "fuwuqi1.0.3/src/modules/navigation.js",
+        "fuwuqi1.0.3/src/modules/planning-deploy.js",
+        "fuwuqi1.0.3/src/platform/access-client.js",
+        "fuwuqi1.0.3/src/platform/browser-platform.js",
+        "fuwuqi1.0.3/unirf-app.html",
+        "fuwuqi1.0.3/web-service.py"
+      ],
+      "evidence": "Manually reviewed focused runtime diff: authorization UI/client/policy/status removed; no artificial operator. Same receiver pairing, brand/CH/frequency targeting, confirmation, ACK, unknown-result and no-replay behavior. 96 isolated backend tests pass including real temporary TLS, JSON/Origin/Fetch Metadata and pairing rejection. Isolated planning and realtime browser suites pass with unmodified FAshe ACK handlers; five viewport layout and business migration regressions pass. Other protected hashes retained exactly, not recaptured. Final verification passes: 717/717 Node cases, 40 JS files, 28 resources and 36 protected entries; deployed HTTPS/WSS read-only checks pass. No production controls.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "integrated-local-development",
+      "reviewedDateUtc": "2026-09-13",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/access_control.py",
+        "fuwuqi1.0.3/src/platform/access-client.js"
+      ],
+      "evidence": "Reviewed narrow authorization-policy/client diff against 20-file archive; 87 Python cases, local and existing Bearer browser deployment, ACK-before-POST mute and layout regressions pass. Other 35 protected entries unchanged; no automatic recapture.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "native-input1-and-plugin-status1",
+      "reviewedDateUtc": "2026-09-13",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/platform/browser-platform.js",
+        "fuwuqi1.0.3/src/modules/discovery.js"
+      ],
+      "evidence": "Manual diff and independent review: original platform 1.0.0 four ports unchanged, independent text-input addition only; discovery prefix before three plugin handlers byte-identical. 24 input and 3 plugin cases, native/browser file regressions, original/local deployment with unmodified FAshe ACK handlers, realtime mute and five-size layout pass. Includes completed and failed result guards across caller-await. Other 35 protected entries unchanged, no automatic recapture.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "host-boundary1",
+      "reviewedDateUtc": "2026-09-13",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "fuwuqi1.0.3/src/platform/browser-platform.js",
+        "fuwuqi1.0.3/src/modules/discovery.js",
+        "fuwuqi1.0.3/src/modules/init.js",
+        "fuwuqi1.0.3/src/modules/render.js"
+      ],
+      "evidence": "Manual narrow diffs against exact archive: optional host factory only; discovery request binding/generation/single fallback; init only initial alert; render only two confirm call sites. Independent review and 28 new host/discovery cases pass. Original/local single-all deployment with unmodified FAshe ACK handlers, mute, dialog/file/sound, plugin and five-size layout browser regressions pass. Other 33 protected entries unchanged. No automatic recapture, receiver control, DB mutation or service restart.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    },
+    {
+      "stage": "receiver-ca-recovery-pin",
+      "reviewedDateUtc": "2026-09-14",
+      "authorization": "维护记录：内部沟通内容已移除，保留技术变更和验证摘要。",
+      "paths": [
+        "FAshe/launch-fashe.py"
+      ],
+      "evidence": "Reviewed exact one-line constant replacement, old d851daded... to deployed CA DER SHA-256 f5cca4e55d9fc6e5e13b9c784cdb7ae7170265c98ae06f7da4e841c97998ade9. Existing launcher suite reproduced the failure before repair and all 6 cases pass after repair, including wrong-pin rejection and mocked current-user trust consent. Real read-only launcher check changed CA_FILE_ERROR to READY on server PC. Receiver-side trust and MQTT still require verification; no service restart, device command, trust-store or enrollment-registry changes. Other 36 protected entries unchanged; only this reviewed hash updated.",
+      "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+    }
+  ],
+  "files": [
+    {
+      "path": "fuwuqi1.0.3/http_transport.py",
+      "sha256": "a00eeec2b3a6971914c5d017b8f3030ab8f0229cfb43c68780d156463085ef4c"
+    },
+    {
+      "sha256": "dc93fb471e0494524c20f6daa4adb0b37558a546c23791c7f0afc79d99825447",
+      "path": "FAshe/index.html"
+    },
+    {
+      "sha256": "d82f526aa59a70420707a2bcd4150e34bc4bde38ce3bdc76f4d359d0cf1be0aa",
+      "path": "FAshe/launch-fashe.py"
+    },
+    {
+      "sha256": "08ea259688c733cff2d64e5905b5557f255a4803aa3f7fdb840b11badf16f7cf",
+      "path": "FAshe/src/auto-pair.js"
+    },
+    {
+      "sha256": "b78f6588004da6395594b83b3f34f09adc1a26ac845cb86bdf055b94123c3e5c",
+      "path": "FAshe/src/datyaudio-profile.js"
+    },
+    {
+      "sha256": "27f738a1132b38f1a23889c0f44b89e48ba15412b23e87a13f58e9a8a025f4b8",
+      "path": "FAshe/src/pairing-ui.js"
+    },
+    {
+      "sha256": "69df730de11da5e4e632a61ee8a47e5513d4996368891f5ebd246bffa22c775e",
+      "path": "FAshe/src/pairing.css"
+    },
+    {
+      "sha256": "62deed063e53b404c7086e0e540f44bfc877d51ec22b21921e5d553e6f171e1f",
+      "path": "FAshe/src/receiver-security.js"
+    },
+    {
+      "sha256": "7ff65411ce1139e5d55d1a02906709ac723f34e56efc8eb68be1e41ae23cf942",
+      "path": "FAshe/src/single-page.css"
+    },
+    {
+      "sha256": "056bafe212c4987ea66f56a5e9961e9908bf9a3da4199017ca1d4e29fc1d9c51",
+      "path": "FAshe/src/single-page.js"
+    },
+    {
+      "sha256": "81b51ef8ac2a8ac8f111ed34ab1a32d63e7f4f7de586bd65f5510fb1ba3a89eb",
+      "path": "FAshe/vendor/mqtt-5.10.4/LICENSE.md"
+    },
+    {
+      "sha256": "5ae9788a5594b332848ed37dfa23ecf28d154f7be7a3b371e26a8127f23abc4c",
+      "path": "FAshe/vendor/mqtt-5.10.4/mqtt.min.js"
+    },
+    {
+      "sha256": "aad005a359e90885a2b15fc13147ffc9ba606b91ed76b10299e1c9e6fe8b1204",
+      "path": "FAshe/vendor/mqtt-5.10.4/README.md"
+    },
+    {
+      "sha256": "27c83f834db3bcc06dcb358f9c03993963258f051a4edef6ba1d0234e04840da",
+      "path": "FAshe/启动FAshe.bat"
+    },
+    {
+      "sha256": "5718b6bbe2f3ae9ed368ef6d23f22d0f370267747e8f8d7af31a59638a5b8c4c",
+      "path": "fuwuqi1.0.3/DATYlogo.png"
+    },
+    {
+      "sha256": "e7c04723ca43a0d51cdeb7f5603aa1b71958bbf94ad4876737f9327ccbda1fce",
+      "path": "fuwuqi1.0.3/ip-service.py"
+    },
+    {
+      "sha256": "c30dcdd16cf9a8c47f7b9aae8c5ad62336028a484934e8a1734faa5aa56bf451",
+      "path": "fuwuqi1.0.3/mqtt-bridge.py"
+    },
+    {
+      "sha256": "22d6989456a2f5e43507d007ce49a5a444cddf81dd40839bb6b7e1052cad31fb",
+      "path": "fuwuqi1.0.3/receiver_enrollment.py"
+    },
+    {
+      "sha256": "7ea5e4011a2862843cf72a923d648a156c45348b457ae2a0f22558fae739599d",
+      "path": "fuwuqi1.0.3/receiver_pairing.py"
+    },
+    {
+      "sha256": "1986b39a14f5a4260d131c731d7685a5ff0e7de6f430f60a2446c3aee75daeb4",
+      "path": "fuwuqi1.0.3/security_storage.py"
+    },
+    {
+      "sha256": "c06a5d575c296933b6570a4bf1bfcf4920fb7674f3d960a5aa1ce21a2a31bdc2",
+      "path": "fuwuqi1.0.3/src/modules/coordination.js"
+    },
+    {
+      "sha256": "32faf85c8dfdfaef7b3bede3f71f410048b2a8a51172bf9abf91ff1b067255b6",
+      "path": "fuwuqi1.0.3/src/modules/device-views.js"
+    },
+    {
+      "sha256": "5e1111ba5e1ed822d19484c9391ced388bdc30bd0724574bb9f772b1f613abf3",
+      "path": "fuwuqi1.0.3/src/modules/discovery.js"
+    },
+    {
+      "sha256": "c2aab80f2f6f3099fca55dcaca761e75f6500154fe9e3f46872497eb4881565e",
+      "path": "fuwuqi1.0.3/src/modules/equipment-profiles.js"
+    },
+    {
+      "sha256": "f2b4dfea4fc302471b129bda5a3a7cdc0692f618c376c7be904c4b537b761e9b",
+      "path": "fuwuqi1.0.3/src/modules/fashe.js"
+    },
+    {
+      "sha256": "e35b5d2b497cd3190d1c4fd2f8f218a8fefc73a482b7de5d50a407d7cb43997e",
+      "path": "fuwuqi1.0.3/src/modules/frequency.js"
+    },
+    {
+      "sha256": "de22bb2a2747a16e1f9caa22e5d5368df11a9c9a7d102d9771bd485e7cbbbf07",
+      "path": "fuwuqi1.0.3/src/modules/init.js"
+    },
+    {
+      "sha256": "e2f479523b984a2ee22fdf60c74b8a15d00f2e5d403f604e3401315d0524a963",
+      "path": "fuwuqi1.0.3/src/modules/navigation.js"
+    },
+    {
+      "sha256": "dd073ead00a01c6afa33665815b5b8dd86a163a68bfa9301b89b8a2251c97f78",
+      "path": "fuwuqi1.0.3/src/modules/planning-deploy.js"
+    },
+    {
+      "sha256": "38e2716ee9d3637f4b3ad5b006486fe89f95dd7daa5ef67b88b00a8f0e7b8b83",
+      "path": "fuwuqi1.0.3/src/modules/render.js"
+    },
+    {
+      "sha256": "dd9694d1aed38d2367ab61150c827c523591d4a33a66f04c64536729c4945ca2",
+      "path": "fuwuqi1.0.3/src/platform/browser-platform.js"
+    },
+    {
+      "sha256": "cda2b5937dc1a968a270b0762af1fe276f1d954f60851b363771dc5696bdce36",
+      "path": "fuwuqi1.0.3/src/styles/deploy-progress.css"
+    },
+    {
+      "sha256": "19bf22e4d384adee85082a1c1f4707310d9f4f2098e1811d6c9758b483e877c3",
+      "path": "fuwuqi1.0.3/src/styles/main.css"
+    },
+    {
+      "sha256": "c18e7492df0855e0b9c84f6e71db55898511d2fbb6c1483ccce978fc2edf8c7d",
+      "path": "fuwuqi1.0.3/tls_support.py"
+    },
+    {
+      "sha256": "55273fd8aa11f0d8093f028f9eb03b727e75a48a73a0ab2a854f63e616633fa2",
+      "path": "fuwuqi1.0.3/web-service.py"
+    },
+    {
+      "path": "FAshe/src/connection-stability.js",
+      "sha256": "9b59bf63fdbf114b7378782a49a95d362f61a0f4cdc74a6ba2e4da705912c861"
+    },
+    {
+      "path": "FAshe/src/network-timers.js",
+      "sha256": "fccba1c9cf9ce15e2e9bac9964ec2d559db237eb5f8ca449322af3cbcf191408"
+    },
+    {
+      "path": "FAshe/src/receiver-timer-worker.js",
+      "sha256": "6396fe816a648bae1df8f2265f73a2ca065e1d32a48d9c0b86277b1edb6253ad"
+    },
+    {
+      "path": "FAshe/vendor/mqtt-5.10.4/mqtt.upstream.min.js",
+      "sha256": "0d5d035815d2a462e6edf0f86ab91f7a5d563a36b40e9760e4ee452618f7c45e"
+    },
+    {
+      "path": "FAshe/scripts/build-mqtt-scheduler.cjs",
+      "sha256": "a9c812f18a31251e32200b15744380b9a94cb80369614f8e95ba290ed71764a5"
+    },
+    {
+      "path": "fuwuqi1.0.3/shure_protocol.py",
+      "sha256": "eeb23a8039bb462052a2395f30c5324d557af4eab8d715eb28fa42de490e0df6"
+    },
+    {
+      "path": "fuwuqi1.0.3/shure_active_discovery.py",
+      "sha256": "639f74590cf08c23a32dce069b70fa119910bebe2a69a58d4a7ef116de097266"
+    },
+    {
+      "path": "fuwuqi1.0.3/src/styles/data-management.css",
+      "sha256": "0f1fcf0f4ccf69676cd458204587f45ea47cd28ec343ca9e0d46a9f9da77a08a"
+    },
+    {
+      "path": "fuwuqi1.0.3/src/modules/data-catalog.js",
+      "sha256": "3ab20703ccadef00800e48ce65f5a821e62930a6b188ca29bae46ab696dcb71d"
+    },
+    {
+      "path": "fuwuqi1.0.3/src/modules/activity.js",
+      "sha256": "d71193556bf339c89bbb55c27c4d66c5f35217677e5187b1f66a105ab3ebab2a"
+    },
+    {
+      "path": "fuwuqi1.0.3/src/modules/alert-history.js",
+      "sha256": "5ef41b9f8a663a4be7fda5f3eb7f5e0c26c91c267df25f7634a658a8dab4cfee"
+    },
+    {
+      "path": "fuwuqi1.0.3/unified_activity.py",
+      "sha256": "efd6038e402572bc3dd90ff9e9f66d65bf964f9f7cf7785be3a27eca8efd84cc"
+    },
+    {
+      "path": "fuwuqi1.0.3/src/app/server-storage.js",
+      "sha256": "61bf8d95b03d61e2772ecdc1e0db76704bdc93a913ebb55727dc1ba4e3709069"
+    },
+    {
+      "path": "fuwuqi1.0.3/shure_control_contract.py",
+      "sha256": "9e54eb979b58cc0b326705b099d8ed867f931d9b3694ce38be8414c74ce7aeb9"
+    },
+    {
+      "path": "fuwuqi1.0.3/shure_metering.py",
+      "sha256": "0213027e5ebfbf9b1522aed1c1d0511291a824141f9b62f1ffb71a7370cf2ff6"
+    },
+    {
+      "path": "fuwuqi1.0.3/src/app/system-settings.js",
+      "sha256": "c421dd62022905952a8fede0b04b635cf9f16ca12ce7780122ff4307502d623c"
+    }
+  ],
+  "ui": {
+    "path": "fuwuqi1.0.3/unirf-app.html",
+    "normalization": "lf-and-script-cache-query-v1",
+    "sha256": "e97cf10093db06fe3ee1f0b3c3774ac2042e0a2a8286196b6495ccb022572e37"
+  }
+}

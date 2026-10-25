@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "referenceKind": "independent-arithmetic-reference-not-WWB-or-field-measurement",
+  "notice": "DATYaudio minimum/lattice 250 kHz is the user supplied requirement. All other brand numbers below are synthetic test-only Profiles, not manufacturer specifications.",
+  "profiles": [
+    {"id":"fixture-daty","brand":"DATYaudio","minimumKHz":250,"spacingKHz":250,"imdKHz":100,"gridKHz":250},
+    {"id":"fixture-ams","brand":"AMSaudio","minimumKHz":400,"spacingKHz":400,"imdKHz":125,"gridKHz":25},
+    {"id":"fixture-shure","brand":"Shure","minimumKHz":600,"spacingKHz":600,"imdKHz":175,"gridKHz":25},
+    {"id":"fixture-senn","brand":"Sennheiser","minimumKHz":300,"spacingKHz":300,"imdKHz":150,"gridKHz":25}
+  ],
+  "pairCases": [
+    {"id":"daty-ams-below-maximum","profiles":[0,1],"frequenciesKHz":[600000,600375],"requiredKHz":400,"conflict":true},
+    {"id":"daty-ams-exact-maximum","profiles":[0,1],"frequenciesKHz":[600000,600400],"requiredKHz":400,"conflict":false},
+    {"id":"shure-daty-below-maximum","profiles":[2,0],"frequenciesKHz":[600425,601000],"requiredKHz":600,"conflict":true},
+    {"id":"shure-daty-exact-maximum","profiles":[2,0],"frequenciesKHz":[600400,601000],"requiredKHz":600,"conflict":false},
+    {"id":"ams-senn-below-maximum","profiles":[1,3],"frequenciesKHz":[600000,600375],"requiredKHz":400,"conflict":true},
+    {"id":"ams-senn-exact-maximum","profiles":[1,3],"frequenciesKHz":[600000,600400],"requiredKHz":400,"conflict":false}
+  ],
+  "imdCases": [
+    {"id":"cross-brand-third-order-exact-hit","frequenciesKHz":[600000,601000,602000],"orders":[3],"threeTone":false,"productKHz":602000,"victimId":3,"sourceIds":[1,2],"kind":"two-tone","order":3,"expectedSpacingKHz":0},
+    {"id":"cross-brand-fifth-order-exact-hit","frequenciesKHz":[600000,601000,603000],"orders":[3,5],"threeTone":false,"productKHz":603000,"victimId":3,"sourceIds":[1,2],"kind":"two-tone","order":5,"expectedSpacingKHz":0},
+    {"id":"cross-brand-three-tone-exact-hit","frequenciesKHz":[600000,601000,604000,605000],"orders":[3],"threeTone":true,"productKHz":605000,"victimId":4,"sourceIds":[1,2,3],"kind":"three-tone","order":3,"expectedSpacingKHz":0},
+    {"id":"cross-brand-inside-imd-guard","frequenciesKHz":[600000,601000,602150],"orders":[3],"threeTone":false,"productKHz":602000,"victimId":3,"sourceIds":[1,2],"kind":"two-tone","order":3,"expectedSpacingKHz":150},
+    {"id":"cross-brand-exact-imd-guard-boundary","frequenciesKHz":[600000,601000,602175],"orders":[3],"threeTone":false,"expectedConflicts":0}
+  ],
+  "solverCases": [
+    {"id":"mixed-three-cannot-fit","rangeStartKHz":600000,"rangeEndKHz":601000,"stepKHz":250,"expectedMaximum":2},
+    {"id":"mixed-three-fit","rangeStartKHz":600000,"rangeEndKHz":601500,"stepKHz":250,"expectedMaximum":3}
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "stage": "M5 isolated candidate; production integration is M6",
+  "server_id": "stage5-server",
+  "schemas": ["daty-mqtt-files-v1", "daty-mqtt-enrollment-v1"],
+  "transport": {
+    "protocol": "MQTT 5 over WSS, normal certificate verification",
+    "files_path": "/mqtt-files",
+    "enrollment_path": "/mqtt-enrollment",
+    "topics": "daty/v2/stage5-server/{files|enrollment}/{request|reply}",
+    "broker_private_topics": "daty/prototype/v2/stage5-server/{files|enrollment}/{assigned_session_id}/{request|reply}",
+    "qos": 1,
+    "retained": false,
+    "session_expiry_seconds": 0,
+    "private_message_expiry_seconds": 5,
+    "source_ip": "actual socket peer; no payload, forwarding header or GROUP routing",
+    "authorization": "existing direct business access; independent original receiver enrollment proof",
+    "isolation": "separate business/gateway accounts for files and enrollment, no cross-tree delivery; anonymous disabled",
+    "broker_persistence": false,
+    "http_write_fallback": false
+  },
+  "limits": {
+    "request_bytes": 262144,
+    "enrollment_request_bytes": 16384,
+    "chunk_bytes": 131072,
+    "upload_bytes": 67108864,
+    "download_bytes": 1073741824,
+    "staging_reserved_bytes": 2147483648,
+    "staging_records": 8192,
+    "connections_per_gateway": 32,
+    "workers_per_gateway": 32,
+    "client_inflight": 1,
+    "large_data_worker": 1,
+    "request_deadline_max_ms": 30000
+  },
+  "file_methods": [
+    "uploads.begin", "uploads.status", "uploads.chunk", "uploads.finish", "uploads.cancel",
+    "downloads.open", "downloads.status", "downloads.chunk", "downloads.close",
+    "exports.create", "exports.list", "exports.get", "archives.create", "archives.list", "archives.get",
+    "cleanups.prepare", "cleanups.get", "cleanups.commit", "file.operations.get", "data.invoke", "storage.status"
+  ],
+  "upload": {
+    "intent": ["operation_id", "bytes", "sha256", "media_type"],
+    "media_types": ["text/plain", "text/csv", "application/json"],
+    "encoding": "base64 of original bytes, never newline/BOM normalization",
+    "progress": "contiguous aligned offset, fsynced chunk then atomic manifest",
+    "duplicates": "identical offset/length/hash is idempotent; conflicting bytes rejected",
+    "finish": "assemble, verify all chunks and whole length/SHA256, fsync/rename before ready",
+    "resume": "explicit status query after reconnect/restart, same owner/IP and immutable intent",
+    "cancellation": "staging only; never rolls back a committed import/export or database transaction"
+  },
+  "download": {
+    "source": "saved original export or full archive; exact supplied SHA256",
+    "snapshot": "server-owned immutable copy; original cleanup lock held while copying",
+    "verification": "server verifies each stored chunk; host verifies final length/SHA256 including resumed prefix before commit",
+    "release": "downloads.close removes generated payload only; keeps receipt; no automatic retention cleanup"
+  },
+  "business": {
+    "data_invoke": "verified application/json upload containing {method,body}; original M4 allowlist/DTO/epoch/CAS/previewDigest/confirmation/transaction/receipt semantics",
+    "large_reply": "download_required with immutable JSON UTF-8 download descriptor, never truncation",
+    "storage": "original unified SQLite; M4 business+audit+receipt same FULL transaction; file lifecycle follows original archive manifests",
+    "unknown": "never replay file/domain writes; query operation and original domain status; database outcomes query original M4 operation",
+    "full_archive": "original ZIP with consistent SQLite, all tables/rows and completed export inventory; staging and pairing material excluded"
+  },
+  "enrollment": {
+    "methods": ["receivers.challenge", "receivers.enroll"],
+    "domain": "original ReceiverEnrollment and ReceiverPairingPolicy",
+    "first_registration": "configured actual-IP allowlist and capacity",
+    "proof": "existing P-256 nonextractable key; SHA256 ECDSA P1363; exact original 8-line challenge",
+    "key_namespace": "original HTTPS :8802 origin | canonical simulated MAC; not WSS origin",
+    "challenge": "30 seconds, original IP plus current M5 socket session, single use",
+    "renewal": "fresh signed challenge; original credential_id/receiver_id/MAC/CA/GROUP retained; 8-hour secret rotates",
+    "secret": "memory-only TLS response on own ephemeral enrollment reply topic; no retained, persisted Broker session, business DB, archive, log or generic write cache",
+    "lost_response": "new signed challenge; no enrollment response/secret replay cache",
+    "fashe_lifecycle": "original retry/backoff, expiry stop, channel state, ownership and auto-power rules unchanged"
+  },
+  "permanent_order": "actual numeric GROUP ascending, CH ascending within GROUP, unknown last; GROUP is not identity",
+  "not_completed": [
+    "production endpoint composition and deployment",
+    "M1-M5 cross-process session and revocation integration",
+    "remote FAshe copies and browser background/freeze validation",
+    "long-duration/throughput/real hardware validation",
+    "staging retention policy and host pending-operation UX",
+    "power-loss durability beyond verified process-crash/fsync boundaries"
+  ]
+}

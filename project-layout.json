@@ -1,0 +1,24 @@
+{
+  "schema": "daty-unified-layout-v1",
+  "product": "DATY RF PRO",
+  "release": "r19-standalone-dev1",
+  "task": null,
+  "paths": {
+    "application": "app",
+    "serverSource": "app/server",
+    "webAssets": "app/public",
+    "nativeSource": "native",
+    "database": "data/db/daty-rf.sqlite3",
+    "archives": "data/archives",
+    "staging": "data/staging",
+    "runtime": "runtime",
+    "config": "config/runtime-config.json",
+    "contracts": "contracts",
+    "plugins": "data/plugins",
+    "security": "data/security"
+  },
+  "security": "data/security",
+  "databaseEpoch": null,
+  "webUrl": "https://127.0.0.1:18080",
+  "packageManifestSha256": "1d5e330163dc4669b634420bed82b75e1ee08564dec004177042974db7292f05"
+}

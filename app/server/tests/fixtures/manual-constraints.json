@@ -1,0 +1,19 @@
+{
+  "referenceKind": "fixed-manual-constraints-input-not-WWB-or-field-measurement",
+  "devices": [
+    {"id":1,"_fasheId":"fixture-rx_ch1","receiver_ip":"192.0.2.1","channel_number":1,"ch":"CH1","brand":"DATYaudio","model":"DATY-X1","freq":641000},
+    {"id":2,"_fasheId":"fixture-rx_ch2","receiver_ip":"192.0.2.1","channel_number":2,"ch":"CH2","brand":"DATYaudio","model":"DATY-X1","freq":645000},
+    {"id":3,"_fasheId":"fixture-rx_ch3","receiver_ip":"192.0.2.1","channel_number":3,"ch":"CH3","brand":"DATYaudio","model":"DATY-X1","freq":655000}
+  ],
+  "fields": {
+    "plannerRange":"640000:690000",
+    "plannerCompatibility":"standard",
+    "plannerExcludedRanges":"644.500-645.500 电视\n660.000-661.000 舞台",
+    "plannerLockedAssignments":"CH1=642.000 主持人优先",
+    "plannerKnownCarriers":"641.000,250,对讲",
+    "plannerBackupCount":"2",
+    "plannerRangeStart":"640.000","plannerRangeEnd":"690.000","plannerStepKHz":"25",
+    "plannerMinSpacingKHz":"","plannerImdSpacingKHz":"","plannerScanThresholdDbm":"","plannerImdPolicy":"third"
+  },
+  "expected": {"lockDeviceId":1,"lockFrequencyKHz":642000,"changedDeviceId":2,"retainedDeviceId":3,"retainedFrequencyKHz":655000,"minimumChannelSpacingKHz":250,"coordinationStepKHz":250}
+}

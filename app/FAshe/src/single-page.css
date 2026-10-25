@@ -1,0 +1,131 @@
+/* 接收机单窗口布局。分页只控制可见卡片，不限制设备与遥测。 */
+html,body{height:100%;overflow:hidden;}
+body{min-height:0;padding:12px;}
+.container{max-width:none;height:100%;display:flex;flex-direction:column;gap:10px;min-width:0;}
+.header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;text-align:left;margin:0;padding:8px 14px;flex-shrink:0;}
+.header h1{grid-column:1;grid-row:1;margin:0;font-size:20px;line-height:26px;}
+.header p{grid-column:1;grid-row:2;font-size:11px;line-height:16px;}
+.header .tab-bar{grid-column:2;grid-row:1/3;align-items:center;margin:0;gap:6px;}
+.tab-btn{padding:7px 22px;border:1px solid transparent;border-radius:6px;}
+.tab-btn.active{border:1px solid #6366f1;}
+.tab-content{min-height:0;min-width:0;flex:1;}
+.tab-content.active{display:block;}
+#tab-monitor>.grid{height:100%;min-height:0;grid-template-columns:304px minmax(0,1fr);gap:10px;}
+.sidebar,.monitor-main{min-height:0;min-width:0;padding:12px;}
+.sidebar{height:100%;display:flex;flex-direction:column;gap:10px;}
+.sidebar-tabs{display:flex;flex-shrink:0;gap:6px;}
+.sidebar-tabs button,.channel-pager button,.compact-settings-btn{border:1px solid #475569;border-radius:5px;color:#cbd5e1;background:#0f172a;font:inherit;font-size:12px;cursor:pointer;padding:6px 10px;}
+.sidebar-tabs button{flex:1;}
+.sidebar-tabs button[aria-pressed=true]{color:#22d3ee;border-color:#6366f1;background:#312e8155;}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #22d3ee;outline-offset:2px;}
+#sidebarConnection,#sidebarDiagnostics{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;}
+.connection-section{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:8px 10px;margin:0;}
+.connection-section>.section-title{display:none;}
+.connection-section .wide-field,.power-actions{grid-column:1/-1;}
+#sidebarConnection[hidden],#sidebarDiagnostics[hidden],.device-card[hidden]{display:none!important;}
+.connection-section #serverStatusBar,.connection-section #clockStatusBar{padding:6px 7px!important;margin:0!important;border-radius:6px!important;min-width:0;line-height:16px;}
+.connection-section #serverStatusText,.connection-section #clockStatusBar{font-size:11px!important;overflow-wrap:anywhere;}
+#serverStatusDot{flex-shrink:0;}
+.sidebar .form-group{margin:0;min-width:0;}
+.sidebar .form-group label{font-size:11px;margin-bottom:4px;line-height:16px;}
+.sidebar .form-group input,.sidebar .form-group select{height:30px;padding:5px 7px;font-size:12px;min-width:0;}
+.sidebar .btn{padding:7px 9px;font-size:12px;}
+#deviceModelHint,#ipHint{font-size:10px!important;line-height:14px;overflow-wrap:anywhere;}
+.sidebar .section-title{font-size:13px;margin-bottom:8px;padding-bottom:6px;}
+#sidebarDiagnostics .section{margin-bottom:14px;}
+#selfCheckResult,#pingResult{overflow-wrap:anywhere;}
+.status-indicator{padding:8px;margin-bottom:8px;}
+.monitor-main{display:grid;grid-template-rows:52px minmax(0,1fr) 112px;gap:10px;}
+.stats-grid{margin:0;gap:8px;min-width:0;}
+.stat-card{padding:5px 8px;min-width:0;}
+.stat-value{font-size:22px;line-height:25px;margin-bottom:1px;}
+.stat-label{font-size:11px;}
+.device-section{display:flex;flex-direction:column;min-height:0;min-width:0;margin:0;}
+.device-section-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-shrink:0;font-size:13px;margin-bottom:8px;padding-bottom:6px;}
+.channel-pager{display:flex;align-items:center;gap:6px;min-width:0;}
+#devicePagerState{font-size:11px;font-weight:400;color:#94a3b8;white-space:nowrap;}
+.channel-pager button{padding:1px 9px;font-size:18px;line-height:20px;}
+.channel-pager button:disabled{opacity:.35;cursor:default;}
+.device-cards{--card-min-height:190px;flex:1;min-height:0;min-width:0;margin:0;gap:8px;grid-template-columns:repeat(var(--card-columns,2),minmax(0,1fr));grid-template-rows:repeat(var(--card-rows,1),minmax(0,1fr));align-content:start;align-items:start;overflow:auto;overscroll-behavior:contain;}
+.device-card{padding:10px;min-width:0;height:100%;max-height:236px;transition:border-color .15s,box-shadow .15s;}
+.device-header{gap:6px;margin-bottom:6px;min-width:0;}
+.device-header>div:first-child{min-width:0;}
+.device-name{font-size:13px;line-height:18px;overflow-wrap:anywhere;}
+.device-ch{font-size:11px;line-height:16px;}
+.device-info{grid-template-columns:minmax(0,1fr);gap:4px;line-height:20px;}
+.info-item{gap:6px;min-width:0;}
+.info-label{width:48px;flex-shrink:0;}
+.info-value{min-width:0;font-size:12px;}
+.meters{display:grid;gap:4px;margin-top:7px;padding-top:7px;}
+.meter-row{margin:0;gap:6px;min-height:18px;}
+.meter-label{width:24px;flex-shrink:0;}
+.meter-slider{width:0;min-width:0;}
+.meter-value{width:58px;flex-shrink:0;white-space:nowrap;font-size:10px;}
+/* 四列窄卡：IP 独占首行，CH 与品牌共用下一行，保留原数据和全部控件。 */
+.device-cards.compact-cards{--card-min-height:144px;}
+.compact-cards .device-card{padding:6px;}
+.compact-cards .device-header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 4px;margin-bottom:4px;}
+.compact-cards .device-header>div:first-child{display:contents;}
+.compact-cards .device-name{grid-column:1/-1;grid-row:1;font-size:12px;line-height:16px;}
+.compact-cards .device-ch{grid-column:1;grid-row:2;font-size:10px;line-height:14px;}
+.compact-cards .device-header>div:last-child{grid-column:2;grid-row:2;white-space:nowrap;padding:1px 3px!important;font-size:9px!important;}
+.compact-cards .device-info{gap:2px;line-height:18px;}
+.compact-cards .info-label{display:none;}
+.compact-cards .info-value{font-size:11px;white-space:nowrap;}
+.compact-cards .btn-mute,.compact-cards .btn-edit-freq{padding:0 6px;line-height:18px;flex-shrink:0;}
+.compact-cards .meters{gap:2px;margin-top:4px;padding-top:4px;}
+.compact-cards .meter-row{gap:4px;min-height:14px;line-height:14px;}
+.compact-cards .meter-label{width:18px;}
+.compact-cards .meter-value{width:54px;}
+.log-section{margin:0;min-height:0;display:flex;flex-direction:column;}
+.log-section>.section-title{display:flex;align-items:center;justify-content:space-between;font-size:13px;margin-bottom:6px;padding-bottom:5px;}
+.log-section .btn{padding:3px 8px;font-size:11px;}
+.log-container{height:auto;min-height:0;flex:1;padding:6px 8px;font-size:11px;overscroll-behavior:contain;}
+.log-entry{padding:2px 0;gap:8px;line-height:16px;}
+.log-time{min-width:68px;}.log-type{min-width:55px;}
+.log-message{min-width:0;overflow-wrap:anywhere;}
+#tab-interference>.interference-layout{height:100%;min-height:0;max-width:none!important;gap:10px!important;grid-template-rows:66px 176px minmax(66px,1fr) 154px;}
+.interference-layout>.main{min-height:0;min-width:0;padding:10px;}
+.interference-layout .section-title{font-size:13px;margin-bottom:8px;padding-bottom:5px;}
+.interference-layout .form-group{margin-bottom:8px;}
+.interference-layout .form-group label{font-size:12px;margin-bottom:4px;}
+.interference-layout .form-group select{padding:6px 8px;font-size:12px;}
+#interferenceStrength{height:20px;padding:0;border:0;margin:0;background:transparent;}
+.interference-impact>div:last-child{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;}
+.interference-impact>div:last-child>div{min-width:0;gap:6px;padding:8px!important;}
+.interference-impact span{font-size:12px!important;}
+#interferenceAffectedChannels{max-width:65%;max-height:38px;overflow:auto;overflow-wrap:anywhere;}
+.interference-targets{display:flex;flex-direction:column;}
+#interferenceChannelList{flex:1;min-height:0;align-content:flex-start;overflow:auto;gap:6px!important;overscroll-behavior:contain;}
+#interferenceChannelList label{min-width:78px!important;padding:4px 7px!important;gap:6px!important;}
+#interferenceChannelList label span{font-size:12px!important;}
+#interferenceCanvas{display:block;}
+.compact-settings-btn{display:none;}
+@media(max-height:700px){
+  body{padding:8px;}.container{gap:8px;}.header{padding:6px 12px;}
+  .sidebar,.monitor-main{padding:10px;}.sidebar{gap:8px;}
+  .connection-section{gap:6px 8px;}.monitor-main{grid-template-rows:48px minmax(0,1fr) 86px;gap:8px;}
+  .stat-value{font-size:20px;line-height:23px;}
+  .device-cards{--card-min-height:144px;}
+  .device-card{padding:6px;}
+  .device-header{margin-bottom:4px;}
+  .device-name{font-size:12px;line-height:16px;}
+  .device-ch{line-height:14px;}
+  .device-info{gap:2px;line-height:18px;}
+  .btn-mute,.btn-edit-freq{padding:0 6px;line-height:18px;}
+  .meters{gap:2px;margin-top:4px;padding-top:4px;}
+  .meter-row{min-height:14px;line-height:14px;}
+  #tab-interference>.interference-layout{grid-template-rows:62px 176px minmax(60px,1fr) 154px;gap:8px!important;}
+}
+@media(max-width:1150px){#tab-monitor>.grid{grid-template-columns:280px minmax(0,1fr);}.interference-impact>div:last-child>div{padding:7px!important;}}
+@media(max-width:900px){#tab-monitor>.grid{grid-template-columns:266px minmax(0,1fr);}.header h1{font-size:17px;}.tab-btn{padding:7px 14px;}}
+@media(max-width:700px){
+  .header{grid-template-columns:minmax(0,1fr);}.header h1{font-size:16px;}.header p{display:none;}
+  .header .tab-bar{grid-column:1;grid-row:2;justify-content:flex-start;}
+  .compact-settings-btn{display:inline-block;}
+  #tab-monitor>.grid{grid-template-columns:minmax(0,1fr);}
+  #receiverSidebar{display:none;}body.receiver-settings-open #receiverSidebar{display:flex;}
+  body.receiver-settings-open .monitor-main{display:none;}
+  #tab-interference>.interference-layout{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto;overflow:auto;}
+  .interference-targets{min-height:110px!important;}#interferenceChannelList{max-height:180px;flex:none;}
+}

@@ -1,0 +1,18 @@
+{
+  "id": "shure-systemapi",
+  "name": "Shure SystemAPI",
+  "version": "6.10.0.240",
+  "publisher": "Shure Incorporated",
+  "source": "https://www.shure.com/en-US/products/software/systemapi",
+  "installer": {
+    "path": "runtime/SystemAPI-Windows-6.10.0.240.exe",
+    "sha256": "bcb93e78cad418a6f021b312d94f44409dc674d0ecdfc5457660ca55b62ff7c2",
+    "bytes": 220075000
+  },
+  "probe": {
+    "uri": "https://127.0.0.1:10000/api/v1/devices?first=1",
+    "certificate": "C:/ProgramData/Shure/SystemAPI/Standalone/security/systemapicertificate.cer",
+    "credentialFile": "C:/ProgramData/Shure/SystemAPI/Standalone/security/SharedKey.txt",
+    "header": "x-api-key"
+  }
+}

@@ -1,0 +1,554 @@
+{
+  "source": "app/public/src/modules",
+  "files": [
+    {
+      "name": "dashboard",
+      "sha256": "15f17350d4395340a901688288bb8511c0c9ecf099239eb08e31e595536025b6"
+    },
+    {
+      "name": "render",
+      "sha256": "e216be29f774b8027241822a8cf17eddb90a190fa4126238d331e8160a1150e1"
+    }
+  ],
+  "cases": [
+    {
+      "name": "daty ordinary",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": -20,
+        "batt": 80
+      },
+      "online": true,
+      "rf": -40,
+      "af": -20,
+      "battery": "80%",
+      "issues": []
+    },
+    {
+      "name": "numeric RF string",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": "-50",
+        "afDbfs": -20,
+        "batt": 80
+      },
+      "online": true,
+      "rf": -50,
+      "af": -20,
+      "battery": "80%",
+      "issues": []
+    },
+    {
+      "name": "RF invalid",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": "  ",
+        "afDbfs": -20,
+        "batt": 80
+      },
+      "online": true,
+      "rf": null,
+      "af": -20,
+      "battery": "80%",
+      "issues": []
+    },
+    {
+      "name": "null AF authoritative",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": 80,
+        "af_dbfs": -10
+      },
+      "online": true,
+      "rf": -40,
+      "af": null,
+      "battery": "80%",
+      "issues": []
+    },
+    {
+      "name": "zero AF overload",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": 0,
+        "batt": 80
+      },
+      "online": true,
+      "rf": -40,
+      "af": 0,
+      "battery": "80%",
+      "issues": [
+        "af"
+      ]
+    },
+    {
+      "name": "low battery",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": -20,
+        "batt": 20
+      },
+      "online": true,
+      "rf": -40,
+      "af": -20,
+      "battery": "20%",
+      "issues": [
+        "battery"
+      ]
+    },
+    {
+      "name": "RF threshold",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -90,
+        "afDbfs": -20,
+        "batt": 80
+      },
+      "online": true,
+      "rf": -90,
+      "af": -20,
+      "battery": "80%",
+      "issues": [
+        "rf"
+      ]
+    },
+    {
+      "name": "offline flag",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": "false",
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": -20,
+        "batt": 80
+      },
+      "online": false,
+      "rf": -40,
+      "af": -20,
+      "battery": "80%",
+      "issues": []
+    },
+    {
+      "name": "legacy online status",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "0",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": -20,
+        "batt": 80
+      },
+      "online": true,
+      "rf": -40,
+      "af": -20,
+      "battery": "80%",
+      "issues": []
+    },
+    {
+      "name": "unavailable status",
+      "input": {
+        "id": "test_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "DATYaudio",
+        "model": "RF PRO",
+        "_source": "fashe-mqtt",
+        "_online": true,
+        "status": "unavailable",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": -20,
+        "batt": 80
+      },
+      "online": false,
+      "rf": -40,
+      "af": -20,
+      "battery": "80%",
+      "issues": []
+    },
+    {
+      "name": "ULXD audio and bars",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": null,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -22,
+          "meter_state": "live",
+          "battery_bars": 4,
+          "battery_runtime_status": "calculating",
+          "stale_fields": []
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": -22,
+      "battery": "4/5格",
+      "issues": []
+    },
+    {
+      "name": "ULXD floor",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": null,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -50,
+          "meter_state": "live",
+          "battery_bars": 4,
+          "battery_runtime_status": "calculating",
+          "stale_fields": []
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": -50,
+      "battery": "4/5格",
+      "issues": []
+    },
+    {
+      "name": "ULXD out of range",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": null,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -51,
+          "meter_state": "live",
+          "battery_bars": 4,
+          "battery_runtime_status": "calculating",
+          "stale_fields": []
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": null,
+      "battery": "4/5格",
+      "issues": []
+    },
+    {
+      "name": "ULXD stale meter",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": null,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -22,
+          "meter_state": "stale",
+          "battery_bars": 4,
+          "battery_runtime_status": "calculating",
+          "stale_fields": []
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": null,
+      "battery": "4/5格",
+      "issues": []
+    },
+    {
+      "name": "ULXD one bar",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": null,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -22,
+          "meter_state": "live",
+          "battery_bars": 1,
+          "battery_runtime_status": "calculating",
+          "stale_fields": []
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": -22,
+      "battery": "1/5格",
+      "issues": [
+        "battery_bars"
+      ]
+    },
+    {
+      "name": "ULXD known percent wins",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": 65,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -22,
+          "meter_state": "live",
+          "battery_bars": 1,
+          "battery_runtime_status": "calculating",
+          "stale_fields": []
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": -22,
+      "battery": "65%",
+      "issues": []
+    },
+    {
+      "name": "ULXD expired battery",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": 65,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -22,
+          "meter_state": "live",
+          "battery_bars": 1,
+          "battery_runtime_status": "calculating",
+          "stale_fields": [
+            "battery_percent",
+            "battery_bars"
+          ]
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": -22,
+      "battery": "已过期",
+      "issues": []
+    },
+    {
+      "name": "ULXD battery error",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": null,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -22,
+          "meter_state": "live",
+          "battery_bars": 4,
+          "battery_runtime_status": "error",
+          "stale_fields": []
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": -22,
+      "battery": "4/5格",
+      "issues": [
+        "battery_error"
+      ]
+    },
+    {
+      "name": "ULXD interference",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "ULXD4",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": null,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -22,
+          "meter_state": "live",
+          "battery_bars": 4,
+          "battery_runtime_status": "calculating",
+          "stale_fields": [],
+          "interference": "CRITICAL",
+          "encryption_warning": "ON"
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": -22,
+      "battery": "4/5格",
+      "issues": [
+        "encryption_mismatch",
+        "rf_interference"
+      ]
+    },
+    {
+      "name": "AD4 RMS",
+      "input": {
+        "id": "shure_ch1",
+        "receiver_id": "fixture-rx",
+        "channel_number": 1,
+        "brand": "Shure",
+        "model": "AD4D",
+        "_source": "shure-scp",
+        "_online": true,
+        "status": "online",
+        "freq": 640000,
+        "rf": -40,
+        "afDbfs": null,
+        "batt": null,
+        "shure": {
+          "schema": "daty-shure-telemetry-v1",
+          "audio_dbfs": -80,
+          "meter_state": "live",
+          "battery_bars": 4,
+          "battery_runtime_status": "calculating",
+          "stale_fields": []
+        }
+      },
+      "online": true,
+      "rf": -40,
+      "af": -80,
+      "battery": "4/5格",
+      "issues": []
+    }
+  ]
+}

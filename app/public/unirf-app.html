@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="Content-Security-Policy" content="connect-src https: wss:;"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>DATY RF PRO v1.0.3 — 专业射频管理平台</title>
+<link rel="stylesheet" href="src/styles/main.css?v=r19-plugin-import2"/>
+<link rel="stylesheet" href="src/styles/deploy-progress.css?v=1.0.3-deploy-progress1"/>
+</head>
+<body>
+
+<!-- NOTIFICATION -->
+<div class="notification" id="notif">
+  <div class="notif-icon" id="notifIcon">✓</div>
+  <div><div id="notifTitle" style="font-weight:700;margin-bottom:2px;"></div><div id="notifMsg" style="color:var(--muted);font-size:12px;"></div></div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="logo">
+    <img class="sidebar-logo-image" src="DATYlogo.png?v=1.0.3-sidebar-datylogo1" alt="DATY AUDIO" width="40" height="40" draggable="false"/>
+    <div class="logo-copy">
+      <div class="logo-name">DATY RF PRO</div>
+      <div class="logo-sub">统一射频管理平台 v1.0.3</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="nav-group">概览</div>
+    <div class="nav-item active" onclick="switchPanel('dashboard',this)"><span class="ni">📊</span>设备概览</div>
+    <div class="nav-item" onclick="switchPanel('channels',this)"><span class="ni">📡</span>通道总览</div>
+    <div class="nav-group">频率管理</div>
+    <div class="nav-item" onclick="switchPanel('spectrum',this)"><span class="ni">📈</span>频谱扫描</div>
+    <div class="nav-item" onclick="switchPanel('planner',this)"><span class="ni">🧮</span>频率规划</div>
+    <div class="nav-group">工具</div>
+    <div class="nav-item" onclick="switchPanel('devices',this)"><span class="ni">🔌</span>设备管理</div>
+    <div class="nav-item" onclick="switchPanel('data',this)"><span class="ni">💾</span>数据管理</div>
+    <div class="nav-item" onclick="switchPanel('settings',this)"><span class="ni">⚙️</span>系统设置</div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="conn-status"><div id="connDot" class="dot dot-red"></div><span id="connCount">无设备连接</span></div>
+    <div class="conn-status mt8" style="cursor:pointer;" onclick="showIPSettings()" title="点击设置 IP 地址">
+      <div class="dot dot-amber"></div>
+      <span id="localIP">正在获取 IP...</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-title" id="pageTitle">📊 设备概览</div>
+    <div class="topbar-actions">
+      <button hidden class="btn btn-outline btn-sm" onclick="doScan()">🔄 刷新设备</button>
+      <button class="btn btn-primary btn-sm" onclick="doConnect()">+ 添加设备</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+  <!-- ═════ DASHBOARD PANEL ═════ -->
+  <div id="panel-dashboard" class="panel panel-flex active" style="flex-direction:column;height:100%;">
+    <div class="stat-grid" style="flex-shrink:0;">
+      <div class="stat-card sc-blue">
+        <div class="stat-val" style="color:#818cf8;" id="statOnlineCount">0</div>
+        <div class="stat-lbl">在线设备</div>
+        <div class="stat-sub" id="statBrandBreakdown">加载中...</div>
+      </div>
+      <div class="stat-card sc-cyan">
+        <div class="stat-val" style="color:#67e8f9;" id="statActiveChannels">0</div>
+        <div class="stat-lbl">活跃通道</div>
+        <div class="stat-sub">已分配频率 / 无冲突</div>
+      </div>
+      <div class="stat-card sc-green">
+        <div class="stat-val" style="color:#6ee7b7;" id="statCenterFreq">625</div>
+        <div class="stat-lbl">当前中心频率 MHz</div>
+        <div class="stat-sub" id="planRangeDisplay">规划范围 614–638 MHz</div>
+      </div>
+      <div class="stat-card sc-amber">
+        <div class="stat-val" style="color:#fcd34d;" id="alertCount">0</div>
+        <div class="stat-lbl">告警事件</div>
+        <div class="stat-sub" id="statAlertBreakdown">加载中...</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px;flex:1;min-height:0;">
+      <div class="card" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+        <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+          <span>⚡ 实时告警</span>
+          <button id="realtimeAlertClear" class="btn btn-outline btn-sm" onclick="clearAlerts()" title="先保存到服务器告警日志，再清空当前实时显示">🗑️ 清空</button>
+        </div>
+        <div class="alert-list" id="alertList" role="log" aria-live="polite" aria-relevant="additions text" style="flex:1;min-height:0;"></div>
+      </div>
+      <div class="card" style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+        <div class="card-title" title="X 轴与频谱视图共用当前起止频率；超出范围的设备频点不显示">📊 通道总览（RF电平）</div>
+        <div style="flex:1;min-height:0;position:relative;">
+          <canvas id="rfBarChart" style="width:100%;height:100%;position:absolute;"></canvas>
+          <div id="rfChannelLabels" class="spectrum-channel-labels" aria-hidden="true"></div>
+          <div id="rfFrequencyAxis" class="rf-frequency-axis" aria-label="RF 电平频率轴，与频谱视图共用范围"></div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+  <!-- ═════ CHANNELS PANEL ═════ -->
+  <div id="panel-channels" class="panel">
+    <div class="section-head">
+      <div class="section-title" id="channelOverviewTitle">📡 设备通道总览（0通道）</div>
+      <div class="flex gap8">
+        <select id="filterBrandChannels" onchange="filterDevicesChannels()">
+          <option value="all">全部品牌</option>
+        </select>
+        <select id="filterStatusChannels" onchange="filterDevicesChannels()">
+          <option value="all">全部状态</option>
+          <option value="online">在线</option>
+          <option value="warn">警告</option>
+          <option value="offline">离线</option>
+        </select>
+        <select id="sortChannels" title="先按编组升序，同组内按所选项目排序" onchange="sortDevicesChannels(this.value)">
+          <option value="ch">按编组排序</option>
+          <option value="rf">按RF强度</option>
+          <option value="batt">按电池</option>
+          <option value="freq">按频率</option>
+        </select>
+        <button hidden class="btn btn-outline btn-sm" onclick="refreshChannels()">🔄 刷新</button>
+      </div>
+    </div>
+    <div id="channelCardsViewport"><div class="device-grid" id="deviceGridChannels"></div></div>
+    <div class="device-view-pagination" aria-label="通道卡分页">
+      <span id="channelCardsPageInfo" aria-live="polite">每页 50 张通道卡</span>
+      <div><button id="channelCardsFirstPage" class="btn btn-outline btn-sm" onclick="goChannelCardsPage(1)">首页</button><button id="channelCardsPrevPage" class="btn btn-outline btn-sm" onclick="changeChannelCardsPage(-1)">上一页</button><button id="channelCardsNextPage" class="btn btn-outline btn-sm" onclick="changeChannelCardsPage(1)">下一页</button><button id="channelCardsLastPage" class="btn btn-outline btn-sm" onclick="goChannelCardsPage(Infinity)">末页</button></div>
+    </div>
+  </div>
+
+  <!-- ═════ SPECTRUM PANEL ═════ -->
+  <div id="panel-spectrum" class="panel">
+    <div class="card" style="margin-bottom:14px;">
+      <div class="card-title" style="justify-content:space-between;">
+        <span>📈 频谱与设备频点视图</span>
+        <div class="flex gap8" style="align-items:center;">
+          <input type="hidden" id="specStart" value="604.250">
+          <input type="hidden" id="specEnd" value="648.000">
+          <button class="btn btn-outline btn-sm" onclick="fitSpectrumToDevices()">⤢ 适配设备</button>
+          <button class="btn btn-outline btn-sm" onclick="restoreSpectrumRange()">↩ 恢复范围</button>
+          <button hidden class="btn btn-primary btn-sm" onclick="importScan('扫描 CSV')">📂 导入扫描 CSV</button>
+          <button class="btn btn-outline btn-sm" onclick="clearImportedScan()">🧹 清除扫描</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:stretch;gap:0;">
+        <div class="spectrum-rf-axis">
+          <span style="top:10%;">-30 dBm</span>
+          <span style="top:40%;">-50 dBm</span>
+          <span style="top:70%;">-70 dBm</span>
+          <span style="top:100%;">-90 dBm</span>
+        </div>
+        <div class="spectrum-canvas-wrap">
+          <canvas id="spectrumCanvas" width="1050" height="380"></canvas>
+          <div id="spectrumChannelLabels" class="spectrum-channel-labels" aria-hidden="true"></div>
+          <div id="spectrumPointTooltip" class="spectrum-point-tooltip" role="tooltip" hidden></div>
+        </div>
+      </div>
+      <div class="freq-axis" id="freqAxis" style="padding-left:50px;"></div>
+      <div class="spectrum-legend flex gap12 mt8" style="font-size:12px;">
+        <span style="color:#10b981;">● 设备实时频点</span>
+        <label class="spectrum-envelope-toggle"><input id="specDeviceEnvelope" type="checkbox" checked onchange="drawSpectrum()"> <span>━ 计算曲线</span></label>
+        <select id="specCurveMode" class="spectrum-curve-mode" aria-label="计算曲线模式" onchange="drawSpectrum()"><option value="simulation">干扰仿真（含锯齿）</option><option value="envelope">平滑包络示意</option></select>
+        <span style="color:#6366f1;">━ CSV 扫描曲线</span>
+        <span id="simulationRangeLegend"><span style="color:#fbbf24" title="深色：平滑包络达到阈值；浅色：考虑锯齿幅度后可能越阈">▧ 平滑超阈 / 纹理边带</span> · <span style="color:#60a5fa" title="全场Profile最大保护要求；不代表实际干扰功率">━ 保守避让</span></span>
+        <button class="btn btn-outline btn-sm" onclick="DatyRfSimulationView.openSettings()">仿真设置</button>
+        <button class="btn btn-outline btn-sm" onclick="DatyRfSimulationView.openRanges()">范围明细</button>
+      </div>
+      <div class="spectrum-envelope-note"><span id="deviceEnvelopeState" role="status">等待有效 RF</span><span id="spectrumCurveNote">仿真参数可调整，实际范围需扫描校准；仅影响此视图。</span></div>
+    </div>
+    <div class="flex gap12 text-sm" style="background:var(--bg3);padding:8px 14px;border-radius:7px;margin-bottom:14px;">
+      <span><span class="text-muted">范围:</span> <span class="mono" id="rangeDisplay">400–900</span></span>
+      <span><span class="text-muted">可用:</span> <span id="scanAvailableCount" style="color:#10b981;font-weight:600;">--</span></span>
+      <span><span class="text-muted">设备频点:</span> <span id="deviceFrequencyCount" style="color:#f43f5e;font-weight:600;">0</span></span>
+      <span><span class="text-muted">设备来源:</span> <span id="deviceDataSource" style="color:#67e8f9;font-weight:600;">接收机未连接</span></span>
+      <span><span class="text-muted">频谱数据:</span> <span id="scanDataState" style="color:#f59e0b;font-weight:600;">未载入</span></span>
+    </div>
+  </div>
+
+  <!-- ═════ PLANNER PANEL ═════ -->
+  <div id="panel-planner" class="panel">
+    <div class="g2 planner-top">
+      <div class="card planner-control-card">
+        <div class="card-title">🧮 频率规划控制</div>
+        <div class="planner-control-tabs" role="tablist" aria-label="规划控制">
+          <button type="button" id="plannerBasicTab" class="planner-control-tab active" role="tab" aria-selected="true" aria-controls="plannerBasics" data-planner-action="basic" onclick="switchPlannerControlTab('basic')">基本设置</button>
+          <button type="button" id="plannerConstraintsTab" class="planner-control-tab" role="tab" aria-selected="false" aria-controls="plannerConstraints" tabindex="-1" data-planner-action="constraints" onclick="switchPlannerControlTab('constraints')">规划约束</button>
+        </div>
+        <div id="plannerBasics" class="planner-control-pane" role="tabpanel" aria-labelledby="plannerBasicTab">
+          <div class="planner-settings-grid">
+            <label>频率范围
+              <select id="plannerRange"><option value="614250:638000">614.250–638.000 MHz</option><option value="470000:608000">470.000–608.000 MHz</option><option value="640000:690000">640.000–690.000 MHz</option><option value="custom">自定义起止频率</option><option value="scan">按导入扫描范围</option></select>
+            </label>
+            <label>自定义范围（MHz）
+              <span class="planner-range-fields"><input id="plannerRangeStart" value="640.000" placeholder="起点，如640.000" aria-label="自定义范围起点 MHz"/><input id="plannerRangeEnd" value="690.000" placeholder="终点，如690.000" aria-label="自定义范围终点 MHz"/></span>
+              <select id="plannerAlgorithm" hidden aria-hidden="true"><option value="deterministic">确定性跨品牌约束规划</option></select>
+            </label>
+            <label>本次规划目标（自动统计）
+              <select id="targetChannelSelect" disabled><option value="">请先连接接收机</option></select>
+              <span id="targetChannelHint">仅实际通道，不创建虚拟 CH</span>
+            </label>
+            <label>兼容级别
+              <select id="plannerCompatibility" aria-describedby="plannerCompatibilityHint"><option value="standard">Standard（标准）</option><option value="robust">Robust（保守）</option><option value="more-frequencies">More Frequencies（紧凑）</option></select>
+              <span id="plannerCompatibilityHint" class="planner-field-hint">按设备 Profile 计算有效间隔与干扰保护，选择保存到服务器草稿</span>
+            </label>
+          </div>
+          <div class="planner-profile">
+            <div class="planner-profile-head"><span>📋 Profile / 全局求解</span><div class="flex gap8"><button type="button" class="btn btn-outline btn-sm" data-planner-action="safety" onclick="openPlannerSafetySettings()">安全参数</button><button type="button" class="btn btn-outline btn-sm" id="plannerImportProfile" data-planner-action="importProfile" onclick="importEquipmentProfile()">导入 Profile</button></div></div>
+            <div id="currentRule">DATYaudio 最小间隔 / 候选步进 250 kHz；多品牌联合 IMD，冲突候选跳过，结果按原品牌＋接收机＋CH 下发。</div>
+          </div>
+        </div>
+        <div id="plannerConstraints" class="planner-control-pane" role="tabpanel" aria-labelledby="plannerConstraintsTab" hidden>
+          <div class="planner-constraint-policy" title="所有人工约束联合校验，优先于自动保留原频；不能覆盖设备频段、调谐栅格、扫描和 IMD 安全限制。冲突需处理，不会静默忽略。">人工约束优先叠加 · 无需先保存 · 冲突不自动忽略</div>
+          <div class="planner-constraint-grid">
+            <div class="planner-lock-editor">
+              <div class="planner-lock-heading"><span id="plannerLockedLabel">锁定频率 <span id="plannerLockCount">（0 个）</span></span><div class="flex gap8"><button id="plannerConfirmLock" data-planner-action="confirmLock" type="button" disabled>确定锁定</button><button id="plannerRemoveLock" data-planner-action="removeLock" type="button" disabled>取消锁定</button></div></div>
+              <div class="planner-lock-fields">
+                <select id="plannerLockChannel" aria-label="选择在线通道及频点" aria-describedby="plannerLockedHint"><option value="">选择在线 CH / 频点…</option></select>
+                <input id="plannerLockNote" type="text" maxlength="80" placeholder="职位 / 属性 / 使用者，如主持人" aria-label="锁定备注：职位、属性或使用者" aria-describedby="plannerLockedHint" disabled/>
+              </div>
+              <span id="plannerLockedHint" class="planner-field-hint" title="先预选在线 CH 及频点，再填写职位、属性或使用者（最多80字），点击确定锁定后生效。切换选项会放弃未确认编辑，不改变已有锁定。取消锁定仅处理当前项：未确认时清空预选，已锁定时解除锁定。按实际 GROUP、CH 排序并用接收机身份区分同号 CH；已锁定频点不随遥测变化。离线/历史锁定保留，可修改备注后确认或取消；锁定仍须通过规划安全校验。">预选通道 → 填写职位 / 属性 → 确定锁定</span>
+              <textarea id="plannerLockedAssignments" hidden aria-hidden="true" tabindex="-1" aria-describedby="plannerLockedHint"></textarea>
+            </div>
+            <label>排除区（MHz）
+              <textarea id="plannerExcludedRanges" rows="2" aria-describedby="plannerExcludedHint" placeholder="660.000-661.000 地面电视" spellcheck="false"></textarea>
+              <span id="plannerExcludedHint" class="planner-field-hint" title="每行：起始MHz-结束MHz 原因，例如 660.000-661.000 地面电视。多行叠加，端点也排除；留空表示不额外排除，已排除原频会重新规划。">每行：起点-终点 原因；含两端，空=不排除</span>
+            </label>
+            <label>固定占用（MHz/kHz）
+              <textarea id="plannerKnownCarriers" rows="2" aria-describedby="plannerCarrierHint" placeholder="670.000,250,对讲系统" spellcheck="false"></textarea>
+              <span id="plannerCarrierHint" class="planner-field-hint" title="每行：MHz,保护间隔kHz,原因，例如 670.000,250,对讲系统。保护间隔为相对中心频率两侧的最小距离，必须是正整数；固定载波也参与互调计算。留空表示没有额外固定占用。">每行：频率,保护kHz,原因；也参与IMD</span>
+            </label>
+            <label>每通道备用频率数
+              <input id="plannerBackupCount" type="number" min="0" max="4" step="1" value="1" inputmode="numeric" placeholder="0～4，例如 1" aria-describedby="plannerBackupHint"/>
+              <span id="plannerBackupHint" class="planner-field-hint" title="手填 0～4 的整数，0 表示不要备用。仅为未锁定通道寻找备用；备用同样遵守所有人工、Profile、扫描和 IMD 约束。找不到足额备用时如实提示，不降低安全标准。">0～4整数；锁定通道不备选，不足会提示</span>
+            </label>
+          </div>
+          <div id="plannerConstraintSummary" class="planner-constraint-summary" role="status" aria-live="polite">修改后直接点击一键全局规划，读取全部当前输入。</div>
+          <div class="planner-save-row">
+            <button type="button" id="savePlannerConstraints" class="btn btn-outline btn-sm" data-planner-action="saveConstraints" onclick="saveCurrentPlanningConstraints()">应用约束</button>
+            <div id="plannerConstraintSaveStatus" role="status" aria-live="polite">保存到数据管理 → 规划历史的当前项目；运行规划也会自动保存。</div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary planner-run-button" data-planner-action="plan" onclick="runPlanning()">⚡ 一键全局规划（跨品牌 IMD）</button>
+      </div>
+      <div class="card planner-result-card" id="planResult">
+        <div class="section-head">
+          <div class="card-title">📋 规划结果摘要</div>
+          <div class="flex gap8">
+            <button type="button" class="btn btn-outline btn-sm" data-planner-action="details" onclick="openPlannerResultDetails()">详情 / 限制</button>
+            <button id="plannerExportReport" type="button" class="btn btn-outline btn-sm" data-planner-action="exportReport" onclick="exportIMDReport()">导出报告</button>
+          </div>
+        </div>
+        <div id="planResultContent" aria-live="polite"><div class="planner-empty">点击「一键全局规划」生成频率方案</div></div>
+      </div>
+    </div>
+    <div class="card planner-table-card">
+      <div class="section-head">
+        <div class="section-title">📋 频率分配表<span class="planner-order-hint">（GROUP 升序）</span> <button type="button" id="plannerLockStatus" class="btn btn-outline btn-sm" hidden data-planner-action="constraints" onclick="switchPlannerControlTab('constraints')">⚠ 锁定待检查</button></div>
+        <div class="flex gap8">
+            <button type="button" id="plannerPushAll" class="btn btn-success btn-sm" data-planner-action="pushAll" onclick="pushAllFreq()">📤 全部下发</button>
+          <button type="button" class="btn btn-outline btn-sm" id="plannerExportPlan" data-planner-action="exportPlan" onclick="exportPlan()">⬇ 导出方案</button>
+        </div>
+      </div>
+      <div class="planner-deploy-bar"><span id="plannerDeployStatus" role="status" aria-live="polite">未规划 · 下发须通过完整校验和设备确认</span><button type="button" id="plannerStopDeployment" class="btn btn-outline btn-sm" data-planner-action="stop" onclick="DatyPlanningDeployment.stop()" hidden>停止后续</button></div>
+      <div id="plannerTableViewport" class="planner-table-viewport">
+        <table class="freq-table" id="freqTable">
+          <colgroup><col class="pc-group"><col class="pc-channel"><col class="pc-name"><col class="pc-brand"><col class="pc-current"><col class="pc-locked"><col class="pc-planned"><col class="pc-status"><col class="pc-action"></colgroup>
+          <thead><tr><th>编组</th><th>通道</th><th>设备名称</th><th>品牌</th><th>当前频率</th><th title="来自规划约束，单位 MHz；不是设备实际频率">锁定频率</th><th>规划频率</th><th>IMD 状态</th><th>操作</th></tr></thead>
+          <tbody id="freqTableBody"></tbody>
+        </table>
+      </div>
+      <div class="planner-pagination" aria-label="频率分配表分页">
+        <span id="plannerPageInfo" role="status">暂无通道</span>
+        <div class="flex gap8">
+          <button type="button" id="plannerPrevPage" class="btn btn-outline btn-sm" data-planner-action="previousPage" onclick="changePlannerTablePage(-1)" disabled>上一页</button>
+          <button type="button" id="plannerNextPage" class="btn btn-outline btn-sm" data-planner-action="nextPage" onclick="changePlannerTablePage(1)" disabled>下一页</button>
+        </div>
+      </div>
+    </div>
+    <dialog id="plannerResultDialog" class="planner-dialog" aria-labelledby="plannerDetailTitle">
+      <div class="planner-dialog-head"><div class="planner-window-title"><span class="planner-window-icon" aria-hidden="true">📋</span><div><span class="planner-window-eyebrow">DATY RF PRO · 频率规划</span><h2 id="plannerDetailTitle">规划详情与限制</h2></div></div><button type="button" class="btn btn-outline btn-sm" data-planner-action="closeDetails" onclick="closePlannerWindow('details')" aria-label="关闭规划详情">关闭 ×</button></div>
+      <div id="plannerDetailContent" class="planner-detail-body" tabindex="0" role="region" aria-label="完整规划详情"></div>
+      <footer class="planner-dialog-footer"><span>完整结果与限制以本次规划为准</span><button type="button" class="btn btn-primary" data-planner-action="closeDetails" onclick="closePlannerWindow('details')">关闭</button></footer>
+    </dialog>
+    <dialog id="plannerSafetyDialog" class="planner-dialog" aria-labelledby="plannerSafetyTitle">
+      <div class="planner-dialog-head"><div class="planner-window-title"><span class="planner-window-icon" aria-hidden="true">⚙</span><div><span class="planner-window-eyebrow">DATY RF PRO · 频率规划</span><h2 id="plannerSafetyTitle">自定义安全参数</h2></div></div><button type="button" class="btn btn-outline btn-sm" data-planner-action="closeSafety" onclick="closePlannerWindow('safety')">关闭 ×</button></div>
+      <div class="planner-detail-body">
+        <p>以下输入实时参与下一次全局规划。留空采用各设备 Profile；间隔取较大值、占用阈值取较低值，只加严，不降低 Profile 安全要求。无真实扫描时不能判断现场干扰。</p>
+        <div class="planner-safety-fields">
+          <label>全局搜索步进 kHz<input id="plannerStepKHz" type="number" min="1" max="1000" step="1" value="25" placeholder="与品牌候选栅格取交集，DATY始终250" title="DATYaudio 候选步进固定250 kHz；输入25或1不会使DATY产生小数偏移频点"/></label>
+          <label>最小通道间隔 kHz<input id="plannerMinSpacingKHz" type="number" min="1" max="10000" step="1" placeholder="留空按 Profile，如500"/></label>
+          <label>最小 IMD 间距 kHz<input id="plannerImdSpacingKHz" type="number" min="1" max="10000" step="1" placeholder="留空按 Profile，如350"/></label>
+          <label>扫描占用阈值 dBm<input id="plannerScanThresholdDbm" type="number" min="-140" max="0" step="1" placeholder="留空按 Profile，如-85"/></label>
+          <label>IMD 联合校验<select id="plannerImdPolicy"><option value="third">三阶双频＋三频（标准）</option><option value="third-fifth">三阶双频＋三频＋五阶双频（加严）</option></select></label>
+        </div>
+        <p>DATYaudio 候选如 641.000、641.250、641.500 MHz；三阶 IMD 会排除相互冲突的组合，不保证连续等间距分配。与各品牌 Profile 要求合并，通道间隔取双方较大值。协议可执行验证不等于硬件 RF 认证。</p>
+      </div>
+      <footer class="planner-dialog-footer"><span>输入实时保留，关闭不撤销修改；仍需重新规划校验</span><button type="button" class="btn btn-primary" data-planner-action="closeSafety" onclick="closePlannerWindow('safety')">完成</button></footer>
+    </dialog>
+  </div>
+
+  <!-- ═════ DEVICES PANEL ═════ -->
+  <div id="panel-devices" class="panel">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('devOnline',this)" id="tabOnlineCount">在线设备 (0)</div>
+      <div class="tab" onclick="switchTab('devScan',this)">扫描发现</div>
+      <div class="tab" onclick="switchTab('devProto',this)">协议状态</div>
+    </div>
+    <div id="devOnline" class="tab-panel active">
+      <div class="device-table-toolbar">
+        <div style="font-size:12px;color:var(--muted);">
+          <span style="color:var(--dim);">💡</span> 设备来自接收机实时连接、主动发现或手动导入，品牌与型号以接收机上报信息为准
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="clearFasheDevices()" style="color:var(--c1);border-color:var(--c1);">🗑️ 清除缓存设备</button>
+      </div>
+      <div id="deviceTableViewport">
+        <table class="data-table" id="deviceTable">
+          <colgroup><col class="dt-group"><col class="dt-ch"><col class="dt-name"><col class="dt-brand"><col class="dt-ip"><col class="dt-protocol"><col class="dt-freq"><col class="dt-status"><col class="dt-actions"></colgroup>
+          <thead>
+            <tr><th>编组</th><th>通道</th><th>使用分类</th><th>品牌/型号</th><th>IP地址</th><th>协议</th><th>频率</th><th>连接状态</th><th>操作</th></tr>
+          </thead>
+          <tbody id="devTableBody"></tbody>
+        </table>
+      </div>
+      <div class="device-view-pagination" aria-label="在线设备分页">
+        <span id="deviceTablePageInfo" aria-live="polite">每页 20 条</span>
+        <div><button id="deviceTableFirstPage" class="btn btn-outline btn-sm" onclick="goDeviceTablePage(1)">首页</button><button id="deviceTablePrevPage" class="btn btn-outline btn-sm" onclick="changeDeviceTablePage(-1)">上一页</button><button id="deviceTableNextPage" class="btn btn-outline btn-sm" onclick="changeDeviceTablePage(1)">下一页</button><button id="deviceTableLastPage" class="btn btn-outline btn-sm" onclick="goDeviceTablePage(Infinity)">末页</button></div>
+      </div>
+    </div>
+    <div id="devScan" class="tab-panel">
+      <!-- ═══ 扫描接收机 ═══ -->
+      <div id="scanModeReceiver">
+        <div class="card" hidden style="margin-bottom:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div id="recvScanDot" class="dot dot-amber"></div>
+              <span id="recvScanStatusText" style="font-size:14px;font-weight:700;">等待扫描</span>
+            </div>
+            <button class="btn btn-primary btn-sm" id="btnRecvScan" onclick="scanForReceivers()">🔍 扫描接收机</button>
+          </div>
+          <div id="recvScanHint" style="font-size:12px;color:var(--muted);">
+            由服务器发现局域网内的 <strong style="color:var(--text);">接收机</strong>，显示上报的品牌、型号和通道信息；舒尔当前仅支持监测，扫描范围在完成后显示
+          </div>
+        </div>
+
+        <!-- 发现的接收机列表 -->
+        <div id="discoveredReceivers" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="font-size:12px;color:var(--muted);">发现 <span id="receiverCount" style="color:#22d3ee;font-weight:700;">0</span> 台接收机</div>
+            <div style="font-size:11px;color:var(--dim);">来自已连接的服务器</div>
+          </div>
+          <div id="receiverList" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+
+        <!-- 接收机空状态 -->
+        <div id="recvEmpty" style="display:none;text-align:center;padding:40px;color:var(--muted);">
+          <div style="font-size:36px;margin-bottom:12px;opacity:.4;">🎤</div>
+          <div style="font-size:13px;margin-bottom:8px;">未发现接收机</div>
+          <div style="font-size:11px;color:var(--dim);line-height:1.6;">
+            请先连接到 DATY RF PRO 服务器<br/>
+            确认接收机已开机并连接服务器，或已接入服务器的扫描网段
+          </div>
+          <button class="btn btn-outline btn-sm" style="margin-top:16px;" onclick="scanForReceivers()">重新扫描</button>
+        </div>
+      </div>
+
+      <!-- 已连接服务器状态 -->
+      <div id="connectedServerStatus" style="display:none;margin-top:12px;">
+        <div class="card" style="background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.3);">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div class="dot dot-green" style="width:9px;height:9px;animation:pulse 1.5s infinite;"></div>
+              <div>
+                <div style="font-size:13px;font-weight:700;color:#6ee7b7;" id="csTitle">已连接 DATY RF PRO</div>
+                <div style="font-size:11px;color:var(--muted);" id="csDetail">互通中</div>
+              </div>
+            </div>
+            <button class="btn btn-danger btn-sm" onclick="disconnectFromServer()">断开</button>
+          </div>
+          <div style="margin-top:8px;display:flex;gap:12px;font-size:11px;">
+            <span style="color:var(--muted);">心跳: <span id="csLatency" style="color:#6ee7b7;">--</span> ms</span>
+            <span style="color:var(--muted);">设备: <span id="csDevCount" style="color:#6ee7b7;">--</span> 台</span>
+            <span style="color:var(--muted);">协议: <span id="csProto" style="color:#818cf8;">--</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="devProto" class="tab-panel">
+      <!-- 新增品牌沿用 protocol-card 结构及 data-protocol-brand，无须单独指定宽高。 -->
+      <p id="protocolEmpty" class="text-muted" role="status">暂无在线品牌，设备上线后自动显示。可在「扫描发现」中查找设备。</p>
+      <div class="protocol-grid" aria-label="品牌协议状态">
+        <article class="card protocol-card" hidden data-protocol-brand="DATYaudio" data-protocol-prefix="protoDaty" style="--protocol-accent:#34d399;">
+          <div class="protocol-card-head">
+            <div class="protocol-card-brand"><h3>DATYaudio</h3><div class="protocol-card-subtitle">MQTT · 原有协议</div></div>
+            <span id="protoDatyStatus" class="protocol-status" data-online="false">未连接</span>
+          </div>
+          <div class="protocol-card-count"><span class="text-muted">在线接收机</span><strong id="protoDatyConnections">0 台</strong></div>
+          <dl class="protocol-card-details">
+            <div><dt>协议类型</dt><dd class="mono">MQTT / WS</dd></div>
+            <div><dt>状态回传</dt><dd class="mono">HTTP / SSE</dd></div>
+            <div><dt>心跳延迟</dt><dd id="protoDatyLatency" class="text-muted">—</dd></div>
+          </dl>
+          <div class="protocol-card-footer">
+            <div class="progress-bar" aria-hidden="true"><div id="protoDatyProgress" class="progress-fill"></div></div>
+            <p id="protoDatyHint" class="protocol-card-hint">等待真实 DATYaudio 设备数据</p>
+          </div>
+        </article>
+        <article class="card protocol-card" hidden data-protocol-brand="AMSaudio" data-protocol-prefix="protoAms" style="--protocol-accent:#fbbf24;">
+          <div class="protocol-card-head">
+            <div class="protocol-card-brand"><h3>AMSaudio</h3><div class="protocol-card-subtitle">TCP · 私有协议</div></div>
+            <span id="protoAmsStatus" class="protocol-status" data-online="false">未连接</span>
+          </div>
+          <div class="protocol-card-count"><span class="text-muted">在线接收机</span><strong id="protoAmsConnections">0 台</strong></div>
+          <dl class="protocol-card-details">
+            <div><dt>协议类型</dt><dd class="mono">TCP 私有</dd></div>
+            <div><dt>心跳延迟</dt><dd id="protoAmsLatency" class="text-muted">—</dd></div>
+            <div><dt>丢包率</dt><dd id="protoAmsLoss" class="text-muted">—</dd></div>
+          </dl>
+          <div class="protocol-card-footer">
+            <div class="progress-bar" aria-hidden="true"><div id="protoAmsProgress" class="progress-fill"></div></div>
+            <p id="protoAmsHint" class="protocol-card-hint">等待真实 AMSaudio 设备数据</p>
+          </div>
+        </article>
+        <article class="card protocol-card" hidden data-protocol-brand="Shure" data-protocol-prefix="protoShure" style="--protocol-accent:#a5b4fc;">
+          <div class="protocol-card-head">
+            <div class="protocol-card-brand"><h3>Shure</h3><div class="protocol-card-subtitle">SCP · 发现、监测与受控下发</div></div>
+            <span id="protoShureStatus" class="protocol-status" data-online="false">未连接</span>
+          </div>
+          <div class="protocol-card-count"><span class="text-muted">在线接收机</span><strong id="protoShureConnections">0 台</strong></div>
+          <dl class="protocol-card-details">
+            <div><dt>协议类型</dt><dd class="mono">TCP :2202</dd></div>
+            <div><dt>心跳延迟</dt><dd id="protoShureLatency" class="text-muted">—</dd></div>
+            <div><dt>TCP 独占</dt><dd id="protoShureExclusive" class="text-muted">未连接</dd></div>
+          </dl>
+          <dl class="protocol-card-details shure-discovery-details">
+            <div><dt>发现服务</dt><dd id="shureDiscoveryState" role="status">等待状态</dd></div>
+            <div><dt>扫描范围</dt><dd id="shureDiscoveryRange">—</dd></div>
+            <div><dt>扫描进度</dt><dd id="shureDiscoveryProgress">—</dd></div>
+            <div><dt>最近完成</dt><dd id="shureDiscoveryTime">—</dd></div>
+          </dl>
+          <div class="shure-discovery-actions" aria-label="舒尔发现操作">
+            <button id="shureDiscoveryScan" type="button" class="btn btn-primary btn-sm" onclick="DatyShureDiscovery.scan()" disabled>扫描舒尔</button>
+            <button id="shureDiscoveryRefresh" type="button" class="btn btn-outline btn-sm" onclick="DatyShureDiscovery.refresh()">刷新状态</button>
+            <button id="shureDiscoveryCancel" type="button" class="btn btn-outline btn-sm" onclick="DatyShureDiscovery.cancel()" disabled>停止本次扫描</button>
+          </div>
+          <p id="shureDiscoveryMessage" class="shure-discovery-message" role="status">由服务器发现和监测；下发须确认目标及硬件能力。</p>
+          <details class="shure-discovery-results"><summary id="shureDiscoveryCount">发现结果（待确认）</summary><p id="shureDiscoveryResults">等待服务器确认。</p></details>
+          <div class="protocol-card-footer">
+            <div class="progress-bar" aria-hidden="true"><div id="protoShureProgress" class="progress-fill"></div></div>
+            <p id="protoShureHint" class="protocol-card-hint">等待真实 Shure 设备数据</p>
+          </div>
+        </article>
+        <article class="card protocol-card" hidden data-protocol-brand="Sennheiser" data-protocol-prefix="protoSenn" style="--protocol-accent:#67e8f9;">
+          <div class="protocol-card-head">
+            <div class="protocol-card-brand"><h3>Sennheiser</h3><div class="protocol-card-subtitle">SSCv2 · 事件协议</div></div>
+            <span id="protoSennStatus" class="protocol-status" data-online="false">未连接</span>
+          </div>
+          <div class="protocol-card-count"><span class="text-muted">在线接收机</span><strong id="protoSennConnections">0 台</strong></div>
+          <dl class="protocol-card-details">
+            <div><dt>协议类型</dt><dd class="mono">WS :45</dd></div>
+            <div><dt>心跳延迟</dt><dd id="protoSennLatency" class="text-muted">—</dd></div>
+            <div><dt>事件订阅</dt><dd id="protoSennEvents" class="text-muted">未连接</dd></div>
+          </dl>
+          <div class="protocol-card-footer">
+            <div class="progress-bar" aria-hidden="true"><div id="protoSennProgress" class="progress-fill"></div></div>
+            <p id="protoSennHint" class="protocol-card-hint">等待真实 Sennheiser 设备数据</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═════ DATA PANEL ═════ -->
+  <div id="panel-data" class="panel">
+    <div class="tabs data-management-tabs" role="tablist" aria-label="数据管理" onkeydown="handleDataManagementTabKey(event)">
+      <button id="dataDevicesTab" type="button" role="tab" aria-controls="dataDevices" aria-selected="true" tabindex="0" class="tab active" onclick="switchTab('dataDevices',this)">设备与通道</button>
+      
+      
+      <button id="dataConfigTab" type="button" role="tab" aria-controls="dataConfig" aria-selected="false" tabindex="-1" class="tab" onclick="switchTab('dataConfig',this)">系统配置</button>
+      
+      
+    </div>
+    <div id="dataDevices" role="tabpanel" aria-labelledby="dataDevicesTab" class="tab-panel active">
+<div class="catalog-intro"><div><h2>设备与通道资料</h2><p>设备概览、通道总览和设备管理共用设备身份；通道名称与手动设备配置集中查询。实时在线状态以接收机当前连接为准。</p></div><div class="catalog-feature-links"><button type="button" class="btn btn-outline btn-sm" onclick="DatyDataCatalog.openFeature('dashboard')">设备概览 ↗</button><button type="button" class="btn btn-outline btn-sm" onclick="DatyDataCatalog.openFeature('channels')">通道总览 ↗</button><button type="button" class="btn btn-outline btn-sm" onclick="DatyDataCatalog.openFeature('devices')">设备管理 ↗</button></div></div>
+<div class="data-catalog-card" data-catalog="devices"></div>
+        <!-- 保留自动连接配置；设备与通道不再展示实时接收卡片。 -->
+        <input id="fasheApiUrl" type="hidden" value="https://127.0.0.1:8802">
+
+    </div>
+    <div id="dataConfig" role="tabpanel" aria-labelledby="dataConfigTab" class="tab-panel">
+<div class="catalog-intro"><div><h2>系统配置资料</h2><p>查看服务器已确认保存的告警阈值、声音与推荐开关、视图和频率范围。修改配置请前往对应功能，保存后刷新目录。</p></div><div class="catalog-feature-links"><button type="button" class="btn btn-outline btn-sm" onclick="DatyDataCatalog.openFeature('settings')">系统设置 ↗</button></div></div>
+<div class="data-catalog-card" data-catalog="settings"></div>
+<p class="catalog-footnote">阈值与推荐设置为服务器共享；视图偏好按来源标识保存。连接证书、配对密钥由服务器运行配置管理。</p>
+    </div>
+    
+    
+    
+    
+  </div>
+
+  <!-- ═════ SETTINGS PANEL ═════ -->
+  <div id="panel-settings" class="panel settings-panel">
+    <div class="g2 settings-grid">
+      <div class="card">
+        <div class="card-title">🔔 告警阈值设置</div>
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div>
+            <div class="flex" style="justify-content:space-between;margin-bottom:6px;">
+              <span>RF 弱信号阈值</span><span class="mono" id="rfThreshVal">-90 dBm</span>
+            </div>
+            <input id="rfThreshInput" disabled type="range" min="-90" max="-30" step="1" value="-90" title="有效范围：-90～-30 dBm" aria-label="RF 弱信号阈值，范围 -90 到 -30 dBm" oninput="document.getElementById('rfThreshVal').textContent=this.value+' dBm'">
+          </div>
+          <div>
+            <div class="flex" style="justify-content:space-between;margin-bottom:6px;">
+              <span>电池低电量阈值</span><span class="mono" id="battThreshVal">20%</span>
+            </div>
+            <input id="battThreshInput" disabled type="range" min="5" max="50" step="1" value="20" title="有效范围：5～50%" aria-label="电池低电量阈值，范围 5 到 50 百分比" oninput="document.getElementById('battThreshVal').textContent=this.value+'%'">
+          </div>
+          <div>
+            <div class="flex" style="justify-content:space-between;margin-bottom:6px;">
+              <span>舒尔电池格数阈值（百分比未知时）</span><span class="mono" id="battBarsThreshVal">1 格</span>
+            </div>
+            <input id="battBarsThreshInput" disabled type="range" min="0" max="5" step="1" value="1" title="独立格数阈值，不换算百分比" aria-label="舒尔电池格数阈值，范围 0 到 5 格" oninput="document.getElementById('battBarsThreshVal').textContent=this.value+' 格'">
+          </div>
+          <div>
+            <div class="flex" style="justify-content:space-between;margin-bottom:6px;">
+              <span>AF 过载阈值</span><span class="mono" id="afThreshVal">-3 dBFS</span>
+            </div>
+            <input id="afThreshInput" disabled type="range" min="-40" max="0" step="1" value="-3" title="有效范围：-40～0 dBFS" aria-label="AF 过载阈值，范围 -40 到 0 dBFS" oninput="document.getElementById('afThreshVal').textContent=this.value+' dBFS'">
+          </div>
+          <div style="padding:8px 10px;border:1px solid rgba(99,102,241,.25);border-radius:6px;background:rgba(99,102,241,.08);color:var(--muted);font-size:11px;line-height:1.5;">
+            实时判定：RF ≤ 阈值、 电池 ≤ 阈值、 AF ≥ 阈值（边界包含）。缺失遥测不新增告警；舒尔异常失联后保留待确认，收到正常状态后恢复。
+          </div>
+          <div class="flex" style="justify-content:space-between;">
+            <div><div style="font-weight:600;">声音告警</div><div id="soundAlertStatus" role="status" style="color:var(--muted);font-size:12px;">触发告警时播放提示音</div></div>
+            <div id="soundAlertControls" class="flex" style="gap:8px;flex-shrink:0;">
+              <button id="soundAlertTest" type="button" class="btn btn-outline btn-sm" title="试听提示音，不生成告警或发送设备命令">试听</button>
+              <label class="toggle"><input id="soundAlertEnabled" disabled type="checkbox" checked aria-label="声音告警" aria-describedby="soundAlertStatus"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+          <div class="flex" style="justify-content:space-between;">
+            <div style="min-width:0;"><div style="font-weight:600;">自动变频推荐</div><div id="autoFrequencyStatus" role="status" style="color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">干扰时自动提示备用频率</div></div>
+            <div class="flex" style="gap:8px;flex-shrink:0;">
+              <button id="autoFrequencyDetails" type="button" class="btn btn-outline btn-sm">查看建议</button>
+              <label class="toggle"><input id="autoFrequencyEnabled" disabled type="checkbox" checked aria-label="自动变频推荐" aria-describedby="autoFrequencyStatus"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🌐 网络与连接设置</div>
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:13px;">
+          <div>
+            <div class="text-muted text-sm" style="margin-bottom:4px;">本机 IP / 网段</div>
+            <input id="systemLocalIp" disabled style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:6px;font-size:13px;width:100%;font-family:inherit;" value="" placeholder="留空自动检测">
+          </div>
+          <div style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.3);border-radius:8px;padding:10px;font-size:12px;color:#6ee7b7;">
+            💡 <strong>自动 IP 检测:</strong> 所有选项修改后直接入库；IP 为显示偏好，不修改电脑网络。心跳和重连策略尚未接入当前协议执行。
+          </div>
+          <div>
+            <div class="text-muted text-sm" style="margin-bottom:4px;">心跳间隔（秒）</div>
+            <select id="systemHeartbeat" disabled style="width:100%;"><option value="30">30</option><option value="15">15</option><option value="60">60</option></select>
+          </div>
+          <div>
+            <div class="text-muted text-sm" style="margin-bottom:4px;">断线重连策略</div>
+            <select id="systemReconnect" disabled style="width:100%;"><option value="exponential">指数退避（推荐）</option><option value="fixed5">固定间隔 5s</option><option value="manual">手动重连</option></select>
+          </div>
+          <div class="flex" style="justify-content:space-between;">
+            <div><div style="font-weight:600;">Shure SCP 独占模式</div><div style="color:var(--muted);font-size:12px;">选项入库；独占控制尚未接入</div></div>
+            <label class="toggle"><input id="systemShureExclusive" type="checkbox" checked disabled><span class="toggle-slider"></span></label>
+          </div>
+          <div class="flex" style="justify-content:space-between;">
+            <div><div style="font-weight:600;">pcom1 远程服务器</div><div style="color:var(--muted);font-size:12px;">选项入库；远程协议尚未接入</div></div>
+            <label class="toggle"><input id="systemPcom1" type="checkbox" disabled><span class="toggle-slider"></span></label>
+          </div>
+          <button class="btn btn-primary" style="margin-top:4px;" onclick="saveSettings()">重试未完成的保存</button>
+          <div id="systemSettingsSaveState" class="text-muted text-sm" role="status">正在读取服务器数据库设置…</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title plugin-management-header">
+          <span>🧩 品牌插件管理</span>
+          <div class="plugin-management-actions">
+            <button id="developerPluginExport" class="btn btn-outline btn-sm" onclick="exportDeveloperPlugin()" title="导出已集成品牌的配接源码 ZIP">📤 开发者插件导出</button>
+            <button class="btn btn-outline btn-sm" onclick="importPluginCloud()">☁️ 云端导入</button>
+            <button id="brandPluginImport" class="btn btn-outline btn-sm" onclick="importPlugin()">📥 导入插件</button>
+          </div>
+        </div>
+        <p id="pluginImportState" class="text-muted text-sm" role="status" hidden></p>
+        <button id="pluginImportQuery" class="btn btn-outline btn-sm" onclick="DatyPluginImport.query()" hidden>查询安装结果</button>
+        <div id="developerPluginExports" class="plugin-export-list" hidden></div>
+        <p id="brandPluginState" class="text-muted text-sm" role="status">正在读取当前服务器的已集成插件…</p>
+        <div id="brandPluginList" class="plugin-list">
+          <div class="plugin-card" data-plugin-adapter="fashe-mqtt" hidden data-plugin-brand="DATYaudio">
+            <div class="plugin-info"><div class="plugin-name" title="DATYaudio MQTT">DATYaudio MQTT</div><div class="plugin-models" title="DATYaudio 接收机 / FAshe">DATYaudio 接收机 / FAshe</div></div>
+            <span class="badge b-g plugin-status">内置</span>
+          </div>
+          <div class="plugin-card" data-plugin-adapter="shure-scp" hidden data-plugin-brand="Shure">
+            <div class="plugin-info"><div class="plugin-name" title="Shure SCP">Shure SCP</div><div class="plugin-models" title="ULX-D / AD4 · 发现、监测与受控下发">ULX-D / AD4 · 发现、监测与受控下发</div></div>
+            <span class="badge b-g plugin-status">已导入</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">ℹ️ 关于</div>
+        <div style="margin-bottom:12px;padding:8px 12px;background:linear-gradient(135deg,rgba(99,102,241,.1),rgba(34,211,238,.1));border:1px solid rgba(99,102,241,.3);border-radius:8px;text-align:center;">
+          <div style="font-size:18px;font-weight:900;background:linear-gradient(90deg,#6366f1,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">DATY RF PRO</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;">
+          <div class="flex" style="justify-content:space-between;"><span class="text-muted" style="min-width:80px;">版本</span><span class="mono">v1.0.3</span></div>
+          <div class="flex" style="justify-content:space-between;"><span class="text-muted" style="min-width:80px;">内核版本</span><span class="mono">P0 2026-09-10</span></div>
+          <div class="flex" style="justify-content:space-between;"><span class="text-muted" style="min-width:80px;">IMD 算法</span><span class="mono">IMD 3 阶双频/三频</span></div>
+          <div class="flex" style="justify-content:space-between;"><span class="text-muted" style="min-width:80px;">支持平台</span><span>Windows 10/11</span></div>
+          <div class="flex" style="justify-content:space-between;"><span class="text-muted" style="min-width:80px;">许可证</span><span>商业授权</span></div>
+          <div class="flex" style="justify-content:space-between;"><span class="text-muted" style="min-width:80px;">开发者</span><span style="color:var(--c2);">ylzwd</span></div>
+          <div style="margin-top:8px;padding:10px;background:var(--bg3);border-radius:6px;font-size:12px;color:var(--muted);line-height:1.6;">
+            <strong>DATY RF PRO — 专业射频管理平台</strong><br/>
+            打破品牌协议壁垒，一站式多品牌无线设备频率规划与实时控制
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     JavaScript 模块加载（按依赖顺序）
+     ════════════════════════════════════════════════════ -->
+<script src="src/mqtt6/network-timers.js"></script>
+<script src="src/mqtt6/mqtt.min.js"></script>
+<script src="src/mqtt6/bundle.js?v=r19-settings-db1"></script>
+<script src="src/platform/browser-platform.js?v=r19-settings-db1"></script>
+<script src="src/mqtt6/browser-boot.js?v=r19-settings-db1"></script>
+<script src="src/modules/frequency.js?v=r19-settings-db1"></script>
+<script src="src/modules/equipment-profiles.js?v=r19-settings-db1"></script>
+<script src="src/modules/coordination.js?v=r19-settings-db1"></script>
+<script src="src/modules/scan-csv.js?v=r19-settings-db1"></script>
+<script src="src/modules/storage.js?v=r19-settings-db1"></script>
+<script src="src/modules/alert-history.js?v=r19-settings-db1"></script>
+<script src="src/modules/notification.js?v=r19-settings-db1"></script>
+<script src="src/modules/dashboard.js?v=r19-settings-db1"></script>
+<script src="src/modules/render.js?v=r19-settings-db1"></script>
+<script src="src/modules/device-views.js?v=r19-settings-db1"></script>
+<script src="src/modules/rf-simulation.js?v=r19-settings-db1"></script>
+<script src="src/modules/rf-simulation-view.js?v=r19-settings-db1"></script>
+<script src="src/modules/spectrum.js?v=r19-settings-db1"></script>
+<script src="src/modules/navigation.js?v=r19-settings-db1"></script>
+<script src="src/platform/browser-data-migration.js?v=r19-settings-db1"></script>
+<script src="src/platform/database-connection.js?v=r19-settings-db1"></script>
+<script src="src/platform/database-client.js?v=r19-settings-db1"></script>
+<script src="src/platform/database-batch-client.js?v=r19-settings-db1"></script>
+<script src="src/platform/unified-project-sync.js?v=r19-settings-db1"></script>
+<script src="src/platform/project-concurrency.js?v=r19-settings-db1"></script>
+<script src="src/modules/planning-project-storage.js?v=r19-settings-db1"></script>
+<script src="src/platform/alert-database.js?v=r19-settings-db1"></script>
+<script src="src/app/alert-database.js?v=r19-settings-db1"></script>
+<script src="src/platform/business-repository.js?v=r19-settings-db1"></script>
+<script src="src/app/system-settings.js?v=r19-settings-db1"></script>
+<script src="src/app/business-database.js?v=r19-settings-db1"></script>
+<script>DatyDatabaseConnectionFactory.mount(globalThis);DatyPlanningProjectStorageFactory.mount(globalThis);</script>
+<script src="src/modules/planning-ui.js?v=r19-settings-db1"></script>
+<script src="src/modules/dialogs.js?v=r19-settings-db1"></script>
+<script src="src/modules/deploy-progress.js?v=r19-settings-db1"></script>
+<script src="src/modules/planning-deploy.js?v=r19-settings-db1"></script>
+<script src="src/modules/timeline.js?v=r19-settings-db1"></script>
+<script src="src/modules/discovery.js?v=r19-settings-db1"></script>
+<script src="src/modules/ip-detection.js?v=r19-settings-db1"></script>
+<script src="src/modules/init.js?v=r19-settings-db1"></script>
+<script src="src/modules/fashe.js?v=r19-settings-db1"></script>
+
+<script src="src/app/server-storage.js?v=r19-settings-db1"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+  try {
+    await DatyDatabaseConnection.connect();
+    await DatyServerStorage.bootstrap();
+  } catch (error) { console.error('[服务器存储]',error);setPlanningSaveStatus('服务器存储尚未就绪：'+error.message); }
+});
+</script>
+</body>
+</html>

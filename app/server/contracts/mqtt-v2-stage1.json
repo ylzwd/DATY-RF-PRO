@@ -1,0 +1,66 @@
+{
+  "contract": "daty-mqtt-v2-stage1",
+  "status": "isolated-prototype-only",
+  "productionEnabled": false,
+  "prototypePrefix": "daty/prototype/v2/{server_id}",
+  "targetPrefix": "daty/v2/{server_id}",
+  "wire": {
+    "legacyReceiver": "MQTT 3.1.1 over WSS; original daty-pairing-v1 CONNECT",
+    "internalBroker": "MQTT 5 over TLS",
+    "applicationPrototype": "MQTT 5 over WSS; synthetic fixture client only",
+    "sessionExpirySeconds": 0,
+    "retain": false,
+    "deviceCommandDeliveryEnabled": false,
+    "automaticReplay": false
+  },
+  "ingress": {
+    "schema": "daty-mqtt-ingress-v2-stage1",
+    "topic": "{prototypePrefix}/ingress/{receiver_id}/{session_id}/{kind}",
+    "required": ["schema", "server_id", "boot_id", "event_id", "sequence", "received_at_ms", "kind", "source", "payload"],
+    "kinds": ["register", "telemetry", "local-event", "clock-ack"],
+    "sourceRequired": ["receiver_id", "receiver_mac", "peer_ip", "group_number", "brand", "session_id", "authenticated", "ip_source", "identity_source", "group_source"],
+    "sourceAuthority": "authenticated socket plus current pairing registry; never client fields or forwarding headers",
+    "sequenceScope": "one receiver connection within one gateway boot; starts at 1",
+    "legacyTopics": {
+      "daty/rf/devices/register": "register",
+      "daty/rf/devices/up": "telemetry",
+      "daty/rf/devices/down": "local-event",
+      "daty/rf/clock/ack": "clock-ack"
+    }
+  },
+  "prototypeAcl": {
+    "ingress": {"publish": ["{prototypePrefix}/ingress/#"], "subscribe": []},
+    "business": {"publish": ["{prototypePrefix}/state/#"], "subscribe": ["{prototypePrefix}/ingress/#"]},
+    "ui": {"publish": [], "subscribeDelivery": ["{prototypePrefix}/state/#"]},
+    "receiver": {"publish": ["legacyTopics, validated against bound identity"], "subscribe": ["daty/rf/devices/down", "daty/rf/clock/sync"]}
+  },
+  "invariants": {
+    "identity": "canonical paired MAC receiver_id plus numeric CH; GROUP never routes control",
+    "groupOrder": "trusted numeric GROUP ascending, then numeric CH ascending; unknown last; sort before pagination",
+    "newFrequencyUnit": "integer kHz; legacy payload freq_mhz remains MHz until explicit versioned conversion",
+    "afUnit": "dBFS -40..0; 0 is real zero, null is unknown, absent is unchanged",
+    "brokerReceipt": "transport receipt only; neither database commit nor receiver execution",
+    "databaseReceipt": "same operation_id, epoch and revision; committed only after server transaction commit",
+    "executionReceipt": "matching receiver, session, brand, CH, command_id, command and actual value",
+    "oldEnrollmentIdentityNamespace": "preserve original HTTPS server origin | simulated MAC in browser IndexedDB",
+    "publicCaIdentity": "preserve current CA; never generate replacement production identity during transport migration"
+  },
+  "futureBusinessMethods": {
+    "query": ["devices.snapshot", "commands.get", "system.health", "system.stats", "system.clock", "system.capabilities", "network.interfaces", "discovery.status", "database.status", "resources.get", "resources.list", "operations.get", "projects.get", "projects.list", "timeline.list", "archives.list", "archives.get", "exports.list", "exports.get", "storage.status", "draft.get", "business.snapshot"],
+    "sideEffect": ["commands.request", "resources.write", "resources.batch", "projects.save", "coordination.save", "timeline.append", "discovery.start", "discovery.cancel", "network.refresh", "draft.save", "import.preview", "import.commit", "archive.create", "export.create", "archiveCleanup.prepare", "archiveCleanup.commit", "transfer.start", "transfer.cancel", "enrollment.challenge", "enrollment.complete", "enrollment.renew"],
+    "implementedInStage1": []
+  },
+  "futureRequestRequired": ["schema", "server_id", "boot_id", "client_session_id", "request_id", "method", "deadline_at_ms", "body"],
+  "futureControlAdditional": ["operation_id", "receiver_id", "receiver_session_id", "channel_number", "expected_brand", "command", "expected_value"],
+  "futureReplyPhases": ["rejected", "accepted", "committed", "published", "acknowledged", "failed", "timeout", "unknown"],
+  "futureRequirements": [
+    "Server binds reply topic to the actual requesting connection; clientId/replyTo is not authority",
+    "Durable idempotency and payload digest before QoS1 command delivery; no ambiguous-command replay",
+    "Atomic snapshot watermark plus sequenced deltas; gap triggers snapshot, not guessed state",
+    "Database status, file hash, real execution ACK and transport ACK remain distinct",
+    "Bootstrap registration connection cannot read business/device topics",
+    "No restored operator login, manual access key or authorization UI",
+    "File chunks have transfer_id, offset, length, digest and bounded backpressure",
+    "Main clock and RTT measurement require separately verified send/receive timing"
+  ]
+}

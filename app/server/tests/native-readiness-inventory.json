@@ -1,0 +1,908 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-15",
+  "scope": "fuwuqi1.0.3 HTTPS/pairing and native-readiness verification; FAshe has its separate test suite; no production data writes",
+  "baseline": {
+    "stage": "before-native-platform-preparation",
+    "command": "node scripts/verify.cjs",
+    "nodeUnitFiles": 22,
+    "tests": 335,
+    "pass": 335,
+    "fail": 0,
+    "skipped": 0
+  },
+  "nativePlatformVerification": {
+    "stage": "native-platform-preparation",
+    "command": "node scripts/verify.cjs",
+    "nodeUnitFiles": 24,
+    "tests": 368,
+    "pass": 368,
+    "fail": 0,
+    "skipped": 0,
+    "javascriptFilesChecked": 26,
+    "htmlLocalResourcesChecked": 27,
+    "exitCode": 0
+  },
+  "currentVerification": {
+    "stage": "server-ingress-and-durable-history-throughput",
+    "verifiedDateUtc": "2026-09-17T05:32:28Z",
+    "command": "node scripts/verify.cjs",
+    "nodeUnitFiles": 50,
+    "tests": 855,
+    "pass": 855,
+    "fail": 0,
+    "skipped": 0,
+    "javascriptFilesChecked": 42,
+    "htmlLocalResourcesChecked": 40,
+    "preservationEntriesChecked": 43,
+    "exitCode": 0,
+    "isolatedPythonCases": 157,
+    "isolatedLoad": "2x50CH,500/s,10000 deltas all processed and stored; no receiver controls. Sustained 1000-2000/s can still hit 1013 under commit stalls; not a capacity guarantee."
+  },
+  "unifiedDatabaseCandidate": {
+    "status": "historical-baseline-requires-direct-control-migration",
+    "userDeploymentChoice": "finish-code-do-not-reload-services",
+    "tables": 50,
+    "legacyTablesRetained": 7,
+    "businessKinds": 15,
+    "candidatePythonCases": 215,
+    "existingBackendRegressionCases": 107,
+    "realTlsNodeCases": 9,
+    "fasheSourceVmCases": 11,
+    "browserSuites": [
+      "unified-project:8-scenarios",
+      "business-database:5-viewports",
+      "integrated-local-deploy",
+      "planning-deploy",
+      "realtime-control"
+    ],
+    "candidateFiles": 64,
+    "candidatePatches": 27,
+    "candidateJavaScriptParsed": 36,
+    "candidatePythonParsed": 20,
+    "candidateDirectory": "[本机历史路径已移除；原始材料不随源码发布]",
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+    "report": "docs/stage-unified-database.md",
+    "reviewedPreservationChanges": [],
+    "originalServicesRestarted": false,
+    "liveReceiverWrites": 0,
+    "fasheModified": false,
+    "productionDbMigrated": false,
+    "productionBackupCreated": false,
+    "browserDataMigrated": false,
+    "typescriptCompilerRun": false,
+    "nextStage": "Migrate old operator-access dependencies explicitly and re-verify; old source SHA patches must not be recaptured or deployed on the new baseline."
+  },
+  "c2IntegrationCandidate": {
+    "status": "historical-baseline-requires-direct-control-migration",
+    "newNodeCases": 60,
+    "syncNodeCases": 25,
+    "pageAdapterNodeCases": 24,
+    "candidateAuditNodeCases": 11,
+    "projectStorePythonCases": 28,
+    "candidateApiPythonCases": 21,
+    "backupPythonCases": 10,
+    "originalProjectControlBrandPythonCases": 22,
+    "fasheContractCases": 10,
+    "crossLayer": "real temporary TLS/SQLite and two Node controllers passed; 4 audited commits, zero commands",
+    "candidateBrowserSuites": [
+      "c2-project",
+      "integrated-local-deploy",
+      "planning-deploy",
+      "realtime-control",
+      "device-views"
+    ],
+    "candidateControlAssetsPerSuite": 32,
+    "candidateFiles": 47,
+    "candidateJavaScriptParsed": 29,
+    "candidatePythonParsed": 10,
+    "candidateDirectory": "[本机历史路径已移除；原始材料不随源码发布]",
+    "reviewedPreservationChanges": [],
+    "originalServicesRestarted": false,
+    "liveReceiverWrites": 0,
+    "fasheModified": false,
+    "productionDbMigrated": false,
+    "browserDataMigrated": false,
+    "typescriptCompilerRun": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+    "nextStage": "Migrate old operator-access dependencies explicitly and re-verify; old source SHA patches must not be recaptured or deployed on the new baseline."
+  },
+  "hostBackupConcurrencyPreparation": {
+    "hostCasesAdded": 15,
+    "discoveryCasesAdded": 13,
+    "businessRestoreCasesAdded": 8,
+    "concurrencyClientCasesAdded": 31,
+    "backupPythonCasesPassed": 10,
+    "concurrencyStorePythonCasesPassed": 28,
+    "existingProjectControlBrandPythonCasesPassed": 22,
+    "fasheContractCasesPassed": 10,
+    "browserRegressions": [
+      "file-input",
+      "alert-sound",
+      "planning-confirm",
+      "browser-data-migration",
+      "plugin-status",
+      "planning-deploy",
+      "integrated-local-deploy",
+      "realtime-control",
+      "device-views",
+      "report-platform",
+      "auto-frequency"
+    ],
+    "reviewedPreservationChanges": [
+      "src/platform/browser-platform.js",
+      "src/modules/discovery.js",
+      "src/modules/init.js",
+      "src/modules/render.js"
+    ],
+    "b3": "verified",
+    "c1": "tools-and-isolated-rehearsal-verified",
+    "c2": "independent-modules-only-not-integrated",
+    "originalServicesRestarted": false,
+    "liveReceiverWrites": 0,
+    "fasheModified": false,
+    "productionDbMigrated": false,
+    "browserDataMigrated": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+    "nextStage": "C2 HTTP/client integration then confirmed coordinated deployment"
+  },
+  "nativeInputAndPluginStatus": {
+    "inputUnitCasesAdded": 24,
+    "pluginUnitCasesAdded": 3,
+    "pythonCasesPassed": 56,
+    "fasheContractCasesPassed": 11,
+    "browserRegressions": [
+      "file-input",
+      "plugin-status",
+      "planning-deploy",
+      "integrated-local-deploy",
+      "realtime-control",
+      "device-views",
+      "report-platform",
+      "auto-frequency"
+    ],
+    "reviewedPreservationChanges": [
+      "src/platform/browser-platform.js",
+      "src/modules/discovery.js"
+    ],
+    "originalServicesRestarted": false,
+    "liveReceiverWrites": 0,
+    "fasheModified": false,
+    "browserDataMigrated": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+    "archivedExistingFiles": 14,
+    "nextStage": "B3"
+  },
+  "latestLocalDevelopmentObservation": {
+    "verifiedAtUtc": "2026-09-13T03:42:20.79Z",
+    "method": "CA-validated GET /api/auth/status, health, devices and project metadata; static GET/HEAD",
+    "bridgeMode": "local-development",
+    "ipServiceMode": "local-development",
+    "role": "operator",
+    "receiverCount": 1,
+    "onlineChannels": 4,
+    "clockServerId": "4ac0acd8c9174e8c82aaa5b788b83c04",
+    "runtimeProjectRevisionProtocol": null,
+    "candidateAssetsHttpStatus": 404,
+    "deploymentPerformedThisRound": false,
+    "note": "Original page/logo 200, private DB/Python 404. Current services have no C2 revision yet. No new gateway, service restart or receiver control."
+  },
+  "integratedLocalDevelopment": {
+    "implementation": "verified",
+    "deployment": "awaiting-administrator",
+    "productionFlagEnabled": false,
+    "pythonCasesPassed": 87,
+    "newNodeCases": 13,
+    "browserRegressions": [
+      "access-client",
+      "integrated-local-deploy",
+      "planning-deploy",
+      "realtime-control",
+      "device-views"
+    ],
+    "reviewedPreservationChanges": [
+      "access_control.py",
+      "src/platform/access-client.js"
+    ],
+    "originalServicesRestarted": false,
+    "liveReceiverWrites": 0,
+    "fasheModified": false,
+    "browserDataMigrated": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "localDevelopmentRemoval": {
+    "status": "stopped-and-archived",
+    "removedRuntimeFiles": 3,
+    "removedTestFiles": 4,
+    "removedUnitCases": 5,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+    "loopbackPort18080Listening": false,
+    "originalServicesRestarted": false,
+    "liveReceiverWrites": 0,
+    "browserDataMigrated": false,
+    "originalControlAuthChanged": false
+  },
+  "defaultEnvironment": {
+    "DATY_ID_LIVE_CHECK": "0",
+    "NODE_OPTIONS": ""
+  },
+  "categories": [
+    {
+      "id": "unified-database-isolated-python",
+      "defaultRun": false,
+      "network": "in-memory fixtures or own ephemeral 127.0.0.1 TLS listener only",
+      "writes": "temporary SQLite, candidate source, fixture CA/credentials; no production writes",
+      "evidence": "Reviewed tests create in-memory or unique OS-temporary databases before candidate loading; schema, transaction, projection, replay receipts, import previews and offline restore are tested without loading production business/security materials. Runtime Bridge publishing is stubbed.",
+      "files": [
+        "tests/test_unified_database.py",
+        "tests/test_unified_bootstrap.py",
+        "tests/test_unified_domains.py",
+        "tests/test_unified_live.py",
+        "tests/test_unified_runtime.py",
+        "tests/test_unified_runtime_bridge.py",
+        "tests/test_unified_runtime_load.py",
+        "tests/test_unified_api.py",
+        "tests/test_unified_backup.py",
+        "tests/test_unified_import.py",
+        "tests/test_unified_backup_create.py",
+        "tests/test_unified_browser_import.py",
+        "tests/test_data_management_v2.py"
+      ]
+    },
+    {
+      "id": "unified-database-isolated-browser",
+      "defaultRun": false,
+      "network": "all browser traffic fulfilled by fixtures or blocked; no production services",
+      "writes": "fresh isolated browser contexts only",
+      "evidence": "Candidate bytes are assembled from reviewed original-SHA patches. Business UI and project CAS use fixture API; control suite retains the original receiver VM/ACK assertions. No original test is weakened to accept fake database saves.",
+      "files": [
+        "tests/business-database.browser.cjs",
+        "tests/unified-project.browser.cjs",
+        "tests/unified-control.browser.cjs"
+      ]
+    },
+    {
+      "id": "unified-database-real-tls-cross-layer",
+      "defaultRun": false,
+      "network": "Node https to its own child fixture on ephemeral 127.0.0.1 TLS, explicit temporary CA",
+      "writes": "temporary SQLite, source-independent fixture credentials and CA; no production state",
+      "evidence": "Child uses windowsHide and UnifiedApiTests isolated Handler/session. Real scalar/batch clients exercise CAS, rollback, commit followed by dropped response, reconstructed pending journals, epoch changes and authorization; zero device commands.",
+      "files": [
+        "tests/database-http.cjs",
+        "tests/unified-http-fixture.py",
+        "tests/validate_unified_browser_transactions.py",
+        "tests/alert-clear.integration.cjs"
+      ]
+    },
+    {
+      "id": "unified-database-node-support",
+      "defaultRun": false,
+      "network": "none; fixture transport helpers and read-only candidate assembly",
+      "writes": "in-memory maps/buffers only",
+      "evidence": "business-db-fixture returns fixed API responses; business-front-candidate verifies exact original source SHA and unique reviewed patch anchors into memory for isolated browser tests; neither deploys or starts services.",
+      "files": [
+        "tests/business-db-fixture.cjs",
+        "tests/business-front-candidate.cjs"
+      ]
+    },
+    {
+      "id": "safe-node-unit",
+      "defaultRun": true,
+      "network": "none with defaultEnvironment",
+      "writes": "in-memory fixtures only",
+      "evidence": "Node test/assert/fs/path/vm harnesses read project files and inject mock fetch, storage and transports. platform-adapter.test.cjs and platform-integration.test.cjs use explicit in-memory host/browser fixtures, virtual timers and captured downloads; browser transport/storage getters throw if an injected host is bypassed. planner-device-ids.test.cjs has a conditional live GET at DATY_ID_LIVE_CHECK=1; verify.cjs forces that flag to 0.",
+      "files": [
+        "tests/database-client.test.cjs",
+        "tests/database-batch-client.test.cjs",
+        "tests/business-repository.test.cjs",
+        "tests/alert-database.test.cjs",
+        "tests/alert-database-ui.test.cjs",
+        "tests/unified-project-sync.test.cjs",
+        "tests/alert-history.test.cjs",
+        "tests/alert-sound.test.cjs",
+        "tests/auto-frequency.test.cjs",
+        "tests/brand-coordination.test.cjs",
+        "tests/bridge-address.test.cjs",
+        "tests/browser-data-migration.test.cjs",
+        "tests/business-restore.test.cjs",
+        "tests/discovery-host.test.cjs",
+        "tests/device-views.test.cjs",
+        "tests/file-input.test.cjs",
+        "tests/ip-platform.test.cjs",
+        "tests/host-runtime.test.cjs",
+        "tests/lock-picker.test.cjs",
+        "tests/manual-constraints.test.cjs",
+        "tests/p0-algorithm.test.cjs",
+        "tests/p0-integration.test.cjs",
+        "tests/planner-device-ids.test.cjs",
+        "tests/planner-ui.test.cjs",
+        "tests/preservation.test.cjs",
+        "tests/platform-adapter.test.cjs",
+        "tests/platform-integration.test.cjs",
+        "tests/planning-deploy.test.cjs",
+        "tests/planning-history.test.cjs",
+        "tests/project-concurrency.test.cjs",
+        "tests/project-sync.test.cjs",
+        "tests/plugin-ui.test.cjs",
+        "tests/protocol-status.test.cjs",
+        "tests/realtime-control.test.cjs",
+        "tests/receiver-group.test.cjs",
+        "tests/report-platform.test.cjs",
+        "tests/rf-bar-layout.test.cjs",
+        "tests/rf-simulation-view.test.cjs",
+        "tests/rf-simulation.test.cjs",
+        "tests/service-network.test.cjs",
+        "tests/secure-endpoints.test.cjs",
+        "tests/spectrum-envelope.test.cjs",
+        "tests/spectrum-fit.test.cjs",
+        "tests/spectrum-hover.test.cjs",
+        "tests/text-export.test.cjs",
+        "tests/planner-actions.test.cjs",
+        "tests/server-project-storage.test.cjs",
+        "tests/group-coordination.test.cjs",
+        "tests/shure-discovery.test.cjs",
+        "tests/server-archive-actions.test.cjs",
+        "tests/data-management.test.cjs"
+      ]
+    },
+    {
+      "id": "isolated-browser-manual",
+      "defaultRun": false,
+      "network": "all requests mocked/blocked, except service-network.browser.cjs uses its own ephemeral loopback fixture server",
+      "writes": "temporary screenshots, fresh browser context storage, fixture command records only",
+      "evidence": "Routes fulfill local HTML/assets and API fixtures or abort requests; WebSocket is stubbed. service-network binds 127.0.0.1 port 0 and permits only its own generated origin. Browser programs need Playwright and Edge; verification does not install dependencies or launch them.",
+      "conditions": [
+        "Run without --live. rf-frequency-axis.browser.cjs and spectrum-fit.browser.cjs additionally contain optional live-read-only modes; those modes are not isolated.",
+        "alert-sound.browser.cjs uses isolated WebAudio and OfflineAudioContext; no physical-speaker audibility assertion. SOUND_UI_BASELINE may point to a file-level pre-change archive for unchanged-settings geometry checks.",
+        "auto-frequency.browser.cjs uses a real background Worker importing only route-fulfilled project JS, fixture devices/scan and fresh storage. It verifies read-only navigation, stale-job cancellation and UI timer responsiveness, with no live API traffic.",
+        "plugin-status.browser.cjs needs PLUGIN_STATUS_BASELINE or the preserved before-native-input-20260913-100525/fuwuqi1.0.3 archive for original five-card/button layout comparison. file-input.browser.cjs additionally injects a complete native host; all its network calls are fixture-only."
+      ],
+      "files": [
+        "tests/alert-sound.browser.cjs",
+        "tests/realtime-alerts.browser.cjs",
+        "tests/auto-frequency.browser.cjs",
+        "tests/browser-data-migration.browser.cjs",
+        "tests/c2-project.browser.cjs",
+        "tests/c2-control.browser.cjs",
+        "tests/deploy-progress.browser.cjs",
+        "tests/device-views.browser.cjs",
+        "tests/manual-constraints.browser.cjs",
+        "tests/planning-confirm.browser.cjs",
+        "tests/planning-deploy.browser.cjs",
+        "tests/realtime-control.browser.cjs",
+        "tests/report-platform.browser.cjs",
+        "tests/file-input.browser.cjs",
+        "tests/plugin-status.browser.cjs",
+        "tests/rf-frequency-axis.browser.cjs",
+        "tests/rf-simulation.browser.cjs",
+        "tests/service-network.browser.cjs",
+        "tests/spectrum-envelope.browser.cjs",
+        "tests/spectrum-fit.browser.cjs",
+        "tests/spectrum-hover.browser.cjs",
+        "tests/history-actions.browser.cjs",
+        "tests/planner-actions.browser.cjs",
+        "tests/server-storage.browser.cjs",
+        "tests/compatibility-storage.browser.cjs",
+        "tests/shure-discovery.browser.cjs",
+        "tests/bulk-deployment-throughput.browser.cjs",
+        "tests/data-management.browser.cjs"
+      ]
+    },
+    {
+      "id": "browser-live-static-readonly",
+      "defaultRun": false,
+      "network": "GET real 127.0.0.1:8080 static HTML/JS/CSS; APIs mocked; WebSocket and EventSource stubbed",
+      "writes": "temporary screenshots and isolated page fixtures",
+      "evidence": "Both tests call route.fetch with localhost rewritten to IPv4 for allowed static resources. They require the running web service and must not be described as fully offline tests.",
+      "files": [
+        "tests/log-layout.browser.cjs",
+        "tests/planner-layout.browser.cjs"
+      ]
+    },
+    {
+      "id": "python-isolated-manual-review",
+      "defaultRun": false,
+      "network": "own random loopback HTTP/HTTPS/WSS ports, or in-process mocks; never field receivers",
+      "writes": "temporary SQLite, isolated CA/key/certificate/pairing/ACL fixtures; not production state",
+      "evidence": "Bridge tests set DATY_DB_PATH to tempfile before import; HTTP POST fixtures inject a real temporary AccessPolicy and Bearer. Servers bind loopback port 0 with ephemeral test CA or use mock sessions. Static tests use a temporary asset tree; registry tests audit Windows DACLs only inside test-created security directories. Pairing-FAshe contract invokes real local CLIs and pinned MQTT.js CONNECT encoder with a fake WebSocket, then verifies with the real policy. No production keys, database or service changes.",
+      "conditions": [
+        "Review each test's temporary DB and transport isolation before manual execution; excluded from the dependency-free Node default.",
+        "Run each file in a separate Python process: test_receiver_channel_identity.py changes DATY_DB_PATH without restoring it.",
+        "test_clock_rtt.py and test_realtime_control.py require the existing Python websockets dependency. Use python -B to avoid new bytecode files."
+      ],
+      "files": [
+        "tests/test_auto_enrollment.py",
+        "tests/test_pairing_admin.py",
+        "tests/test_pairing_fashe_contract.py",
+        "tests/test_receiver_pairing.py",
+        "tests/test_secure_deployment.py",
+        "tests/test_tls_transport.py",
+        "tests/test_static_access.py",
+        "tests/test_clock_rtt.py",
+        "tests/test_frequency_brand_binding.py",
+        "tests/test_p0_frequency.py",
+        "tests/test_planning_project_api.py",
+        "tests/test_business_backup.py",
+        "tests/test_project_store.py",
+        "tests/test_project_revision_api.py",
+        "tests/test_realtime_control.py",
+        "tests/test_receiver_channel_identity.py",
+        "tests/test_direct_control_api.py",
+        "tests/test_server_storage.py",
+        "tests/test_server_bootstrap.py",
+        "tests/test_cluster_storage.py",
+        "tests/test_shure_active_discovery.py",
+        "tests/test_server_throughput.py",
+        "tests/server-throughput-fixture.py"
+      ]
+    },
+    {
+      "id": "cross-layer-isolated-manual",
+      "defaultRun": false,
+      "network": "Node clients connect only to their own Python child fixture on ephemeral 127.0.0.1 TLS port; CA/hostname validated",
+      "writes": "temporary source copy, generated test-only CA/key, temporary SQLite; never live DB or receivers",
+      "evidence": "project-sync-http.cjs launches c2-http-fixture.py with windowsHide and checks its fixture marker/origin. The helper runs the reviewed test_project_revision_api setup with temporary DATY_DB_PATH before importing the candidate Bridge. Only project routes are sent; all device publishing is forbidden. Neither is launched by default verify.",
+      "files": [
+        "tests/project-sync-http.cjs",
+        "tests/c2-http-fixture.py"
+      ]
+    },
+    {
+      "id": "python-test-support",
+      "defaultRun": false,
+      "network": "none",
+      "writes": "explicit caller-supplied temporary credential registry only",
+      "evidence": "access_test_support.py is a fixture helper, not a standalone test. Its fixed key is accepted only by test-created AccessPolicy instances; there is no production bypass or environment disable switch.",
+      "files": [
+        "tests/access_test_support.py",
+        "tests/pairing_test_support.py",
+        "tests/http_test_support.py",
+        "tests/server-storage-fixture.py"
+      ]
+    },
+    {
+      "id": "live-readonly-manual",
+      "defaultRun": false,
+      "network": "existing web/Bridge services; GET and transport preflight only",
+      "writes": "no intentional receiver command or production project/database mutation",
+      "evidence": "bridge-transport requires --live and reads /health; realtime-network requires --live and allows only local GET; planning-live-readonly requires --live-readonly and reads /api/devices; p0-live-check has an optional --live snapshot; measure_clock_rtt reads /api/clock without sending heartbeats.",
+      "conditions": [
+        "These programs are never launched by verify.cjs; run only when a live diagnosis is intended.",
+        "p0-live-check.cjs without --live is a fixed synthetic benchmark, but is still excluded from the unit baseline.",
+        "measure_clock_rtt.py defaults to a live loop and needs no opt-in flag."
+      ],
+      "files": [
+        "tests/bridge-transport-live-check.cjs",
+        "tests/p0-live-check.cjs",
+        "tests/planning-live-readonly.browser.cjs",
+        "tests/realtime-network-live-check.cjs",
+        "tests/measure_clock_rtt.py"
+      ]
+    },
+    {
+      "id": "retired-reference",
+      "defaultRun": false,
+      "network": "unit: none; browser: mocked",
+      "writes": "browser can write temporary screenshots",
+      "evidence": "Old 50-row managed-device card implementation remains on disk but unirf-app.html does not load src/modules/device-management.js. Current UI uses src/modules/device-views.js with 20-row online devices and 50 channel cards. The former tests target old symbols/DOM and are retained as historical reference, not current acceptance tests. r19: User explicitly requested four-page layout/workflow optimization; the old fixed six-column import-only visual comparison is superseded by tests/data-management.browser.cjs (real 3+3 layout, keyboard, filters, pagination, preview, cancel and save). Original test retained for historical reference.",
+      "replacement": [
+        "tests/device-views.test.cjs",
+        "tests/device-views.browser.cjs"
+      ],
+      "files": [
+        "tests/device-management.test.cjs",
+        "tests/device-management.browser.cjs",
+        "tests/data-import-style-v2.browser.cjs"
+      ]
+    },
+    {
+      "id": "retired-operator-access-and-old-candidate-builds",
+      "defaultRun": false,
+      "evidence": "Operator authorization explicitly removed by user 2026-09-14. Old auth tests retained as historical reference. C2/UDB patches target old source hashes and must fail closed pending an explicit migration; not deployable on the direct-control baseline. Current control/ACK/TLS tests are migrated separately. The old planning-project-storage.test.cjs targets the retired C2 project-revision-v1 split project/run adapter. Current unified atomic-batch UI is verified separately by server-project-storage tests, unified-project-sync and real HTTPS/SQLite browser tests; its original assertions are retained.",
+      "files": [
+        "tests/access-client.test.cjs",
+        "tests/access-client.browser.cjs",
+        "tests/integrated-local-deploy.browser.cjs",
+        "tests/test_access_api.py",
+        "tests/test_access_registry.py",
+        "tests/test_integrated_local_access.py",
+        "tests/c2-candidate.test.cjs",
+        "tests/c2-candidate-audit.test.cjs",
+        "tests/unified-candidate.test.cjs",
+        "tests/retired-project-access.test.cjs",
+        "tests/retired-database-access.test.cjs",
+        "tests/planning-project-storage.test.cjs"
+      ]
+    }
+  ],
+  "unclassifiedPolicy": "verify.cjs fails if a top-level executable .cjs/.py test is absent from this inventory or an inventoried file is missing. Review new tests before adding them to safe-node-unit. The continuation preservation gate reads selected production and sibling FAshe file hashes, plus cache-normalized HTML; it never updates its manifest or opens network connections. The complete development workspace is required, not only a runtime distribution.",
+  "liveMutationAudit": {
+    "identifiedProductionWritePrograms": [],
+    "note": "Command POST tests found in this inventory use intercepted requests, in-memory fixtures, or their own random loopback service. This is a source review of the current files, not a security sandbox for future edits."
+  },
+  "fixtures": "tests/fixtures contains fixed algorithm/CSV/constraint datasets; __pycache__ and screenshots are not executable verification inputs.",
+  "directControlRemoval": {
+    "httpProtocol": "daty-direct-control-v1",
+    "pythonCasesPassed": 96,
+    "browserSuites": [
+      "planning-deploy",
+      "realtime-control",
+      "device-views-five-viewports",
+      "browser-data-migration"
+    ],
+    "productionDeviceControlsSent": 0,
+    "fasheModified": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+    "deployment": "deployed-and-live-readonly-verified",
+    "verifiedUtc": "2026-09-14T23:02:01.958399+08:00",
+    "bridgeClockServerId": "618eb501a7ad4c34abed3c4da4cb79f0"
+  },
+  "plannerTableGroupOrder": {
+    "verifiedUtc": "2026-09-15T10:44:04.786405+08:00",
+    "sort": "displayed receiver GROUP number, then CH number, then stable input order; unknowns last",
+    "focusedCasesPassed": 75,
+    "defaultCasesPassed": 717,
+    "browserViewports": 5,
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "plannerTableRealGroupColumn": {
+    "verifiedUtc": "2026-09-15T11:06:12.526469+08:00",
+    "display": "server-fifo-v1 positive group_number before CH; missing/invalid group is unknown (em dash); no browser group allocation",
+    "sort": "same actual GROUP number, then CH number, then original index; unknowns last",
+    "focusedCasesPassed": 75,
+    "defaultCasesPassed": 717,
+    "browserViewports": 5,
+    "productionSnapshotRows": [
+      {
+        "group": "GROUP2",
+        "channel": "CH1"
+      },
+      {
+        "group": "GROUP2",
+        "channel": "CH2"
+      },
+      {
+        "group": "GROUP2",
+        "channel": "CH3"
+      },
+      {
+        "group": "GROUP2",
+        "channel": "CH4"
+      }
+    ],
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "linkedSpectrumPlanningRange": {
+    "verifiedUtc": "2026-09-15T11:45:46.582526+08:00",
+    "behavior": "Spectrum and planner custom MHz fields link both ways. Effective preset/current saved planning range is authoritative on startup/history restore. Spectrum edit/fit/restore selects custom and invalidates old plans. CSV uses real bounds. Invalid drafts cannot plan, save range preferences or replace the last valid chart view.",
+    "focusedCasesPassed": 137,
+    "defaultCasesPassed": 724,
+    "browserViewports": 5,
+    "isolatedDeploymentBrowserPassed": true,
+    "screenshots": "[本机历史路径已移除；原始材料不随源码发布]",
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "spectrumPlannerMargin10MHz": {
+    "verifiedUtc": "2026-09-15T12:57:40.807752+08:00",
+    "behavior": "Only planner range is editable. Spectrum view uses start-10000/end+10000 kHz, while actual planning bounds remain unchanged. Temporary fit does not modify the plan; restore uses current padded planning bounds. Startup/history/CSV share the rule and invalid drafts keep the last valid view.",
+    "example": {
+      "planningMHz": [
+        640,
+        690
+      ],
+      "spectrumMHz": [
+        630,
+        700
+      ]
+    },
+    "focusedCasesPassed": 140,
+    "defaultCasesPassed": 727,
+    "browserViewports": 5,
+    "rfAxisDprBrowserPassed": true,
+    "screenshots": "[本机历史路径已移除；原始材料不随源码发布]",
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "deviceManagementRealGroupColumn": {
+    "verifiedUtc": "2026-09-15T13:07:09.361161+08:00",
+    "behavior": "Leading group column reuses the strict server-fifo-v1/group_number parser from the planner table. Missing, invalid or untrusted values show an em dash. Existing CH ordering, 20-row pagination, retained rows and device action identities remain unchanged.",
+    "focusedCasesPassed": 21,
+    "defaultCasesPassed": 727,
+    "browserViewports": 5,
+    "liveApiGroups": [
+      {
+        "ip": "192.0.2.102",
+        "channel": 1,
+        "group_number": 2,
+        "group_source": "server-fifo-v1"
+      },
+      {
+        "ip": "192.0.2.102",
+        "channel": 2,
+        "group_number": 2,
+        "group_source": "server-fifo-v1"
+      },
+      {
+        "ip": "192.0.2.102",
+        "channel": 3,
+        "group_number": 2,
+        "group_source": "server-fifo-v1"
+      },
+      {
+        "ip": "192.0.2.102",
+        "channel": 4,
+        "group_number": 2,
+        "group_source": "server-fifo-v1"
+      }
+    ],
+    "screenshots": "[本机历史路径已移除；原始材料不随源码发布]",
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "deviceManagementLockedUsageColumn": {
+    "verifiedUtc": "2026-09-15T13:19:19.185216+08:00",
+    "behavior": "Device Management third column is Usage Classification, read-only lock reason from the shared unique device/history receiver resolver. Missing/default/invalid locks show an em dash. Edits, removal and restore update immediately. Device names, receiver groups, CH order, pagination and controls are retained.",
+    "defaultCasesPassed": 727,
+    "browserViewports": 5,
+    "browserScenarios": [
+      "same CH on separate receivers",
+      "note edits/removal without telemetry",
+      "live frequency does not change lock or usage",
+      "literal HTML note and full tooltip",
+      "blank/default/duplicate/ambiguous lock",
+      "history restored after local IDs change",
+      "device names unchanged",
+      "205 records/20-row table and 50-card pagination"
+    ],
+    "httpsAssetsVerified": 4,
+    "screenshots": "[本机历史路径已移除；原始材料不随源码发布]",
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "deviceManagementUsageEditor": {
+    "verifiedUtc": "2026-09-15T14:55:01.971842+08:00",
+    "behavior": "Edit modal displays/edits the existing unique lock reason, saving through the original planning project/history path. Missing/invalid lock disables usage input; clearing preserves lock. Original device name remains intact. Note-only save preserves telemetry; stale identity/notes are rejected; CH/IP identity and note changes must be saved separately.",
+    "testsPassed": 729,
+    "focusedCasesPassed": 12,
+    "browserViewports": 5,
+    "screenshots": "[本机历史路径已移除；原始材料不随源码发布]",
+    "httpAssetsVerified": 3,
+    "browserEvidence": [
+      "actual table edit button",
+      "read matching drummer note",
+      "cancel has no writes",
+      "same CH on separate receivers",
+      "project POST includes note and unchanged locked frequency",
+      "preserves live frequency/battery/name",
+      "history restore",
+      "save failure keeps modal/manual retry",
+      "quoted string IDs and literal HTML text",
+      "clear retains lock",
+      "unlocked input disabled",
+      "model edit and manual registration preserved"
+    ],
+    "servicesRestarted": false,
+    "productionControlsSent": 0,
+    "productionDataWrites": 0,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "planningHistoryAppActions": {
+    "verifiedUtc": "2026-09-15T15:12:39.506443+08:00",
+    "behavior": "Load/export/delete use the shared async app confirmation shell with record details; deletion has scoped danger styling. Identity/content/revision/project/Bridge/input/host rechecked after confirmation. Original planned-only restore and tombstone persistence remain. Export uses optional daty-text-export-v1; browser reports download-started and native reports saved only after completion.",
+    "defaultCasesPassed": 741,
+    "focusedCasesPassed": 79,
+    "historyBrowserViewports": 5,
+    "sharedDialogBrowserViewports": 3,
+    "screenshots": "[本机历史路径已移除；原始材料不随源码发布]",
+    "httpsAssetsVerified": 6,
+    "productionDataWrites": 0,
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "nativeWpfFileDialogsImplemented": false,
+    "contracts": [
+      "contracts/host-v1.d.ts",
+      "contracts/text-export-v1.d.ts"
+    ],
+    "documentation": "docs/planning-history-actions.md",
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "dataManagementDesktopView": {
+    "verifiedUtc": "2026-09-15T15:34:59.617962+08:00",
+    "behavior": "Data tabs and log sources are stateful app controls with keyboard navigation. Scoped desktop toolbar/table/empty-state styling. Clear local archive uses shared async app confirmation, strict approval, single pending operation and captured archive/host checks. Original 20-row paging, auto-save, pending/realtime alerts and Timeline retained.",
+    "defaultCasesPassed": 748,
+    "focusedCasesPassed": 45,
+    "logLayoutBrowserViewports": 5,
+    "historyActionsBrowserViewports": 5,
+    "screenshots": "[本机历史路径已移除；原始材料不随源码发布]",
+    "httpsAssetsVerified": 6,
+    "productionDataWrites": 0,
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "nativeWpfDataManagementImplemented": false,
+    "historicalCandidateFixture": {
+      "file": "tests/fixtures/udb-alert-history-baseline.txt",
+      "sha256": "d4ced234564d333edd0b161527ffe81933841d33e6d86401541697a0490747cc",
+      "source": "before snapshot of src/modules/alert-history.js",
+      "patchHashesModified": false,
+      "candidateMigratedOrDeployed": false
+    },
+    "documentation": "docs/data-log-desktop-view.md",
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "plannerReportAppExport": {
+    "verifiedUtc": "2026-09-15T16:14:37.292796+08:00",
+    "behavior": "Frequency Planning report button uses a shared app dialog with actual filename/range/channel and validation counts. Pure prepareExport model reuses byte-preserved report formatter. Single export, captured plan/fields/CH labels/host recheck, abort and truthful browser download-started vs native saved/cancelled/error.",
+    "defaultCasesPassed": 756,
+    "focusedCasesPassed": 19,
+    "browserViewports": 5,
+    "screenshots": "[本机历史路径已移除；原始材料不随源码发布]",
+    "httpsAssetsVerified": 2,
+    "productionDataWrites": 0,
+    "productionControlsSent": 0,
+    "servicesRestarted": false,
+    "nativeWpfFilePickerImplemented": false,
+    "protectedSourceHashesChanged": 0,
+    "normalizedHtmlHashChanged": true,
+    "reportFormatterBytePreserved": true,
+    "contracts": [
+      "contracts/host-v1.d.ts",
+      "contracts/text-export-v1.d.ts"
+    ],
+    "documentation": "docs/planner-report-export.md",
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "plannerAllActionsNativePreparation": {
+    "status": "web-actions-and-native-ports-verified",
+    "verifiedDateUtc": "2026-09-15T16:42:29.797226+08:00",
+    "actionClasses": 17,
+    "runtimeFiles": [
+      "unirf-app.html",
+      "src/modules/planning-ui.js",
+      "src/modules/navigation.js",
+      "src/modules/deploy-progress.js",
+      "src/modules/render.js",
+      "src/styles/main.css"
+    ],
+    "contract": "contracts/planner-ui-v1.d.ts",
+    "report": "docs/planner-actions-native.md",
+    "focusCases": 64,
+    "browserPrograms": [
+      "file-input",
+      "planner-layout",
+      "planning-deploy",
+      "deploy-progress",
+      "report-platform",
+      "planner-actions"
+    ],
+    "viewports": [
+      "1920x1080",
+      "1366x768",
+      "1280x720",
+      "1024x768",
+      "1024x600"
+    ],
+    "browserIsolation": "Temporary contexts and fixture APIs/control transports; planner-layout reads actual localhost static resources only. Original FAshe handlers used only in VM fixtures.",
+    "validated": [
+      "all static and dynamic planner action mappings",
+      "safety/details app windows and focus/scroll",
+      "live safety drafts and stale edit rejection",
+      "full BOM/CRLF CSV and unchanged TXT downloads",
+      "Profile real file/review/cancel/stale store/atomic save",
+      "real lock notes/removal/history save",
+      "native saved/cancelled/error and no browser fallback",
+      "injected native progress with ACK-only success/stop-once/host disposal",
+      "original single/all/failed/stopped deployment and unchanged browser progress"
+    ],
+    "nativeImplementationBoundary": "Web presentation, command adapter, typed views and file/progress ports only. Full WPF views and installer remain future work.",
+    "manualVisualReview": [
+      "1024x600-safety",
+      "1024x600-details",
+      "1024x600-csv",
+      "1024x600-profile"
+    ],
+    "protectedEntriesUpdated": 4,
+    "otherProtectedEntriesRetained": 32,
+    "trustedTlsReadOnlyAssets": 6,
+    "serviceRestarted": false,
+    "liveReceiverWrites": 0,
+    "productionDataWrites": 0,
+    "fasheModified": false,
+    "backendModified": false,
+    "securityModified": false,
+    "userBrowserDataModified": false,
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]"
+  },
+  "serverStorageDeployment": {
+    "status": "deployed",
+    "report": "docs/server-storage.md",
+    "archive": "[本机历史路径已移除；原始材料不随源码发布]",
+    "productionDbMigrated": true,
+    "legacyTablesRetained": 7,
+    "applicationTables": 50,
+    "businessKinds": 15,
+    "legacyRowsUnchanged": true,
+    "pythonFiles": 18,
+    "pythonCases": 291,
+    "productionPlanningHistories": 111,
+    "productionPlanningRuns": 91,
+    "fullArchiveId": "8d7462f2e08b401587b2df906608678c",
+    "fullArchiveBytes": 40133592,
+    "fullArchiveCsvTables": 51,
+    "archiveDownloadAndRestoreVerified": true,
+    "staticFilesTlsMatched": 41,
+    "servicesReloaded": [
+      "Web 8080",
+      "Bridge 8802/8083"
+    ],
+    "ipServiceReloaded": false,
+    "liveDeviceCommandsSent": 0,
+    "fasheModified": false,
+    "typescriptCompilerRun": false,
+    "browserMigration": "Each origin migrates or archives its own accessible cache when refreshed; unopened clients are not claimed migrated.",
+    "currentAcceptance": [
+      "tests/test_server_bootstrap.py",
+      "tests/test_server_storage.py",
+      "tests/server-project-storage.test.cjs",
+      "tests/server-storage.browser.cjs"
+    ],
+    "oldCandidateTests": "Original SHA/access-dependent fixtures remain historical. Current bootstrap/UI/TLS tests replace their running-service acceptance; patch SHA files unchanged."
+  },
+  "shureActiveDiscovery": {
+    "default": {
+      "tests": 778,
+      "passed": 778,
+      "nodeFiles": 49,
+      "js": 42,
+      "resources": 40,
+      "preservation": 43
+    },
+    "backend": {
+      "test_shure_active_discovery.py": 26,
+      "test_realtime_control.py": 10,
+      "test_receiver_channel_identity.py": 17,
+      "test_clock_rtt.py": 14,
+      "test_direct_control_api.py": 14,
+      "test_server_storage.py": 11,
+      "test_receiver_pairing.py": 32
+    },
+    "frontendDiscovery": 21,
+    "browser": {
+      "viewports": [
+        "1920x1080",
+        "1366x768",
+        "1024x600"
+      ],
+      "evidence": "[本机历史路径已移除；原始材料不随源码发布]",
+      "passed": true
+    },
+    "hardwareVerified": false,
+    "fieldControls": 0
+  },
+  "receiverReportedProductDisplay": {
+    "testsAdded": 3,
+    "targetedPassed": 79,
+    "defaultPassed": 781,
+    "preservation": 43,
+    "browser": "[本机历史路径已移除；原始材料不随源码发布]",
+    "viewports": 3,
+    "surfaces": [
+      "receiver discovery",
+      "data receiver source",
+      "spectrum receiver source"
+    ],
+    "servedAssetsMatch": 9,
+    "onlineChannels": 4,
+    "servicesRestarted": false,
+    "fieldControls": 0,
+    "fasheModified": false
+  }
+}

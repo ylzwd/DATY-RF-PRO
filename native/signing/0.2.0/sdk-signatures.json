@@ -1,0 +1,260 @@
+[
+  {
+    "File": "appxpackaging.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "3437F43E925CDF3AF77FFBA2E85A97D0413644B35428335F0F8B1F52FCD1BA12"
+  },
+  {
+    "File": "appxsip.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "9EC9CE1865851B01DEC2EA702E57B827993E41C90C81146D3B0390839764C330"
+  },
+  {
+    "File": "ComparePackage.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "A61430F8699F46E196FA9F4CBE6BF04293FC99F7C46EE60D4D10169A16B5071F"
+  },
+  {
+    "File": "DeployUtil.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Windows Phone, OU=MOPR, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "3C2888F1BDBE75A9DF1B9B3BC6578705D1FD5EFB9F5AE36D2CE369859474886A"
+  },
+  {
+    "File": "ipoverusb.discoverpartners.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "76A4D3CA72E1B1E3A9D5CF2DA51D7C6AAEFADAFA363C689C56858CC37012E902"
+  },
+  {
+    "File": "makeappx.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "98DDF5A4FDB38A1D32C2CA7B350A2012ED430D277BAA1BF03AC91EF82365F1D3"
+  },
+  {
+    "File": "makecat.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "5E7DF63196997B144D50F1637DE8CDFA6B8A79360AA8ACBEA9F9CDA84A4E0E5B"
+  },
+  {
+    "File": "MakeCert.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "797929D01B56A696018130509C2C73B653A46345EB3CF14882CECA1415CDFCFC"
+  },
+  {
+    "File": "makepri.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "40E1490D0231915E207D5C091B380AC4396A9A3C1DC110DBC52056E6B9CF9205"
+  },
+  {
+    "File": "mc.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "DDDC00B028A88051C8994FFFEE08F6C76DB5EFD538A21A5698A43880B9D543C9"
+  },
+  {
+    "File": "mdmerge.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "C306D84EE46538924042EE540088B88EB86E209A62C8874EB235ED865112BE42"
+  },
+  {
+    "File": "Microsoft.ComparePackage.Lib.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "5A57832BC170974D43F8CC096C56760DB93D7E9FDA55941AB1973C1C223E92F7"
+  },
+  {
+    "File": "Microsoft.Diagnostics.Tracing.EventSource.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "4BBA4F921615030618430B4979B1029360CA0C613CA0696901D570C62485743E"
+  },
+  {
+    "File": "Microsoft.PackageEditor.Lib.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "B7BF35207E82C4D93AAF64136F27FFB7AB0DC0F8B5A2863AD5BBB5486B19B43D"
+  },
+  {
+    "File": "Microsoft.Tools.Connectivity.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "6ACB0660B343801093C0B60000CC0D2E7010FFF277ACB393E520373545BBAA79"
+  },
+  {
+    "File": "Microsoft.Tools.Deploy.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "6E31412482DC81D6AC2B0198C766FF1650B54519A7A79629613F935F04CCD9AF"
+  },
+  {
+    "File": "midl.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "7E8AB31406275501C337B32CBCA079DA2954E181BB7A3606A9908D588088513C"
+  },
+  {
+    "File": "midlc.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "D511371F6570BB12BA095248FB209EABB418EF58905A59A3AC852E97FD077F9B"
+  },
+  {
+    "File": "midlrt.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "3F3467D9588091988941F485A800F982115A8EE8DF6549734D933930821E8A2A"
+  },
+  {
+    "File": "midlrtmd.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "FDFEC85E1BF0C1D98CFE6C5477B6F311556823725979868F2A0552F6FE19CD27"
+  },
+  {
+    "File": "mrmsupport.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "974575EAFB5C42312DF5588E351142A8313EE8021F7B5921696F582358134C53"
+  },
+  {
+    "File": "msisip.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "40E1D564BCE22C90C6305D2F4274C64BB207CF66E4CBC30D4FBFD5C3E6DDD050"
+  },
+  {
+    "File": "mssign32.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "04A203BF583D4BB664B0B9C570150C243BE22A061A81CF69CCFE27EFC90132D7"
+  },
+  {
+    "File": "mt.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "9FDD2095F294FFF28C0976DC9BA64CAC6C04955D1BBFA33C62194FE5B0110104"
+  },
+  {
+    "File": "opcservices.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "11E20C4673D403C6AA2EE2F7EA85194C2E430E5D4245FCBABA207A6A80E48F24"
+  },
+  {
+    "File": "PackageEditor.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "F71E75577C4E59E486B36E03B1D0D9483273BB883E70F5A62BF96B0FC5559419"
+  },
+  {
+    "File": "rc.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "89C1CF330BEFB84D617F91F6BA56E618C95F8B5B6FEB3176D575D9960F90A863"
+  },
+  {
+    "File": "rcdll.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "C1FCBEC6C9912A6B2826D6DFCE2B12F84AC517FEBE7B5DACF6563BC099BEC2C2"
+  },
+  {
+    "File": "ServicingCommon.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "35ABA8C878650C1FB1DACF43CAA40FDAA99AB5C9D200163FE486810B27611535"
+  },
+  {
+    "File": "signtool.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "D6C04707C59A67FCE9FA4BB5FE76C79445B60E1E326D8B500A2F2BA8707C590A"
+  },
+  {
+    "File": "SirepClient.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "78A802CB12102B9B89624F86CCDCDFE5C3B1DB46807477038395F39B11A1B95B"
+  },
+  {
+    "File": "SirepInterop.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "427A2231E881A2F797D04DA4C223CF441EF463477749C9ECCEB9C769755AA1DA"
+  },
+  {
+    "File": "SshClient.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "3F8AC6792F6A1DA9E6EBB1E7B1B14802E4B6E89255FAEB1A09312E5EBE19D5C8"
+  },
+  {
+    "File": "tracewpp.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "4FD578A37C82157BD8D3B5A22BF3366895C1555B41D1CF3F8AC56D8C7A07671D"
+  },
+  {
+    "File": "uuidgen.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "42236E2D3210C4DD919D3D4188F4C7EF053B390F08716FE1D96EB061F7BDC75E"
+  },
+  {
+    "File": "veiid.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "B153CDA4CA837955E4F8E4A4E0A35A2F4A5C0747536BE89048CF87567B884B3F"
+  },
+  {
+    "File": "WinAppDeployCmd.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "FF1F2CC8BFC5831A8E3C6F10C30A1F0F907F652899A09E944BB91EA77DB92280"
+  },
+  {
+    "File": "WinAppDeployCommon.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "B9836F82E5A5B7CAC5A1A2997C2FC8F716E5E42D7B06197630114ACC49D035A9"
+  },
+  {
+    "File": "winmdidl.exe",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "4A687838F4603929C85EEE9E6119F72F6A2151A11FE35E2C11BDDC48984851E3"
+  },
+  {
+    "File": "wintrust.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "0AE34A731E4CE6BA394FB294F079884CAFBCCFA9FF3AC899455D4A9758136CF2"
+  },
+  {
+    "File": "Microsoft.Diagnostics.Tracing.EventSource.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "4586DF7B11A78BBC8E5AC2B2828F748F3363DCCFDD26999FD28559F202D53652"
+  },
+  {
+    "File": "Microsoft.Tools.Deploy.resources.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "D0F33DEB14A2A50BDCB433AE23D647A43D103530B40B1FA16C2D4A372C789DB0"
+  },
+  {
+    "File": "WinAppDeployCmd.resources.dll",
+    "Status": "Valid",
+    "Publisher": "CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "Sha256": "61F298DE273AFAFDD278C070741AE40CA231E8F53B87AE742359B7935244382C"
+  }
+]

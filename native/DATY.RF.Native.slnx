@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Source/">
+    <Project Path="src/Daty.Native.Contracts/Daty.Native.Contracts.csproj" />
+    <Project Path="src/Daty.Native.Core/Daty.Native.Core.csproj" />
+    <Project Path="src/Daty.Native.App/Daty.Native.App.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/Daty.Native.Tests/Daty.Native.Tests.csproj" />
+    <Project Path="tests/Daty.Native.Contracts.Tests/Daty.Native.Contracts.Tests.csproj" />
+    <Project Path="tests/Daty.Native.Mqtt.Tests/Daty.Native.Mqtt.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Tools/">
+    <Project Path="tools/Daty.PortableHost/Daty.PortableHost.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,509 @@
+{
+  "devices": [
+    {
+      "id": "test_ch1",
+      "receiver_id": "fixture-rx",
+      "channel_number": 1,
+      "brand": "DATYaudio",
+      "model": "RF PRO",
+      "_source": "fashe-mqtt",
+      "_online": true,
+      "status": "online",
+      "freq": 640000,
+      "rf": -40,
+      "afDbfs": -20,
+      "batt": 80,
+      "group_number": 1,
+      "group_source": "server-fifo-v1"
+    },
+    {
+      "id": "fixture_ch2",
+      "receiver_id": "fixture-rx",
+      "channel_number": 2,
+      "brand": "DATYaudio",
+      "model": "RF PRO",
+      "_source": "fashe-mqtt",
+      "_online": true,
+      "status": "online",
+      "freq": 645000,
+      "rf": -40,
+      "afDbfs": -20,
+      "batt": 80,
+      "group_number": 1,
+      "group_source": "server-fifo-v1"
+    }
+  ],
+  "options": {
+    "rangeStartKHz": 640000,
+    "rangeEndKHz": 690000,
+    "stepKHz": 25,
+    "backupCount": 1,
+    "compatibilityLevel": "standard",
+    "frequencyDistribution": "spread-range",
+    "allocationOrder": "receiver-group-ascending",
+    "preserveCurrent": true
+  },
+  "result": {
+    "assignments": [
+      {
+        "deviceId": "test_ch1",
+        "frequencyKHz": 640000,
+        "originalFrequencyKHz": 640000,
+        "groupNumber": 1,
+        "channelNumber": 1,
+        "allocationRank": 0,
+        "brand": "DATYaudio",
+        "brandKey": "datyaudio",
+        "minimumChannelSpacingKHz": 250,
+        "channelSpacingKHz": 250,
+        "intermodSpacingKHz": 250,
+        "coordinationGrid": {
+          "stepKHz": 250,
+          "originKHz": 0
+        },
+        "candidateStepKHz": 250,
+        "retainedOriginal": true,
+        "protectedOriginal": false,
+        "changeReason": "保留原频：数学与设备约束通过；无真实扫描，现场干扰未验证",
+        "profileId": "datyaudio-generic",
+        "profileBandId": "family-envelope",
+        "profileModeId": "standard",
+        "profileSource": "project-validated:schema-v1/2026-09-08",
+        "deploymentEligible": false,
+        "score": null,
+        "scanLevelDbm": null,
+        "locked": false,
+        "backupFrequenciesKHz": [
+          640250
+        ]
+      },
+      {
+        "deviceId": "fixture_ch2",
+        "frequencyKHz": 690000,
+        "originalFrequencyKHz": 645000,
+        "groupNumber": 1,
+        "channelNumber": 2,
+        "allocationRank": 1,
+        "brand": "DATYaudio",
+        "brandKey": "datyaudio",
+        "minimumChannelSpacingKHz": 250,
+        "channelSpacingKHz": 250,
+        "intermodSpacingKHz": 250,
+        "coordinationGrid": {
+          "stepKHz": 250,
+          "originKHz": 0
+        },
+        "candidateStepKHz": 250,
+        "retainedOriginal": false,
+        "protectedOriginal": false,
+        "changeReason": "按 GROUP 数字升序、同组 CH 升序从低频向高频规划",
+        "profileId": "datyaudio-generic",
+        "profileBandId": "family-envelope",
+        "profileModeId": "standard",
+        "profileSource": "project-validated:schema-v1/2026-09-08",
+        "deploymentEligible": false,
+        "score": null,
+        "scanLevelDbm": null,
+        "locked": false,
+        "backupFrequenciesKHz": [
+          689500
+        ]
+      }
+    ],
+    "analysis": {
+      "conflicts": [],
+      "minChannelSpacingKHz": 50000,
+      "minImdSeparationKHz": null,
+      "minImdMarginKHz": null,
+      "totalImdProducts": 2,
+      "requestedRangeStartKHz": 640000,
+      "requestedRangeEndKHz": 690000,
+      "rangeStartKHz": 640000,
+      "rangeEndKHz": 690000,
+      "planningGridOriginKHz": 640000,
+      "rangeExpansion": {
+        "enabled": false,
+        "expanded": false,
+        "participatingFrequencyCount": 0,
+        "outsideFrequencyCount": 0,
+        "scanPeakCount": 0,
+        "reasons": [],
+        "boundarySources": []
+      },
+      "totalPairs": 1,
+      "brandStats": {
+        "DATYaudio": 2
+      },
+      "engineVersion": "p1-2026-10-07-scan-peak-sources"
+    },
+    "unassignedDeviceIds": [],
+    "errors": [],
+    "warnings": [
+      "没有真实扫描：仅验证数学与设备约束，不能证明现场无干扰",
+      "存在未验证 Profile/硬件频段，不能视为厂商认证或开放跨品牌批量下发"
+    ],
+    "solver": "global",
+    "requestedRangeStartKHz": 640000,
+    "requestedRangeEndKHz": 690000,
+    "rangeStartKHz": 640000,
+    "rangeEndKHz": 690000,
+    "planningGridOriginKHz": 640000,
+    "rangeExpansion": {
+      "enabled": false,
+      "expanded": false,
+      "participatingFrequencyCount": 0,
+      "outsideFrequencyCount": 0,
+      "scanPeakCount": 0,
+      "reasons": [],
+      "boundarySources": []
+    },
+    "allocationOrder": {
+      "policy": "receiver-group-ascending",
+      "enabled": true,
+      "deviceIds": [
+        "test_ch1",
+        "fixture_ch2"
+      ],
+      "unknownGroupDeviceIds": []
+    },
+    "distribution": {
+      "policy": "spread-range",
+      "enabled": true,
+      "targetCount": 2,
+      "rangeStartKHz": 640000,
+      "rangeEndKHz": 690000,
+      "preferredFrequencies": [
+        {
+          "deviceId": "test_ch1",
+          "frequencyKHz": 640000
+        },
+        {
+          "deviceId": "fixture_ch2",
+          "frequencyKHz": 690000
+        }
+      ]
+    },
+    "retention": {
+      "enabled": false,
+      "protectedDeviceIds": [],
+      "retainedCount": 1,
+      "changedCount": 1,
+      "scanAvailable": false,
+      "originalChecks": [
+        {
+          "deviceId": "test_ch1",
+          "frequencyKHz": 640000,
+          "issues": []
+        },
+        {
+          "deviceId": "fixture_ch2",
+          "frequencyKHz": 645000,
+          "issues": []
+        }
+      ]
+    },
+    "search": {
+      "nodes": 2,
+      "truncated": false,
+      "objective": "max-assigned-count-with-group-ascending",
+      "complete": true
+    },
+    "engineVersion": "p1-2026-10-07-scan-peak-sources",
+    "options": {
+      "rangeStartKHz": 640000,
+      "rangeEndKHz": 690000,
+      "stepKHz": 25,
+      "backupCount": 1,
+      "compatibilityLevel": "standard",
+      "frequencyDistribution": "spread-range",
+      "allocationOrder": "receiver-group-ascending",
+      "preserveCurrent": true,
+      "maxSearchNodes": 100000,
+      "minimumFrequencyCount": 0,
+      "maxScanGapKHz": 200,
+      "imdOrders": [
+        3
+      ],
+      "includeThreeTone": true,
+      "solver": "global",
+      "protectCurrentFrequencies": false,
+      "autoExpandRange": false,
+      "requestedRangeStartKHz": 640000,
+      "requestedRangeEndKHz": 690000,
+      "planningGridOriginKHz": 640000,
+      "excludedRanges": [],
+      "knownCarriers": [],
+      "lockedAssignments": [],
+      "scanPoints": [],
+      "scanPeakCarriers": [],
+      "rangeExpansion": {
+        "enabled": false,
+        "expanded": false,
+        "participatingFrequencyCount": 0,
+        "outsideFrequencyCount": 0,
+        "scanPeakCount": 0,
+        "reasons": [],
+        "boundarySources": []
+      },
+      "imdProducts": [
+        "2T3O",
+        "3T3O"
+      ]
+    },
+    "compatibility": {
+      "version": "daty-compatibility-v1",
+      "level": "standard",
+      "label": "标准",
+      "imdProducts": [
+        "2T3O",
+        "3T3O"
+      ],
+      "devices": [
+        {
+          "deviceId": "test_ch1",
+          "profileId": "datyaudio-generic",
+          "deviceModeId": null,
+          "channelSpacingKHz": 250,
+          "intermodSpacingKHz": 250,
+          "scanThresholdDbm": -78,
+          "scanGuardKHz": 125,
+          "candidateStepKHz": 250
+        },
+        {
+          "deviceId": "fixture_ch2",
+          "profileId": "datyaudio-generic",
+          "deviceModeId": null,
+          "channelSpacingKHz": 250,
+          "intermodSpacingKHz": 250,
+          "scanThresholdDbm": -78,
+          "scanGuardKHz": 125,
+          "candidateStepKHz": 250
+        }
+      ]
+    },
+    "profileSnapshots": [
+      {
+        "deviceId": "test_ch1",
+        "profile": {
+          "id": "datyaudio-generic",
+          "manufacturer": "DATYaudio",
+          "models": [
+            "RF PRO",
+            "DATY-X1",
+            "DATY-X2",
+            "*"
+          ],
+          "tuningRangeKHz": [
+            400000,
+            900000
+          ],
+          "intermodSource": true,
+          "priority": 15,
+          "frequencyStepKHz": 25,
+          "frequencyOriginKHz": 0,
+          "compatibility": {
+            "robust": {
+              "channelSpacingKHz": 250,
+              "intermodSpacingKHz": 150,
+              "scanThresholdDbm": -75
+            },
+            "standard": {
+              "channelSpacingKHz": 250,
+              "intermodSpacingKHz": 250,
+              "scanThresholdDbm": -78
+            },
+            "more-frequencies": {
+              "channelSpacingKHz": 250,
+              "intermodSpacingKHz": 0,
+              "scanThresholdDbm": -72
+            }
+          },
+          "bands": [
+            {
+              "id": "family-envelope",
+              "label": "系列范围（未指定硬件频段）",
+              "tuningRangeKHz": [
+                400000,
+                900000
+              ],
+              "region": "UNKNOWN",
+              "verified": false
+            }
+          ],
+          "modes": [
+            {
+              "id": "robust",
+              "label": "robust",
+              "modeType": "coordination-preset",
+              "settings": {
+                "channelSpacingKHz": 250,
+                "intermodSpacingKHz": 150,
+                "scanThresholdDbm": -75
+              }
+            },
+            {
+              "id": "standard",
+              "label": "standard",
+              "modeType": "coordination-preset",
+              "settings": {
+                "channelSpacingKHz": 250,
+                "intermodSpacingKHz": 250,
+                "scanThresholdDbm": -78
+              }
+            },
+            {
+              "id": "more-frequencies",
+              "label": "more-frequencies",
+              "modeType": "coordination-preset",
+              "settings": {
+                "channelSpacingKHz": 250,
+                "intermodSpacingKHz": 0,
+                "scanThresholdDbm": -72
+              }
+            }
+          ],
+          "defaultBandId": "family-envelope",
+          "defaultModeId": "standard",
+          "provenance": {
+            "kind": "project-validated",
+            "title": "FAshe DATYaudio protocol manifest",
+            "url": "project://FAshe/profiles/datyaudio-wireless-mics.json",
+            "revision": "schema-v1/2026-09-08",
+            "verified": true,
+            "checkedAt": "2026-09-08"
+          },
+          "deploymentEligible": false,
+          "source": "built-in",
+          "note": "DATYaudio 三档通道间隔/候选步进均250 kHz；标准/保守/紧凑的默认互调保护为250/150/0 kHz（0=无），扫描阈值为-78/-75/-72 dBm，按用户确认表。其他品牌、硬件模式及人工加严保持；不是厂商RF认证。",
+          "minimumChannelSpacingKHz": 250,
+          "spacingProvenance": {
+            "kind": "user-confirmed",
+            "title": "项目用户确认 DATYaudio 最小通道间隔及候选步进 250 kHz",
+            "revision": "2026-09-11-daty250",
+            "verified": true
+          },
+          "coordinationGrid": {
+            "stepKHz": 250,
+            "originKHz": 0
+          },
+          "compatibilityProvenance": {
+            "kind": "user-confirmed",
+            "revision": "2026-09-17-daty-table4",
+            "title": "DATY 三档均250kHz；互调250/150/无；扫描-78/-75/-72dBm"
+          }
+        }
+      },
+      {
+        "deviceId": "fixture_ch2",
+        "profile": {
+          "id": "datyaudio-generic",
+          "manufacturer": "DATYaudio",
+          "models": [
+            "RF PRO",
+            "DATY-X1",
+            "DATY-X2",
+            "*"
+          ],
+          "tuningRangeKHz": [
+            400000,
+            900000
+          ],
+          "intermodSource": true,
+          "priority": 15,
+          "frequencyStepKHz": 25,
+          "frequencyOriginKHz": 0,
+          "compatibility": {
+            "robust": {
+              "channelSpacingKHz": 250,
+              "intermodSpacingKHz": 150,
+              "scanThresholdDbm": -75
+            },
+            "standard": {
+              "channelSpacingKHz": 250,
+              "intermodSpacingKHz": 250,
+              "scanThresholdDbm": -78
+            },
+            "more-frequencies": {
+              "channelSpacingKHz": 250,
+              "intermodSpacingKHz": 0,
+              "scanThresholdDbm": -72
+            }
+          },
+          "bands": [
+            {
+              "id": "family-envelope",
+              "label": "系列范围（未指定硬件频段）",
+              "tuningRangeKHz": [
+                400000,
+                900000
+              ],
+              "region": "UNKNOWN",
+              "verified": false
+            }
+          ],
+          "modes": [
+            {
+              "id": "robust",
+              "label": "robust",
+              "modeType": "coordination-preset",
+              "settings": {
+                "channelSpacingKHz": 250,
+                "intermodSpacingKHz": 150,
+                "scanThresholdDbm": -75
+              }
+            },
+            {
+              "id": "standard",
+              "label": "standard",
+              "modeType": "coordination-preset",
+              "settings": {
+                "channelSpacingKHz": 250,
+                "intermodSpacingKHz": 250,
+                "scanThresholdDbm": -78
+              }
+            },
+            {
+              "id": "more-frequencies",
+              "label": "more-frequencies",
+              "modeType": "coordination-preset",
+              "settings": {
+                "channelSpacingKHz": 250,
+                "intermodSpacingKHz": 0,
+                "scanThresholdDbm": -72
+              }
+            }
+          ],
+          "defaultBandId": "family-envelope",
+          "defaultModeId": "standard",
+          "provenance": {
+            "kind": "project-validated",
+            "title": "FAshe DATYaudio protocol manifest",
+            "url": "project://FAshe/profiles/datyaudio-wireless-mics.json",
+            "revision": "schema-v1/2026-09-08",
+            "verified": true,
+            "checkedAt": "2026-09-08"
+          },
+          "deploymentEligible": false,
+          "source": "built-in",
+          "note": "DATYaudio 三档通道间隔/候选步进均250 kHz；标准/保守/紧凑的默认互调保护为250/150/0 kHz（0=无），扫描阈值为-78/-75/-72 dBm，按用户确认表。其他品牌、硬件模式及人工加严保持；不是厂商RF认证。",
+          "minimumChannelSpacingKHz": 250,
+          "spacingProvenance": {
+            "kind": "user-confirmed",
+            "title": "项目用户确认 DATYaudio 最小通道间隔及候选步进 250 kHz",
+            "revision": "2026-09-11-daty250",
+            "verified": true
+          },
+          "coordinationGrid": {
+            "stepKHz": 250,
+            "originKHz": 0
+          },
+          "compatibilityProvenance": {
+            "kind": "user-confirmed",
+            "revision": "2026-09-17-daty-table4",
+            "title": "DATY 三档均250kHz；互调250/150/无；扫描-78/-75/-72dBm"
+          }
+        }
+      }
+    ]
+  }
+}

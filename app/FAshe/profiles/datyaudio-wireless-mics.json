@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "brand": "DATYaudio",
+  "display_brand": "DATY audio",
+  "protocol": {
+    "transport": "MQTT over WebSocket",
+    "register_topic": "daty/rf/devices/register",
+    "status_topic": "daty/rf/devices/up",
+    "command_topic": "daty/rf/devices/down",
+    "frequency_field": "freq_mhz",
+    "frequency_unit": "MHz",
+    "af_field": "af_level",
+    "af_unit": "dBFS",
+    "af_range": [-40, 0]
+  },
+  "defaults": {
+    "model": "RF PRO",
+    "equipment_profile_id": "datyaudio-generic",
+    "frequency_start_mhz": 641.0,
+    "frequency_step_mhz": 0.25,
+    "rf_level_dbm": -35,
+    "af_level_dbfs": 0,
+    "battery_percent": 100
+  },
+  "models": [
+    { "id": "RF PRO", "label": "RF PRO", "equipment_profile_id": "datyaudio-generic" },
+    { "id": "DATY-X1", "label": "DATY-X1", "equipment_profile_id": "datyaudio-generic" },
+    { "id": "DATY-X2", "label": "DATY-X2", "equipment_profile_id": "datyaudio-generic" }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "package": "Microsoft.Windows.SDK.BuildTools",
+  "version": "10.0.28000.2705",
+  "source": "https://api.nuget.org/v3-flatcontainer/microsoft.windows.sdk.buildtools/10.0.28000.2705/microsoft.windows.sdk.buildtools.10.0.28000.2705.nupkg",
+  "sha256": "8bfdfb6ca2633f531cf80b5fa22512ba61a394d7988f0970db83baadc67929ed",
+  "nugetAuthorAndRepositorySignatureVerification": "passed",
+  "signtool": "[本机历史路径已移除；原始材料不随源码发布]",
+  "sdkBinariesBundledInKit": false,
+  "actualSigning": "NOT_PERFORMED - public code-signing certificate not yet issued",
+  "runtimeAcceptance": "BLOCKED - unsigned application; no security policy changes",
+  "providerRecommendation": "Consult Certum Standard for individual eligibility in mainland China before purchasing"
+}

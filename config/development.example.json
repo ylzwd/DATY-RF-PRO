@@ -1,0 +1,4 @@
+{
+  "dotnetSdk": "tools/dotnet/dotnet.exe",
+  "runtimeTools": "app/tools"
+}

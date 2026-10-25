@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "scope": "Original r19 pure frequency, scan, profile, coordination and RF simulation algorithms; byte-identical",
+  "files": [
+    {
+      "file": "coordination.js",
+      "source": "app/public/src/modules/coordination.js",
+      "sha256": "c06a5d575c296933b6570a4bf1bfcf4920fb7674f3d960a5aa1ce21a2a31bdc2"
+    },
+    {
+      "file": "equipment-profiles.js",
+      "source": "app/public/src/modules/equipment-profiles.js",
+      "sha256": "c2aab80f2f6f3099fca55dcaca761e75f6500154fe9e3f46872497eb4881565e"
+    },
+    {
+      "file": "frequency.js",
+      "source": "app/public/src/modules/frequency.js",
+      "sha256": "e35b5d2b497cd3190d1c4fd2f8f218a8fefc73a482b7de5d50a407d7cb43997e"
+    },
+    {
+      "file": "rf-simulation.js",
+      "source": "app/public/src/modules/rf-simulation.js",
+      "sha256": "445cb28c91f5fe96427adc58e25768e77ee7b1de57f61f2b8f3f84732d604874"
+    },
+    {
+      "file": "scan-csv.js",
+      "source": "app/public/src/modules/scan-csv.js",
+      "sha256": "d5cd57cdc7e0300a387c6a8889150ed45b88465a1e0c505f5e0c51af21fd68b6"
+    }
+  ]
+}
