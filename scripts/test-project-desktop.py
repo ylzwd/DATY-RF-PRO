@@ -2,7 +2,7 @@
 from pathlib import Path
 import contextlib, importlib.util, json, os, tempfile, unittest, subprocess
 from datetime import datetime, timezone, timedelta
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock, PropertyMock
 
 ROOT = Path(__file__).resolve().parent.parent
 spec = importlib.util.spec_from_file_location('project_local', ROOT / 'scripts/project-local.py')
@@ -46,6 +46,16 @@ class DesktopLifetimeTests(unittest.TestCase):
              patch.object(local,'state',return_value=self.status()), \
              patch.object(local, 'stop') as stop:
             self.assertEqual(local.finish_desktop('a' * 32)['state'], 'desktop-still-open')
+            stop.assert_not_called()
+
+    def test_published_exe_splash_does_not_keep_failed_start_alive(self):
+        with patch.object(project_desktop,'native_processes',return_value=[456]),patch.object(local,'stop',return_value={'state':'stopped'}) as stop:
+            self.assertEqual(local.finish_desktop('a'*32,startup_pid=456)['state'],'stopped')
+            stop.assert_called_once_with(expected_boot='a'*32)
+
+    def test_ignoring_splash_still_preserves_another_real_window(self):
+        with patch.object(project_desktop,'native_processes',return_value=[456,789]),patch.object(local,'state',return_value=self.status()),patch.object(local,'stop') as stop:
+            self.assertEqual(local.finish_desktop('a'*32,startup_pid=456)['native_pids'],[789])
             stop.assert_not_called()
 
     def test_enumeration_failure_never_stops_server(self):
@@ -129,6 +139,30 @@ class DesktopLifetimeTests(unittest.TestCase):
             with self.assertRaises(OSError):
                 local.launch_desktop()
             stop.assert_called_once_with(expected_boot='a' * 32)
+
+    def test_cancelled_splash_never_starts_backend_or_window(self):
+        owner=Mock();owner.exited=True
+        with patch.object(local,'start') as start,patch.object(local.subprocess,'Popen') as spawn:
+            self.assertEqual(local._launch_desktop(owner)['state'],'startup-cancelled')
+            start.assert_not_called();spawn.assert_not_called()
+
+    def test_cancelled_splash_cleans_only_its_new_backend(self):
+        self.launch_context(None);owner=Mock();type(owner).exited=PropertyMock(side_effect=[False,True])
+        with patch.object(local.subprocess,'Popen') as spawn,patch.object(local,'stop') as stop:
+            self.assertEqual(local._launch_desktop(owner)['state'],'startup-cancelled')
+            spawn.assert_not_called();stop.assert_called_once_with(expected_boot='a'*32)
+
+    def test_cancelled_extra_splash_preserves_existing_backend(self):
+        self.launch_context(self.status());owner=Mock();type(owner).exited=PropertyMock(side_effect=[False,True])
+        with patch.object(local.subprocess,'Popen') as spawn,patch.object(local,'stop') as stop:
+            self.assertEqual(local._launch_desktop(owner)['state'],'startup-cancelled')
+            spawn.assert_not_called();stop.assert_not_called()
+
+    def test_progress_reaches_opening_without_holding_gui_lease(self):
+        self.launch_context(self.status());child=Mock(pid=456);child.wait.return_value=0;stages=[]
+        with patch.object(local.subprocess,'Popen',return_value=child),patch.object(project_desktop,'native_processes',return_value=[]),patch.object(local,'stop',return_value={'state':'stopped'}):
+            local.launch_desktop(progress=stages.append)
+        self.assertEqual(stages,['waiting','opening'])
 
     def test_host_waits_for_unmanaged_older_window_then_stops(self):
         self.launch_context(self.status())

@@ -1,0 +1,60 @@
+<Window x:Class="Daty.Native.App.StartupWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="DATY RF PRO · 正在启动" Width="720" Height="430"
+ WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize"
+ Background="#0b0e16" ShowInTaskbar="True" UseLayoutRounding="True">
+ <Border BorderBrush="#303952" BorderThickness="1" MouseLeftButtonDown="DragWindow">
+  <Viewbox Stretch="Uniform">
+   <Grid Width="718" Height="428" ClipToBounds="True">
+    <Grid.Background><RadialGradientBrush Center="0.76,0.30" RadiusX="0.85" RadiusY="1.1"><GradientStop Color="#171b39"/><GradientStop Color="#0b0e16" Offset="1"/></RadialGradientBrush></Grid.Background>
+    <Button x:Name="CloseButton" Content="×" Width="30" Height="30" MinHeight="0" Padding="0" Margin="0,10,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="21" ToolTip="取消本次启动" AutomationProperties.Name="取消本次启动" Click="CloseStartup"/>
+    <Grid Margin="34,38,34,28">
+     <Grid.RowDefinitions><RowDefinition Height="74"/><RowDefinition Height="154"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="70"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+      <Border Width="54" Height="54" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#202541" CornerRadius="14" BorderBrush="#424b79" BorderThickness="1"><Image x:Name="ProductIcon" Width="38" Height="38"/></Border>
+      <StackPanel Grid.Column="1" VerticalAlignment="Top">
+       <TextBlock Text="DATY RF PRO" FontSize="29" FontWeight="SemiBold" Foreground="#f1f5ff"/>
+       <TextBlock Text="无线音频 · 射频工作台" FontSize="12" Foreground="#91a2cb" Margin="1,5,0,0"/>
+      </StackPanel>
+      <Border Grid.Column="2" Background="#1b2137" CornerRadius="10" Padding="12,5" VerticalAlignment="Top" Margin="0,9,0,0"><TextBlock x:Name="VersionLabel" Foreground="#a5b4fc" FontSize="11"/></Border>
+     </Grid>
+     <Grid Grid.Row="1" ClipToBounds="True" Margin="0,5,0,16" IsHitTestVisible="False">
+      <Canvas>
+       <Path Stroke="#1e2a45" StrokeThickness="1" Data="M0,24 H648 M0,54 H648 M0,84 H648 M0,114 H648 M24,0 V134 M84,0 V134 M144,0 V134 M204,0 V134 M264,0 V134 M324,0 V134 M384,0 V134 M444,0 V134 M504,0 V134 M564,0 V134 M624,0 V134"/>
+       <Path Stroke="#383e71" StrokeThickness="1.2" Data="M0,105 C70,105 84,92 116,92 S155,109 184,109 S217,69 244,69 S284,110 318,110 S357,37 388,37 S422,101 455,101 S490,80 524,80 S580,106 648,106"/>
+       <Path Stroke="#777cf9" StrokeThickness="2" StrokeLineJoin="Round" Data="M0,110 L62,110 78,104 91,110 133,110 147,91 156,110 213,110 233,71 245,43 256,75 269,110 336,110 349,98 360,110 403,110 423,65 432,30 443,63 459,110 510,110 527,87 540,110 648,110"/>
+       <Path Stroke="#38c9ea" StrokeThickness="1.4" Opacity="0.55" Data="M0,119 C93,119 123,111 152,111 S200,124 246,124 S306,102 340,102 S399,120 442,120 S490,108 518,108 S588,119 648,119"/>
+       <Rectangle Width="120" Height="134" Opacity="0.38">
+        <Rectangle.Fill><LinearGradientBrush StartPoint="0,0" EndPoint="1,0"><GradientStop Color="#0022d3ee"/><GradientStop Color="#4222d3ee" Offset="0.82"/><GradientStop Color="#0022d3ee" Offset="1"/></LinearGradientBrush></Rectangle.Fill>
+        <Rectangle.RenderTransform><TranslateTransform x:Name="Sweep" X="-120"/></Rectangle.RenderTransform>
+       </Rectangle>
+       <Ellipse x:Name="SignalPulse" Width="8" Height="8" Fill="#8b8dff" Canvas.Left="428" Canvas.Top="26"/>
+       <TextBlock Text="RF / SIGNAL WORKSPACE" FontSize="9" Foreground="#657594" Canvas.Left="0" Canvas.Top="0"/>
+      </Canvas>
+     </Grid>
+     <Grid Grid.Row="2">
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+      <Grid>
+       <TextBlock x:Name="StatusLabel" Text="正在准备启动" Foreground="#e2e8f0" FontSize="16" FontWeight="SemiBold" AutomationProperties.AutomationId="StartupStatus"/>
+       <TextBlock x:Name="ElapsedLabel" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="#7c8db5" FontSize="11"/>
+      </Grid>
+      <TextBlock Grid.Row="1" x:Name="DetailLabel" Text="准备完成后自动进入工作台" Foreground="#91a2cb" FontSize="12" Margin="0,8,0,0" TextWrapping="Wrap" MaxHeight="52" AutomationProperties.AutomationId="StartupDetail"/>
+      <Grid Grid.Row="2" Margin="0,19,0,0">
+       <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+       <Border x:Name="Step0" Height="3" CornerRadius="1.5" Background="#6366f1" Margin="0,0,5,0"/>
+       <Border x:Name="Step1" Grid.Column="1" Height="3" CornerRadius="1.5" Background="#28314a" Margin="0,0,5,0"/>
+       <Border x:Name="Step2" Grid.Column="2" Height="3" CornerRadius="1.5" Background="#28314a" Margin="0,0,5,0"/>
+       <Border x:Name="Step3" Grid.Column="3" Height="3" CornerRadius="1.5" Background="#28314a"/>
+      </Grid>
+      <Grid Grid.Row="3" VerticalAlignment="Bottom" Margin="0,15,0,0">
+       <TextBlock Text="启动动效 · 非实时射频数据" Foreground="#657594" FontSize="10"/>
+       <TextBlock x:Name="StageLabel" Text="检查 / 载入 / 连接 / 工作台" Foreground="#657594" FontSize="10" HorizontalAlignment="Right"/>
+      </Grid>
+     </Grid>
+    </Grid>
+   </Grid>
+  </Viewbox>
+ </Border>
+</Window>

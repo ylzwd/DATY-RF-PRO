@@ -63,6 +63,8 @@ DATY RF PRO 用于集中监测无线话筒接收机、查看现场频谱资料�
 
 把完整文件夹解压或复制到目标电脑可写的本地目录，双击根目录 **DATY RF PRO.exe** 即可打开，后台自动就绪后进入原生界面。首次运行无需安装、构建或先运行测试。程序不依赖 Codex、SystemAPI、全局 Python 或全局 .NET。
 
+双击桌面图标或 EXE 后，先显示 DATY RF PRO 原生启动画面：蓝紫色射频波形与扫光为装饰动效，不代表实时测量；文字跟随程序检查、工作空间载入、本机服务连接及工作台打开等真实阶段。工作台实际完成首帧显示后自动交接，不增加固定播放等待，也不显示虚构的百分比。关闭启动画面取消本次打开，保留其他窗口及原有数据；失败时保留原因并可关闭。关闭 Windows 界面动画或启用高对比度时使用静态画面。实现参考 [Microsoft WPF 动画示例](https://github.com/microsoft/WPF-Samples/blob/main/Animation/LocalAnimations/InteractiveAnimationExample.cs)，不引入动画库或联网素材。
+
 原来的 **启动DATY RF PRO.vbs** 继续可用，使用同一套项目内环境与启停逻辑。根目录 EXE 使用随包携带的原生运行库，不要求 Windows Script Host / VBScript。需要继续开发时，再运行 **检查开发环境.cmd** 和 **运行测试.cmd** 检查完整性并离线编译测试。
 
 | 当前入口 | 用途 |
@@ -366,6 +368,7 @@ ULX-D 的完整在线扫描在 WWB 中受官方支持。2026-10-07 已取得本�
 | 变更领域 | 应核对的入口和证据 |
 | --- | --- |
 | WPF 布局 / 交互 | 编译及真实窗口中相关页面、尺寸和状态 |
+| 原生启动画面 | WPF `--verify-startup` 核对动效、真实阶段、失败状态和截图；实际 EXE/VBS 首屏、工作台交接、取消、多个窗口及正常停服分别验证 |
 | 频谱阈值 / 实时 RF | `ScanThresholdCases`、`SpectrumRfCases`、WPF `--verify-ui` 和频谱设置 SQLite / MQTT 隔离测试；核对缺点不桥接、真实谱峰、即时持久化、离线底部占位、变化底噪与有效接收恢复 |
 | 独立项目启停 | `scripts/test-project-desktop.py`、`scripts/test-project-desktop-integration.py`、原生 `--verify-close`，以及真实窗口关闭、多个窗口共用和再次启动 |
 | 配置入库 / 控制链路 | `scripts/test-native-integration.py`，隔离 MQTT/TLS/SQLite 和模拟设备；先查看参数和用例 |

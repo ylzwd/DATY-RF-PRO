@@ -110,14 +110,17 @@ def prepare():
     atomic(native,bootstrap)
     return cfg
 
-def start(desktop_owner=None):
+def start(desktop_owner=None,progress=None):
+    if progress:progress('checking')
     from product_info import installed_build, identity, require_identity
     from project_release import verify_installed
     installed_build(ROOT,verify_files=True)
     verify_installed(ROOT)
     existing=state(require_fresh=False,match_profile=False)
     if existing:require_identity(existing.get('product'),identity(ROOT))
+    if progress:progress('workspace')
     prepare();s=state()
+    if progress:progress('services')
     if ready(s):return s
     if s and s['state'] in ('running','degraded'):raise RuntimeError('Existing project server is recovering; do not start a second writer')
     # Scope validates and exclusively reserves both ports before importing backend.
@@ -158,10 +161,10 @@ def stop(expected_boot=None):
         time.sleep(.5)
     raise RuntimeError('Graceful stop pending; process was not killed')
 
-def finish_desktop(boot_id):
+def finish_desktop(boot_id,startup_pid=None):
     from project_desktop import native_processes
     with launch_lease():
-        others=native_processes(ROOT)
+        others=[pid for pid in native_processes(ROOT) if pid!=startup_pid]
         if others:
             current=state(require_fresh=False,match_profile=False)
             if not current:return {'state':'not-running'}
@@ -170,12 +173,29 @@ def finish_desktop(boot_id):
         return stop(expected_boot=boot_id)
 
 
-def launch_desktop():
+def launch_desktop(startup_owner=None,progress=None):
     # Serialize launch/stop decisions, but never hold the lease while a GUI is open.
+    from project_desktop import ProcessLifetime
+    owner=None
+    if startup_owner is not None:
+        owner=ProcessLifetime(startup_owner,[ROOT/'DATY RF PRO.exe',ROOT/profile()['native_output']/'DATY.RF.Native.exe'])
+    try:return _launch_desktop(owner,progress,startup_owner)
+    finally:
+        if owner:owner.close()
+
+
+def _launch_desktop(owner=None,progress=None,startup_pid=None):
+    if progress:progress('waiting')
     with launch_lease():
+        if owner and owner.exited:return {'state':'startup-cancelled'}
         exe=ROOT/profile()['native_output']/'DATY.RF.Native.exe'
         if not exe.is_file():raise RuntimeError('Build first using the project build entry')
-        existing=state();started=start(desktop_owner=os.getpid());boot_id=started['boot_id']
+        existing=state()
+        started=start(desktop_owner=os.getpid(),**({'progress':progress} if progress else {}));boot_id=started['boot_id']
+        if owner and owner.exited:
+            if not ready(existing):stop(expected_boot=boot_id)
+            return {'state':'startup-cancelled'}
+        if progress:progress('opening')
         env=dict(os.environ,DATY_PROJECT_ROOT=str(ROOT),DATY_PROJECT_DESKTOP_BOOT=boot_id)
         try:
             child=subprocess.Popen([str(exe)],cwd=exe.parent,env=env,creationflags=subprocess.CREATE_NO_WINDOW)
@@ -187,7 +207,9 @@ def launch_desktop():
     exit_code=child.wait()
     previous=None
     while True:
-        result=finish_desktop(boot_id)
+        # A direct published-EXE splash has the same image as the real window.
+        # Ignore only its still-live, verified owner while handing off or failing.
+        result=finish_desktop(boot_id,startup_pid if owner and not owner.exited else None)
         if result!=previous:
             atomic(base()/'runtime/desktop-lifecycle.json',{'at_utc':datetime.now(timezone.utc).isoformat(),
                 'native_pid':child.pid,'native_exit_code':exit_code,**result})
@@ -199,11 +221,17 @@ def launch_desktop():
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['prepare','start','stop','status','launch']);a=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('action',choices=['prepare','start','stop','status','launch'])
+    parser.add_argument('--startup-owner',type=int);a=parser.parse_args()
+    if a.startup_owner is not None and (a.action!='launch' or a.startup_owner<=0):parser.error('startup-owner requires launch and a valid process ID')
     (base()/'runtime').mkdir(parents=True,exist_ok=True)
     if a.action=='launch':
-        result=launch_desktop()
-        if sys.stdout:print(json.dumps(result,ensure_ascii=False))
+        def progress(stage):
+            if sys.stdout:
+                try:print(json.dumps({'schema':'daty-startup-v1','stage':stage}),flush=True)
+                except OSError:sys.stdout=None  # The requesting splash was closed.
+        result=launch_desktop(a.startup_owner,progress if a.startup_owner is not None else None)
+        if sys.stdout and a.startup_owner is None:print(json.dumps(result,ensure_ascii=False))
         return
     with launch_lease():
         if a.action=='status':result=state() or {'state':'not-running'}

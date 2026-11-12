@@ -9,6 +9,13 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        if(e.Args.Length==2&&e.Args[0]=="--verify-startup")
+        {
+            ShutdownMode=ShutdownMode.OnExplicitShutdown;
+            try{await StartupWindow.VerifyAsync(e.Args[1]);Shutdown(0);}
+            catch(Exception error){Directory.CreateDirectory(e.Args[1]);File.WriteAllText(Path.Combine(e.Args[1],"failure.txt"),error.ToString());Shutdown(1);}
+            return;
+        }
         if(e.Args.Length==2&&e.Args[0]=="--verify-scan-backups")
         {
             ShutdownMode=ShutdownMode.OnExplicitShutdown;
@@ -40,8 +47,8 @@ public partial class App : Application
         try {
             if(typeof(App).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>().Any(a=>a.Key=="IndependentProject"&&a.Value=="true") && Daty.Native.Core.ProjectEnvironment.Current is null)
                 throw new InvalidDataException("请在完整的 DATY RF PRO 项目目录中运行，不能单独移动此 EXE。");
-            if(StartProjectDesktopHost()){Shutdown(0);return;}
-            var window = new MainWindow(); MainWindow = window; window.Show();
+            if(await StartProjectDesktopHostAsync())return;
+            var window = new MainWindow(); MainWindow = window; AttachStartupReady(window);window.Show();
         }
         catch(Exception error) { MessageBox.Show(error.Message,"DATY RF PRO 启动失败",MessageBoxButton.OK,MessageBoxImage.Error);Shutdown(1); }
     }
