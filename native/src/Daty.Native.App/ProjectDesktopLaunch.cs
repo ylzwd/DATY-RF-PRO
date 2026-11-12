@@ -10,6 +10,7 @@ public partial class App
     private static bool StartProjectDesktopHost()
     {
         if (ProjectEnvironment.Current is not { } project) return false;
+        Identity.VerifyInstallation(project.Root);
         var boot = Environment.GetEnvironmentVariable("DATY_PROJECT_DESKTOP_BOOT");
         if (boot is not null)
         {

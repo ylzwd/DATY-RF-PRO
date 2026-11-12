@@ -12,6 +12,7 @@ if(args.Length==1&&args[0]=="--host-id"){Console.WriteLine(ProjectEnvironment.Ho
 var results = new List<object>();
 int failed = 0;
 async Task Test(string name, Func<Task> action) { try { await action(); results.Add(new { name, pass = true }); Console.WriteLine("PASS " + name); } catch (Exception e) { failed++; results.Add(new { name, pass = false, error = e.Message }); Console.WriteLine("FAIL " + name + ": " + e); } }
+foreach(var test in ProductIdentityCases.All()) await Test(test.Name,()=>{test.Run();return Task.CompletedTask;});
 void Check(bool valid, string message = "Assertion failed") { if (!valid) throw new Exception(message); }
 async Task Throws(Func<Task> action) { try { await action(); } catch { return; } throw new Exception("Expected rejection"); }
 JsonElement Json(string value) => JsonSerializer.Deserialize<JsonElement>(value);

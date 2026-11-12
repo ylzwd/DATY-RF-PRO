@@ -57,9 +57,10 @@ def main():
         raise ValueError('Requires a fresh extracted verification fixture')
     profile_path = ROOT/'config/project-development.json'
     original = profile_path.read_bytes(); profile = json.loads(original)
-    profile['web_port'] = free_port(); profile['mqtt_port'] = free_port()
-    while profile['web_port'] == profile['mqtt_port']: profile['mqtt_port'] = free_port()
-    profile_path.write_text(json.dumps(profile), encoding='utf-8')
+    # Exercise the exact exported files. Changing ports would invalidate the
+    # build identity and would no longer test the delivered package.
+    for port in (profile['web_port'],profile['mqtt_port']):
+        with socket.socket() as probe:probe.bind(('127.0.0.1',port))
     env = {k: v for k, v in os.environ.items() if not k.upper().startswith(('CODEX', 'PYTHON', 'DOTNET', 'DATY', 'NUGET', 'VIRTUAL_ENV'))}
     windows_root = os.environ['SystemRoot']
     env['PATH'] = str(Path(windows_root)/'System32')
@@ -117,4 +118,9 @@ def main():
         profile_path.write_bytes(original)
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    import argparse
+    parser=argparse.ArgumentParser();parser.add_argument('--root',type=Path)
+    args=parser.parse_args()
+    if args.root:ROOT=args.root.resolve()
+    main()

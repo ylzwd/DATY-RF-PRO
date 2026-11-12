@@ -2,6 +2,10 @@
 
 | 组件 | 版本 | 许可证与来源 |
 | --- | --- | --- |
+| Python | 3.13.15 | Python 随包 `app/tools/python/LICENSE.txt`；第三方 Python 库保留各自 dist-info/licenses |
+| Node.js | 24.19.0 | MIT 及内含组件声明；`licenses/Node-LICENSE.txt` 来自 https://github.com/nodejs/node/blob/v24.19.0/LICENSE |
+| Eclipse Mosquitto | 2.1.2 | 随包 `app/tools/broker/edl-v10`、`epl-v20` 和 `NOTICE.md` |
+| Eclipse Paho MQTT Python | 2.1.0 | EPL-2.0 / EDL-1.0 双许可；保留原 dist-info/licenses/LICENSE.txt，并附 `licenses/Paho-EDL.txt`，来自 https://github.com/eclipse-paho/paho.mqtt.python/blob/v2.1.0/edl-v10 |
 | .NET / Windows Desktop Runtime | 10.0.12 | 随包 `licenses/DOTNET-LICENSE.txt`、`WindowsDesktop-LICENSE.txt` 及 .NET 第三方声明 |
 | Jint | 4.16.2 | BSD-2-Clause；https://github.com/sebastienros/jint，固定提交 730db51d99d3bede8072ca55b0437c3206b83599 |
 | Acornima | 1.7.0 | BSD-3-Clause；https://github.com/adams85/acornima，固定提交 401bd62d8aeb9f7cbe7b6147937a87e0c71747a8 |

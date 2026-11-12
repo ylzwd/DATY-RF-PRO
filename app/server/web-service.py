@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""DATY RF PRO static web service (v1.0.3).
+"""DATY RF PRO static web service.
 
 The old launcher used ``python -m http.server`` directly.  Its Windows
 ``SO_REUSEADDR`` behaviour permits two scheduled tasks to listen on :8000 at
@@ -28,8 +28,9 @@ from urllib.parse import urlsplit
 from tls_support import server_context, bind_https, TLSConfigurationError
 
 
-APP_VERSION = "1.0.3"
-WEB_VERSION = "1.0.3"
+from product_info import read_product
+APP_VERSION = read_product()['version']
+WEB_VERSION = APP_VERSION
 STATIC_ACCESS_POLICY = "public-assets-v1"
 
 # Release asset manifest, not a directory/extension wildcard. A new script must
@@ -140,7 +141,7 @@ class ExclusiveThreadingHTTPServer(ThreadingHTTPServer):
 
 
 class DatyWebHandler(SimpleHTTPRequestHandler):
-    server_version = "DATY-RF-PRO-Web/1.0.3"
+    server_version = "DATY-RF-PRO/"+APP_VERSION
     sys_version = ""
 
     def end_headers(self):

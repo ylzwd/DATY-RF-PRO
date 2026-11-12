@@ -35,7 +35,8 @@ from tls_support import server_context, client_context, bind_https, TLSConfigura
 from shure_active_discovery import probe_shure_sync
 
 # ── 全局配置 ──────────────────────────────────────────────────────────
-DATY_APP_VERSION = '1.0.3'  # DATY RF PRO 服务器产品版本
+from product_info import read_product
+DATY_APP_VERSION = read_product()['version']
 LOCAL_SERVICE_VERSION = '3.0'
 SERVICE_PORT = 8765          # 本服务监听端口
 

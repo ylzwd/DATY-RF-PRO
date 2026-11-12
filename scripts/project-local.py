@@ -36,6 +36,9 @@ def atomic(path,value):
     os.replace(temp,path)
 
 def profile():
+    pending=ROOT/'config/update-journal.local.json'
+    if pending.exists() and read(pending).get('state') not in ('completed','rolled-back'):
+        raise ValueError('程序升级尚未完成，请先使用新包中的升级工具恢复；原有业务数据未被替换')
     for p in (ROOT,*ROOT.parents):
         if p.is_symlink() or p.is_junction():raise ValueError('Project directory links are not supported')
     p=read(ROOT/'config/project-development.json')
@@ -108,6 +111,12 @@ def prepare():
     return cfg
 
 def start(desktop_owner=None):
+    from product_info import installed_build, identity, require_identity
+    from project_release import verify_installed
+    installed_build(ROOT,verify_files=True)
+    verify_installed(ROOT)
+    existing=state(require_fresh=False,match_profile=False)
+    if existing:require_identity(existing.get('product'),identity(ROOT))
     prepare();s=state()
     if ready(s):return s
     if s and s['state'] in ('running','degraded'):raise RuntimeError('Existing project server is recovering; do not start a second writer')
@@ -211,5 +220,5 @@ if __name__=='__main__':
         (log_root/'runtime').mkdir(parents=True,exist_ok=True)
         with (log_root/'runtime/project-launch-error.log').open('a',encoding='utf-8') as out:out.write(f'{datetime.now().isoformat()} {type(error).__name__}: {error}\n')
         if sys.stderr:print(str(error),file=sys.stderr)
-        else:ctypes.windll.user32.MessageBoxW(None,str(error),'DATY RF PRO 独立开发环境',0x10)
+        else:ctypes.windll.user32.MessageBoxW(None,str(error),'DATY RF PRO 启动失败',0x10)
         raise SystemExit(1)

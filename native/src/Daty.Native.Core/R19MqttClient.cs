@@ -57,6 +57,7 @@ public sealed class R19MqttClient : IDisposable, IAsyncDisposable
     private readonly SemaphoreSlim serial = new(1, 1);
     private readonly CancellationTokenSource lifetime = new();
     private readonly R19Tls tls;
+    private readonly ProductIdentity? expectedProduct;
     private Session? session;
     private volatile bool disposed;
     private readonly object disposeGate=new();
@@ -64,8 +65,8 @@ public sealed class R19MqttClient : IDisposable, IAsyncDisposable
     public R19Endpoints Endpoints { get; }
     public Uri BaseUri => Endpoints.Web;
     public string? BootId => session?.Boot;
-    public R19MqttClient(string origin, string caPath, int mqttPort = 8083)
-    { Endpoints = R19Endpoints.FromWebOrigin(origin, mqttPort); tls = new(caPath); }
+    public R19MqttClient(string origin, string caPath, int mqttPort = 8083, ProductIdentity? expectedProduct = null)
+    { Endpoints = R19Endpoints.FromWebOrigin(origin, mqttPort); tls = new(caPath); this.expectedProduct = expectedProduct; }
     internal static bool HexId(string? value) => value is not null && Regex.IsMatch(value, "^[a-f0-9]{32}$", RegexOptions.CultureInvariant);
     private sealed class Session : IDisposable
     {
@@ -101,6 +102,7 @@ public sealed class R19MqttClient : IDisposable, IAsyncDisposable
                     if (m.Text("kind") == "hello")
                     {
                         if (s.Boot is not null || m.Text("active_entry") != "mqtt" || !m.Field("server_time_ms").TryGetInt64(out var now)) throw new InvalidDataException("INVALID_HELLO");
+                        expectedProduct?.RequireMatch(m.Field("product"));
                         s.Boot = m.Text("boot_id"); s.Offset = now - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(); s.Hello.TrySetResult();
                     }
                     else

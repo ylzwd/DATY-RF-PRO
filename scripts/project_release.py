@@ -33,6 +33,10 @@ def record(root, commit, clean):
              for p in release_files(root)}
     result = {'schema': 'daty-portable-release-v1', 'sourceCommit': commit,
               'sourceClean': clean, 'files': files}
+    build_file=root/'config/product-build.local.json'
+    if build_file.exists():
+        build=json.loads(build_file.read_text('utf-8'))
+        result['product']={key:build[key] for key in ('product','version','buildId','contractSchema','databaseSchema')}
     (root/RECORD).write_text(json.dumps(result, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     return result
 
@@ -42,6 +46,16 @@ def verify(root, commit):
     result = json.loads((root/RECORD).read_text('utf-8'))
     if result.get('schema') != 'daty-portable-release-v1' or result.get('sourceCommit') != commit or result.get('sourceClean') is not True:
         raise ValueError('Portable executable does not match committed sources; publish again after committing')
+    return verify_installed(root)
+
+
+def verify_installed(root):
+    result=json.loads((root/RECORD).read_text('utf-8'))
+    if (root/'config/product.json').exists():
+        import sys
+        sys.path.insert(0,str(root/'app/server'))
+        from product_info import identity, require_identity
+        require_identity(result.get('product'),identity(root))
     actual = {p.relative_to(root).as_posix(): p for p in release_files(root)}
     if set(actual) != set(result['files']):
         raise ValueError('Portable release file list changed; publish again')

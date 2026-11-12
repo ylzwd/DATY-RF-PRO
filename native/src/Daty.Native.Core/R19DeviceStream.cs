@@ -82,13 +82,15 @@ public sealed class R19DeviceStream : IDisposable, IAsyncDisposable
     private const string Topic="daty/v2/daty-rf-pro/devices/read";
     private readonly R19Endpoints endpoints;
     private readonly R19Tls tls;
+    private readonly ProductIdentity? expectedProduct;
+    private readonly string caPath;
     private readonly CancellationTokenSource lifetime=new();
     private Task? worker;
     private readonly object lifecycle=new();
     private Task? disposal;
     public event Action<DeviceSnapshot>? SnapshotReceived;
     public event Action<string>? Offline;
-    public R19DeviceStream(string origin,string caPath,int mqttPort=8083) { endpoints=R19Endpoints.FromWebOrigin(origin,mqttPort);tls=new(caPath); }
+    public R19DeviceStream(string origin,string caPath,int mqttPort=8083,ProductIdentity? expectedProduct=null) { endpoints=R19Endpoints.FromWebOrigin(origin,mqttPort);tls=new(caPath);this.caPath=caPath;this.expectedProduct=expectedProduct; }
     public void Start() { lock(lifecycle){ObjectDisposedException.ThrowIf(disposal is not null,this);worker??=Task.Run(RunAsync);} }
     private async Task RunAsync()
     {
@@ -98,7 +100,7 @@ public sealed class R19DeviceStream : IDisposable, IAsyncDisposable
             {
                 using var client=new MqttClientFactory().CreateMqttClient();
                 var ended=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-                R19DeviceReducer? reducer=null;long last=Stopwatch.GetTimestamp();
+                R19DeviceReducer? reducer=null;long last=Stopwatch.GetTimestamp();string? verifiedBoot=null;
                 client.DisconnectedAsync+=_=>{ended.TrySetException(new IOException("STREAM_DISCONNECTED"));return Task.CompletedTask;};
                 client.ApplicationMessageReceivedAsync+=e=>
                 {
@@ -107,6 +109,7 @@ public sealed class R19DeviceStream : IDisposable, IAsyncDisposable
                         if(ended.Task.IsCompleted || lifetime.IsCancellationRequested)return Task.CompletedTask;
                         if(e.ApplicationMessage.Topic!=Topic || e.ApplicationMessage.Retain || e.ApplicationMessage.Payload.Length>900*1024 || reducer is null)throw new InvalidDataException("INVALID_STREAM_PUBLICATION");
                         using var doc=JsonDocument.Parse(e.ApplicationMessage.Payload);
+                        if(verifiedBoot is not null && doc.RootElement.Text("boot_id")!=verifiedBoot)throw new InvalidDataException("实时连接后台已变化，正在重新核对产品版本");
                         var result=reducer.Apply(doc.RootElement);
                         if(result.Accepted)Interlocked.Exchange(ref last,Stopwatch.GetTimestamp());
                         if(result.Snapshot is not null)SnapshotReceived?.Invoke(result.Snapshot);
@@ -117,6 +120,11 @@ public sealed class R19DeviceStream : IDisposable, IAsyncDisposable
                 try
                 {
                     using var start=CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token);start.CancelAfter(TimeSpan.FromSeconds(6));
+                    if(expectedProduct is not null)
+                    {
+                        await using var guard=new R19MqttClient(endpoints.Web.GetLeftPart(UriPartial.Authority),caPath,endpoints.Application.Port,expectedProduct);
+                        await guard.SnapshotAsync(start.Token).ConfigureAwait(false);verifiedBoot=guard.BootId;
+                    }
                     var ack=await client.ConnectAsync(tls.Options(endpoints.Live,endpoints.Web),start.Token).ConfigureAwait(false);
                     if(ack.IsSessionPresent || ack.ResultCode!=MqttClientConnectResultCode.Success)throw new InvalidDataException("INVALID_STREAM_SESSION");
                     reducer=new(ack.AssignedClientIdentifier??"");

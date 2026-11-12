@@ -1,11 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../../config/product-build.local.props" Condition="Exists('../../../config/product-build.local.props')" />
   <PropertyGroup>
     <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework><UseWPF>true</UseWPF>
-    <AssemblyName>DATY.RF.Native</AssemblyName><Version>0.4.62</Version><Product>DATY RF PRO</Product>
+    <AssemblyName>DATY.RF.Native</AssemblyName><Product>DATY RF PRO</Product>
     <ApplicationIcon>../../assets/DATY-RF-PRO.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-  <ItemGroup><AssemblyMetadata Include="PlatformVersion" Value="1.0.3" /></ItemGroup>
+  <Target Name="RequireProductMetadata" BeforeTargets="BeforeBuild" Condition="!Exists('../../../config/product-build.local.props')">
+    <Error Text="请通过 scripts/project-build.py 构建，先生成统一产品元数据。" />
+  </Target>
   <ItemGroup Condition="Exists('../../../config/project-development.json')"><AssemblyMetadata Include="IndependentProject" Value="true" /></ItemGroup>
   <ItemGroup><ProjectReference Include="../Daty.Native.Core/Daty.Native.Core.csproj" /></ItemGroup>
   <ItemGroup>

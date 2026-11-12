@@ -110,14 +110,14 @@ public partial class MainWindow : Window
         var epoch = generation;
         try {
             var ca = ProjectEnvironment.Current?.CertificatePath ?? Path.Combine(AppContext.BaseDirectory, "assets", "DATY-root-ca.cer");
-            bridge = new R19MqttClient(settings.Server, ca, settings.MqttPort);
+            bridge = new R19MqttClient(settings.Server, ca, settings.MqttPort, App.Identity);
             try { pluginImports = new PluginImportService(bridge, Path.Combine(Path.GetDirectoryName(NativeSettings.SettingsPath)!, "pending-plugin-install.json")); }
             catch (Exception error) { Message("插件待确认记录无法读取：" + SafeError(error), true); }
             pluginRemovals=null;
             try { pluginRemovals=new PluginExportRemovalService(bridge,Path.Combine(Path.GetDirectoryName(NativeSettings.SettingsPath)!,"pending-plugin-removal.json")); }
             catch(Exception error){Message("插件卸载待确认记录无法读取："+SafeError(error),true);}
             _=RecoverPluginRemovalAsync();
-            deviceStream = new R19DeviceStream(settings.Server, ca, settings.MqttPort);
+            deviceStream = new R19DeviceStream(settings.Server, ca, settings.MqttPort, App.Identity);
             deviceStream.SnapshotReceived += snapshot => {
                 if (!shutdownStarted && !connection.IsCancellationRequested && epoch == generation) incomingSnapshots.Enqueue((epoch,snapshot));
             };

@@ -39,6 +39,7 @@ async def run(args):
                 if task.done():raise RuntimeError('RUNTIME_SERVICE_STOPPED')
             transport=runtime.transport.snapshot()
             snapshot=status('running' if transport['ready'] else 'degraded')
+            snapshot['product']=runtime.product_identity
             snapshot['transport']=transport
             snapshot.update(persistence=runtime.b.get_unified_runtime_status(),dispatch=runtime.b._mqtt_dispatch_status(),
                 bus=dict(runtime.bus.metrics),feed=runtime.feed.status(),readonly=runtime.view.metrics)

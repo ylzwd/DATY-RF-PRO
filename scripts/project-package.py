@@ -4,6 +4,7 @@ import argparse,hashlib,json,os,platform,subprocess,sys,tempfile,time,zipfile
 ROOT=Path(__file__).resolve().parent.parent
 GIT=ROOT/'tools/git/cmd/git.exe'
 MAX_DELIVERY_BYTES=1_000_000_000  # Decimal GB; never label a larger archive as the compact delivery.
+BUILD_METADATA={'config/product-build.local.json','config/product-build.local.props'}
 sys.path.insert(0,str(ROOT/'scripts'))
 
 def git(*args):
@@ -42,6 +43,8 @@ def verify():
     git('fsck','--no-reflogs')
     from project_release import verify as verify_release
     release=verify_release(ROOT,source['commit'])
+    from product_build import verify as verify_product
+    verify_product(ROOT)
     # Reject restored caches that point to another machine; normal build clears/recreates obj.
     return {'ok':True,'sourceFiles':len(source['files']),'dependencyFiles':len(dependency['files']),'releaseFiles':len(release['files']),'commit':source['commit'],'platform':platform.platform(),'offlineFeed':True}
 def export():
@@ -51,6 +54,7 @@ def export():
     if not (publication/'DATY.RF.Native.exe').is_file():raise ValueError('Publish the native executable first')
     names=set(source['files'])|set(json.loads((ROOT/'config/dependency-inventory.json').read_text('utf-8'))['files'])
     names.add('config/source-inventory.local.json')
+    names.update(BUILD_METADATA)
     from project_release import ENTRY, RECORD
     names.update((ENTRY,RECORD))
     for base in [ROOT/'.git',publication]:
@@ -62,7 +66,7 @@ def export():
     # Known build paths may contain public certificate resources; no private/local state is selected.
     forbidden=('data/','runtime/','.local-instances/','verification/','delivery/')
     for n in names:
-        if n.startswith(forbidden) or (n.startswith('config/') and n.endswith('.local.json') and n not in ('config/source-inventory.local.json',RECORD)) or n=='config/runtime-config.json':raise ValueError('Private state selected: '+n)
+        if n.startswith(forbidden) or (n.startswith('config/') and n.endswith('.local.json') and n not in {'config/source-inventory.local.json',RECORD,*BUILD_METADATA}) or n=='config/runtime-config.json':raise ValueError('Private state selected: '+n)
     output=ROOT/'delivery';output.mkdir(exist_ok=True)
     final=output/('DATY-RF-PRO-source-'+time.strftime('%Y%m%d-%H%M%S')+'.zip');temporary=final.with_suffix('.partial')
     if temporary.exists() or final.exists():raise FileExistsError(final)

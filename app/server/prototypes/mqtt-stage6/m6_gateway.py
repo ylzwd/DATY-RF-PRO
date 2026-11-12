@@ -43,6 +43,7 @@ class RpcGateway:
         self.runtime_origins={f'https://{runtime_scope.bind_host}:{runtime_scope.web_port}'} if runtime_scope is not None and runtime_scope.bind_host!='0.0.0.0' else set()
         self.failures=[]
         self.transport_ready=lambda:True
+        self.product_identity=None
 
     def check_request(self, connection, request):
         origins = request.headers.get_all('Origin')
@@ -219,7 +220,7 @@ class RpcGateway:
                     if header == 0x90:
                         ready.set()
                         await self.reply(sid, kind='hello', active_entry='mqtt',
-                                         server_time_ms=self.service.wall_ms())
+                                         server_time_ms=self.service.wall_ms(), product=self.product_identity)
                     if header == 0xe0:
                         return
 

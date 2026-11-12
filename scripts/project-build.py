@@ -5,6 +5,8 @@ ROOT=Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(ROOT/'scripts'))
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('action',choices=['Build','Test','Publish'],nargs='?',default='Publish');args=parser.parse_args()
+    from product_build import prepare
+    prepare(ROOT)
     dotnet=ROOT/'tools/dotnet/dotnet.exe'
     git=ROOT/'tools/git/cmd/git.exe'
     def git_output(*args):return subprocess.check_output([str(git),'-C',str(ROOT),*args],creationflags=subprocess.CREATE_NO_WINDOW).decode('utf-8').strip()

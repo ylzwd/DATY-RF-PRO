@@ -4,7 +4,8 @@ using System.Windows;
 namespace Daty.Native.App;
 public partial class App : Application
 {
-    public static string DisplayVersion { get; } = "V" + typeof(App).Assembly.GetCustomAttributes<AssemblyMetadataAttribute>().Single(a=>a.Key=="PlatformVersion").Value + "-" + typeof(App).Assembly.GetName().Version!.ToString(3);
+    public static Daty.Native.Core.ProductIdentity Identity { get; } = Daty.Native.Core.ProductIdentity.FromAssembly(typeof(App).Assembly);
+    public static string DisplayVersion => "V" + Identity.Version;
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);

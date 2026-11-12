@@ -50,6 +50,8 @@ import websockets
 class Runtime:
     def __init__(self,base,broker,*,log_path=None,runtime_scope=None):
         self.scope=runtime_scope
+        from product_info import identity
+        self.product_identity=identity()
         if runtime_scope is not None:
             from m6_scope import checked_scope
             checked_scope(runtime_scope)
@@ -157,6 +159,7 @@ class Runtime:
                 broker_tls=client_context(self.tls),username=mode+'-gateway',password=self.secrets[mode+'-gateway'],
                 mode=mode,**resource_args)
             self.gateways['/mqtt-'+mode]=gateway
+            gateway.product_identity=self.product_identity
             gateway.transport_ready=self.transport_available
             if await asyncio.to_thread(gateway.business.subscribe,prefix(mode)+'/+/request')!=[1]:
                 raise ConnectionError('Application subscription rejected')

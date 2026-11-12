@@ -82,7 +82,8 @@ from receiver_enrollment import ReceiverEnrollment, EnrollmentError, AUTO_PROTOC
 _receiver_enrollment = ReceiverEnrollment(_pairing_policy)
 
 # 产品版本与组件版本分开管理；对外 version 始终表示服务器产品版本。
-APP_VERSION = '1.0.3'
+from product_info import read_product
+APP_VERSION = read_product()['version']
 BRIDGE_VERSION = '2.0'
 
 # ── MQTT 配置 ─────────────────────────────────────────────────────────

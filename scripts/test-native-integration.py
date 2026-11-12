@@ -36,6 +36,21 @@ async def probe(config,name):
     (W/(name+'.json')).write_text(json.dumps(evidence,ensure_ascii=False,indent=2),'utf-8')
     return evidence
 class NativeIntegration(Integration):
+    async def test_product_identity_handshake(self):
+        app=N/'src/Daty.Native.App/bin/Release/net10.0-windows/DATY.RF.Native.dll'
+        for mode in ('product-identity','product-old-backend'):
+            output=W/(mode+'.json');config=W/(mode+'-config.json')
+            config.write_text(json.dumps({'origin':'https://127.0.0.1:8080','port':self.runtime.port,'ca':str(load_config(self.tls)[0]['ca_file']),
+                'root':self.temp.name,'output':str(output),'mode':mode}),'utf-8')
+            gateway=self.runtime.gateways['/mqtt-app'];previous=gateway.product_identity
+            if mode=='product-old-backend':gateway.product_identity=None
+            try:
+                result=await asyncio.to_thread(subprocess.run,[DOTNET,str(app),'--verify-r19-fixture',str(config)],capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=45,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+                failure=Path(str(config)+'.failure.txt')
+                self.assertEqual(result.returncode,0,(failure.read_text('utf-8') if failure.exists() else '')+result.stdout+result.stderr)
+                self.assertTrue(json.loads(output.read_bytes())['handshakeVerified'])
+            finally:gateway.product_identity=previous
+        self.assertTrue(all(not receiver.executions for receiver in self.receivers))
     async def test_scan_backup_settings_and_process_restart(self):
         import sqlite3
         from contextlib import closing
@@ -301,6 +316,7 @@ if __name__=='__main__':
     defaults.append('test_integrated_runtime_status')
     defaults.append('test_spectrum_settings_and_process_restart')
     defaults.append('test_scan_backup_settings_and_process_restart')
+    defaults.append('test_product_identity_handshake')
     selected=args.case or defaults
     if any(name not in defaults for name in selected):parser.error('Unknown test case; choose from '+', '.join(defaults))
     result=unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(NativeIntegration(name) for name in selected))

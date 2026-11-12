@@ -16,4 +16,6 @@ var request=new R19Request("daty-mqtt6-app-v1","daty-rf-pro","boot","session","r
 var dto=JsonSerializer.SerializeToElement(request);
 Check(dto.EnumerateObject().Select(p=>p.Name).Order().SequenceEqual(reference.GetProperty("requestFields").EnumerateArray().Select(v=>v.GetString()!).Order()));
 Check(dto.GetProperty("deadline_at_ms").GetInt64()==12345);
+Check(reference.GetProperty("productIdentity").GetProperty("requiredByDesktop").GetBoolean());
+Check(reference.GetProperty("productIdentity").GetProperty("fields").EnumerateArray().Select(v=>v.GetString()).SequenceEqual(new[]{"product","version","buildId","contractSchema","databaseSchema"}));
 Console.WriteLine($"PASS {checks} contract checks; no production network or writes.");

@@ -20,6 +20,43 @@ public partial class MainWindow
         void Check(bool okay,string name){if(!okay)throw new InvalidDataException(name+"; "+StatusMessage.Text);results.Add(name);}
         try
         {
+            if(config.Text("mode") is "product-identity" or "product-old-backend")
+            {
+                if(config.Text("mode")=="product-identity")
+                {
+                    using var matched=new R19MqttClient(settings.Server,ca,port,App.Identity);
+                    await matched.SnapshotAsync(connection.Token);
+                    var health=await matched.CallAsync("state.health",new{},connection.Token);
+                    if(health.Field("body").Text("version")!=App.Identity.Version)throw new InvalidDataException("Backend health exposes a different product version");
+                    var liveReceived=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                    await using(var stream=new R19DeviceStream(settings.Server,ca,port,App.Identity))
+                    {
+                        stream.SnapshotReceived+=_=>liveReceived.TrySetResult();stream.Start();
+                        await liveReceived.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                    }
+                    var refused=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);bool mixedSnapshot=false;
+                    await using(var stream=new R19DeviceStream(settings.Server,ca,port,App.Identity with{BuildId=new string('f',64)}))
+                    {
+                        stream.SnapshotReceived+=_=>mixedSnapshot=true;stream.Offline+=reason=>{if(reason.Contains("构建批次"))refused.TrySetResult();};stream.Start();
+                        await refused.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                    }
+                    if(mixedSnapshot)throw new InvalidDataException("Mixed backend entered live stream");
+                    foreach(var expected in new[]{App.Identity with{BuildId=new string('f',64)},App.Identity with{Version="99.0.0"},App.Identity with{ContractSchema="unknown"}})
+                    {
+                        using var mixed=new R19MqttClient(settings.Server,ca,port,expected);
+                        try{await mixed.CallAsync("database.write",new{},connection.Token);throw new Exception("Mixed product entered RPC");}
+                        catch(InvalidDataException error) when(error.Message.Contains("构建批次")){}
+                    }
+                }
+                else
+                {
+                    using var old=new R19MqttClient(settings.Server,ca,port,App.Identity);
+                    try{await old.CallAsync("database.write",new{},connection.Token);throw new Exception("Old backend entered RPC");}
+                    catch(InvalidDataException error) when(error.Message.Contains("构建批次")){}
+                }
+                await File.WriteAllTextAsync(config.Text("output")!,JsonSerializer.Serialize(new{ok=true,mode=config.Text("mode"),handshakeVerified=true,noWrites=true}));
+                return;
+            }
             var snapshot=await bridge.SnapshotAsync(connection.Token);
             if(config.Text("mode")=="runtime-status")
             {

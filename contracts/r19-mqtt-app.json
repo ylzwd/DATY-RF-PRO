@@ -118,5 +118,16 @@
     "A transport reply is not a device execution ACK or database commit receipt.",
     "Reuse operation_id only for explicit receipt reconciliation; do not replay unknown writes.",
     "This reference is not an implementation or a shipped native MQTT client."
-  ]
+  ],
+  "productIdentity": {
+    "fields": [
+      "product",
+      "version",
+      "buildId",
+      "contractSchema",
+      "databaseSchema"
+    ],
+    "requiredByDesktop": true,
+    "liveBinding": "verified RPC boot_id"
+  }
 }

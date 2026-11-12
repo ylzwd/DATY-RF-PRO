@@ -33,7 +33,7 @@ class Handler(web.DatyWebHandler):
     def send_head(self):
         path=self.path.split('?',1)[0]
         if path=='/':path='/unirf-app.html'
-        if path=='/health':return self.json_head({'status':'ok','service':'DATY RF PRO MQTT static','transport':'mqtt-v2'})
+        if path=='/health':return self.json_head({'status':'ok','service':'DATY RF PRO MQTT static','version':web.APP_VERSION,'transport':'mqtt-v2'})
         if path[1:] not in ASSETS or not path.startswith('/'):
             self.send_error(410 if path.startswith(('/api/','/local-ip.json')) else 404);return
         target=web.confined_file(self.directory,path[1:])
