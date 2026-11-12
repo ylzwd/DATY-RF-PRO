@@ -42,6 +42,7 @@ public partial class MainWindow
             case MonitoringRules.DocumentId:if(resources.TryGetValue("settings:"+id,out var monitorRecord))ApplyMonitoringResource(monitorRecord);break;
             case PlanningSettingId:ApplyPlanningSetting(value);if(currentPage=="planner"&&!PlanningEditing)ShowPage("planner");break;
             case SpectrumSettingId:ApplySpectrumSetting(value);break;
+            case ScanBackupOptions.DocumentId:if(!BackupUnconfirmed)ApplyScanBackupSetting(value);break;
             case "alert_thresholds":thresholds=new(value.Number("rfWeakDbm")??-90,value.Number("batteryLowPercent")??20,value.Number("batteryLowBars")??1,value.Number("afOverloadDbfs")??-3);ObserveAlerts(ViewChannels);break;
             case "alert_sound":soundEnabled=value.Field("enabled").True();break;
             case "auto_frequency":automaticFrequency=value.Field("enabled").True();break;

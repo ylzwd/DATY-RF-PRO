@@ -105,6 +105,7 @@ public partial class MainWindow : Window
         deviceDataError=null;
         monitoringRules=null;monitoringRevision=0;alertMonitor.Rules=null;if(currentPage is "dashboard" or "channels")ShowPage(currentPage);else if(currentPage == "spectrum")liveRefresh?.Invoke();
         systemSettingsReady=false;systemSettingsWriter=null;systemSettingErrors.Clear();systemSettingsSaveTask=null;ResetPlanningSettings();ResetSpectrumSettings();settingOperations.Clear();networkSettings=JsonSerializer.SerializeToElement(SystemSettingDefaults["network_connection"]);
+        scanBackupSettingsReady=false;scanBackupOptions=null;scanBackupWriter=null;scanUseForPlanning=true;scanBackupKeys.Clear();
         incomingSnapshots.Clear();manualChannels=[];confirmedMute.Clear();soundEnabled=false;sharedSettingsVersions.Clear();thresholds=new();automaticFrequency=false;scan=null;scanRecords=[];customProfiles=JsonSerializer.SerializeToElement(System.Array.Empty<object>());RestoreAlertState();resources.Clear();databaseEpoch=null;planResult=null;locks.Clear(); pluginImports = null;
         var epoch = generation;
         try {

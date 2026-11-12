@@ -20,5 +20,5 @@
   "security": "data/security",
   "databaseEpoch": null,
   "webUrl": "https://127.0.0.1:18080",
-  "packageManifestSha256": "768e72db355863707297a4a854c1433099a4a384da1c73dcb92d12bf44e10fcd"
+  "packageManifestSha256": "987b2b2bb746241b7040c994472e71ec601ddd51233f1d6b07a6d953d025ad0b"
 }

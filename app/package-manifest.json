@@ -451,7 +451,7 @@
     "server/unified_browser_import.py": "2be6518c79a4c3d3c5e691c954fbbaab10b44d272062a87411868efd13614e8d",
     "server/unified_consistency.py": "32e6d4418562eb3bb1a7628f603810654f16816341ed8ba812398bb879328642",
     "server/unified_database.py": "6a3be12d46d15859252e61ca41361df40cb6155d83f9f4749fbd02cac2e8c78a",
-    "server/unified_domains.py": "6b8743aade88cd1f2ea9e00e3c19f27166218dbbdffe01c21a594d351b32f515",
+    "server/unified_domains.py": "713975673c3c7e84a8b9c6d9efdb860a0d698d99433aa85b34d67d2e2143b467",
     "server/unified_import.py": "74864eb200237755cd4fa3b2a3eee993604085a525b05036cb10e7a6ba62e493",
     "server/unified_live.py": "bc496b5f13f1429717b5a3d106cafdbc18f36420babb790f47ef03997e742dd6",
     "server/unified_runtime.py": "4c379413987fa42e7f99783d715738f0d8e1e865d5466ee92d6d4bb0af363b50",
@@ -1454,7 +1454,8 @@
     "server/shure_scan_session.py": "2a7f2e39656df2e56c5ae98a08173b6dd970f05430d7ebb5e7cb70dacecd365d",
     "server/tests/test_shure_scan_session.py": "e0215a562f3dee89f08b5a05ae8c866a6ab1580288190e568df3f2dc37972904",
     "server/licenses/DATY-LICENSE.md": "81a5544f26a7922b51c0367c6f1ce52864e4c0f81898d2225e15dac6782e75c3",
-    "server/licenses/RFutils-LICENSE.md": "88e2b2a2642e2e434db289894ae7edbb6e4f92e56bc15f91bf347b76e1ae3d2b"
+    "server/licenses/RFutils-LICENSE.md": "88e2b2a2642e2e434db289894ae7edbb6e4f92e56bc15f91bf347b76e1ae3d2b",
+    "server/tests/test_scan_backup_settings.py": "a730ac8471aafa72f45974f2a26e3554a003e020c053e1a50c26621055595490"
   },
   "release_note": "统一版本源码预览：MIT 关于页、第三方署名及带许可的插件导出；功能和已知限制见根 README。",
   "data_management_update": {

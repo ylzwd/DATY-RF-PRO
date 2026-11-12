@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework><UseWPF>true</UseWPF>
-    <AssemblyName>DATY.RF.Native</AssemblyName><Version>0.4.61</Version><Product>DATY RF PRO</Product>
+    <AssemblyName>DATY.RF.Native</AssemblyName><Version>0.4.62</Version><Product>DATY RF PRO</Product>
     <ApplicationIcon>../../assets/DATY-RF-PRO.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>

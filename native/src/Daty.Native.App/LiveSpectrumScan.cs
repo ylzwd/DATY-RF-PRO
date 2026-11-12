@@ -83,7 +83,8 @@ public partial class MainWindow
         {
             var document=ScanExchange.FromLive(reply,liveScanOperation!,liveScanDevice!,lifetime.Token);
             var first=scan?.Raw.Text("operation_id")!=liveScanOperation;
-            scanRecords=[document];scan=document;InvalidatePlan();
+            scanRecords=[document];scan=document;scanUseForPlanning=true;InvalidatePlan();
+            QueueScanBackup(document,ScanExchange.Terminal(state));
             if(first&&document.GridStartKHz is int a&&document.GridEndKHz is int b)settings=settings with{StartMHz=a/1000d,EndMHz=b/1000d};
         }
         liveScanState=state;liveScanFinalized=reply.Field("finalized").True();liveScanSummary=ScanExchange.StateLabel(state)+$" · {reply.Number("received_points")??0:N0} 点";

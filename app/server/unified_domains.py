@@ -148,6 +148,7 @@ SETTINGS_IDS = {
     'network_connection': 'network_connection',
     'frequency_planning': 'frequency_planning',
     'spectrum_scan': 'spectrum_scan',
+    'scan_backup': 'scan_backup',
     'shure_scan_profiles': 'shure_scan_profiles',
     'monitoring_display_rules': 'monitoring_display_rules',
 }
@@ -166,6 +167,12 @@ def _settings(identifier, value):
     elif kind == 'spectrum_scan':
         from spectrum_settings import validate
         validate(value, _fail)
+    elif kind == 'scan_backup':
+        if set(value) != {'schema', 'enabled', 'maxMiB'} or value.get('schema') != 'daty-scan-backup-settings-v1':
+            _fail('Invalid scan backup settings document')
+        _boolean(value.get('enabled'), 'enabled')
+        if type(value.get('maxMiB')) is not int or value['maxMiB'] not in (64, 128, 256, 512):
+            _fail('Scan backup capacity must be 64, 128, 256 or 512 MiB')
     elif kind == 'shure_scan_profiles':
         from shure_scan_profiles import validate
         validate(value, _fail)

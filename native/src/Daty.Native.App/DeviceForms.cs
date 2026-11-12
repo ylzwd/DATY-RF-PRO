@@ -46,7 +46,7 @@ public partial class MainWindow
     private Task ClearCurrentScanAsync()
     {
         if(LiveScanActive){Message("请先停止当前扫描",true);return Task.CompletedTask;}
-        scanRequest++;scanReading.Cancel();scanRecords=[];scan=null;InvalidatePlan();liveRefresh?.Invoke();Message("当前会话扫描已清除");return Task.CompletedTask;
+        scanRequest++;scanReading.Cancel();scanRecords=[];scan=null;scanUseForPlanning=true;scanBackupKeys.Clear();InvalidatePlan();liveRefresh?.Invoke();Message("当前会话扫描已清除；已保存的备份保持");return Task.CompletedTask;
     }
 
 }

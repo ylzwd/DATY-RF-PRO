@@ -9,14 +9,23 @@ public static class ScanExchange
 {
     public static string Export(ScanDocument scan) => JsonSerializer.Serialize(new {
         schema="daty-scan-v1", frequency_unit="kHz", level_unit="dBm",
-        source=scan.SourceLabel, record=scan.RecordLabel, original_file=scan.FileName,
+        source=scan.Raw.Text("schema")=="daty-scan-v1"?scan.Raw.Text("source"):scan.SourceLabel,
+        record=scan.Raw.Text("schema")=="daty-scan-v1"?scan.Raw.Text("record"):scan.RecordLabel,
+        original_file=Path.GetFileName(scan.Raw.Text("schema")=="daty-scan-v1"?scan.Raw.Text("original_file")??scan.FileName:scan.FileName),
         exported_at=DateTimeOffset.UtcNow, sample_step_khz=scan.SampleStepKHz,
         grid_start_khz=scan.GridStartKHz, grid_end_khz=scan.GridEndKHz,
         missing_points=scan.MissingPoints,
         points=scan.Points.Select(p=>new double[]{p.FrequencyKHz,p.LevelDbm}),
         segments=scan.TraceSegments?.Select(s=>s.Select(p=>p.FrequencyKHz)),
-        provenance=scan.Raw.ValueKind==JsonValueKind.Undefined? (object?)null:scan.Raw
+        provenance=OriginalProvenance(scan)
     },new JsonSerializerOptions{WriteIndented=true});
+
+    private static object? OriginalProvenance(ScanDocument scan)
+    {
+        var raw=scan.Raw;
+        if(raw.Text("schema")=="daty-scan-v1")raw=raw.Field("provenance");
+        return raw.ValueKind is JsonValueKind.Undefined or JsonValueKind.Null?null:raw;
+    }
 
     public static string Csv(ScanDocument scan)
     {
@@ -88,6 +97,15 @@ public static class ScanExchange
         "cancelled"=>"已停止", "cancel_requested"=>"正在停止", "not_started"=>"扫描未开始", "interrupted"=>"扫描中断", "failed"=>"扫描失败", _=>"状态待确认"
     };
     public static bool Terminal(string? state)=>state is "completed" or "partial" or "cancelled" or "interrupted" or "failed" or "not_started" or "unknown";
+
+    public static string OutcomeLabel(ScanDocument document)
+    {
+        var raw=document.Raw;
+        for(var i=0;i<16&&raw.ValueKind==JsonValueKind.Object;i++,raw=raw.Field("provenance"))
+            if(raw.Text("schema")=="daty-live-scan-v1")return StateLabel(raw.Text("state"))+
+                (raw.Text("state") is "starting" or "scanning" or "cancel_requested"?"（历史快照，结束未确认）":"");
+        return "导入资料 · 无设备完成声明";
+    }
 
     private static int? OptionalInt(JsonElement root,string field)
     {

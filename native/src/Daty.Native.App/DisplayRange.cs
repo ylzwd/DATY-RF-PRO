@@ -7,6 +7,7 @@ public partial class MainWindow
 {
     private (double Start,double End)? PlanningDisplayRange()
     {
+        var scan=PlanningScan;
         double start,end;var parts=planRange.Split(':');
         if(parts.Length==2&&double.TryParse(parts[0],CultureInfo.InvariantCulture,out start)&&double.TryParse(parts[1],CultureInfo.InvariantCulture,out end)){start/=1000;end/=1000;}
         else if(planRange=="scan"&&scan is {Points.Count:>0}){start=scan.Points.Min(p=>p.FrequencyKHz)/1000d;end=scan.Points.Max(p=>p.FrequencyKHz)/1000d;}

@@ -102,6 +102,18 @@ public partial class MainWindow
             }
             Check(snapshot.Channels.Count==4&&snapshot.Channels.All(c=>c.Brand=="DATYaudio"&&c.Raw.Text("receiver_mac") is "02:00:00:00:00:98" or "02:00:00:00:00:99"),"isolated receiver identities");live.Apply(generation,snapshot);
             await LoadParityDataAsync();
+            if(config.Text("mode") is "backup-settings-write" or "backup-settings-read")
+            {
+                Check(scanBackupSettingsReady&&scanBackupOptions is not null,"backup category initialized through real MQTT/SQLite");
+                if(config.Text("mode")=="backup-settings-write")
+                {
+                    var committed=await WriteSystemSettingAsync(ScanBackupOptions.DocumentId,new ScanBackupOptions(false,256).ToJson());
+                    ApplyScanBackupSetting(committed);
+                }
+                Check(scanBackupOptions==new ScanBackupOptions(false,256),"disabled backup and capacity read from the committed database value");
+                var record=(await ReadRpcAsync("database.resources.get",new{kind="settings",id=ScanBackupOptions.DocumentId})).Field("resource");
+                await File.WriteAllTextAsync(config.GetProperty("output").GetString()!,JsonSerializer.Serialize(new{ok=true,checks=results,record,physicalCommands=0,loopbackOnly=true}));return;
+            }
             if(config.Text("mode")?.StartsWith("spectrum-",StringComparison.Ordinal)==true){await VerifySpectrumSettingsFixtureAsync(config);return;}
             if(config.Text("mode") is "monitoring-write" or "monitoring-read"){await VerifyMonitoringDatabaseAsync(config);return;}
             if(config.Text("mode") is "settings-save-all" or "settings-save-all-read"){await VerifySystemSettingsSaveAsync(config);return;}

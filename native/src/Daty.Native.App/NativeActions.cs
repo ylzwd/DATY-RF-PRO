@@ -39,7 +39,7 @@ public partial class MainWindow
             ReadMonitoringResources(Array(read,"resources"));
             if(!systemSettingsReady)await InitializeDatabaseSettingsAsync();
             var preferences=await ReadRpcAsync("database.resources.list",new{kind="preferences",limit=100});var latest=Array(preferences,"resources").Where(r=>!r.Field("deleted").True()).OrderByDescending(r=>r.Number("updated_at_ms")??r.Number("saved_at_ms")??0).FirstOrDefault();var preference=latest.Field("value");if(double.TryParse(preference.Text("specStartFreq"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var a)&&double.TryParse(preference.Text("specEndFreq"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var b)&&a>=30&&b<=3000&&a<b){settings=settings with{StartMHz=a,EndMHz=b};manualStart=a;manualEnd=b;}
-            await LoadCalculationResourcesAsync();if(!planningSettingsReady)await InitializePlanningSettingsAsync();if(!spectrumSettingsReady)await InitializeSpectrumSettingsAsync();FollowPlanningRange();await LoadManualChannelsAsync();ObserveAlerts(ViewChannels);await LoadPluginsAsync();
+            await LoadCalculationResourcesAsync();if(!planningSettingsReady)await InitializePlanningSettingsAsync();if(!spectrumSettingsReady)await InitializeSpectrumSettingsAsync();if(!scanBackupSettingsReady)await InitializeScanBackupsAsync();FollowPlanningRange();await LoadManualChannelsAsync();ObserveAlerts(ViewChannels);await LoadPluginsAsync();
             if(epoch==generation)
             {
                 parityDataReady=systemSettingsReady&&planningSettingsReady&&spectrumSettingsReady&&pluginState is not null;

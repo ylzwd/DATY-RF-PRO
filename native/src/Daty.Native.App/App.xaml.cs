@@ -8,6 +8,13 @@ public partial class App : Application
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        if(e.Args.Length==2&&e.Args[0]=="--verify-scan-backups")
+        {
+            ShutdownMode=ShutdownMode.OnExplicitShutdown;
+            try{await new MainWindow(true).VerifyScanBackupsAsync(e.Args[1]);Shutdown(0);}
+            catch(Exception error){Directory.CreateDirectory(e.Args[1]);File.WriteAllText(Path.Combine(e.Args[1],"failure.txt"),error.ToString());Shutdown(1);}
+            return;
+        }
         if(e.Args.Length==2 && e.Args[0]=="--verify-close")
         {
             ShutdownMode=ShutdownMode.OnExplicitShutdown;

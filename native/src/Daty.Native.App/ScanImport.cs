@@ -32,8 +32,9 @@ public partial class MainWindow
             }
             else records = [await Task.Run(() => string.Equals(Path.GetExtension(dialog.FileName),".datyscan",StringComparison.OrdinalIgnoreCase)?ScanExchange.Import(bytes,dialog.FileName,token):LocalFiles.ParseScan(bytes, dialog.FileName, token), token)];
             if (request != scanRequest || epoch != generation || token.IsCancellationRequested || LiveScanActive) return;
-            scanRecords = records; SelectScanRecord(records[0]);
-            Message($"已导入 {records[0].SourceLabel} · {records.Count} 条记录，仅当前会话使用");
+            scanBackupKeys.Clear(); scanRecords = records; scanUseForPlanning = true; SelectScanRecord(records[0]);
+            foreach(var record in records)QueueScanBackup(record,true);
+            Message($"已导入 {records[0].SourceLabel} · {records.Count} 条记录"+(scanBackupOptions?.Enabled==true?"，正在自动备份":"；自动备份未启用，请手动导出留存"));
         }
         catch (Exception error)
         {
@@ -57,7 +58,7 @@ public partial class MainWindow
     private static string ScanExplanation(ScanDocument document) =>
         $"{document.FileName}\n{document.Summary}，共 {document.SlotCount:N0} 个位置。" +
         (document.SourceLabel == "接收机扫描" ? "\n"+ScanExchange.StateLabel(document.Raw.Text("state"))+"；缺失位置断开显示，不补值。" : document.SourceLabel is "WWB 文件" or "DATY 文件" ? "\n历史文件；不代表设备当前扫描或完成状态。缺失位置断开显示，不补值；规划只使用有效点。" : $"\n重复频点取峰值：{document.DuplicateRows:N0} 条。") +
-        "\n仅当前会话使用，关闭后不保留。";
+        (document.SourceLabel=="历史备份"?"\n"+ScanExchange.OutcomeLabel(document)+"；这是历史资料，不代表现场当前占用。":"\n留存状态见扫描备份；也可手动导出文件。");
 
     private ComboBox ScanRecordSelector()
     {

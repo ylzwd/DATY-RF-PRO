@@ -25,11 +25,18 @@ public partial class MainWindow
         var import=Tool("导入扫描","SpectrumScanImport",()=>_=ImportScanAsync());
         records.SetResourceReference(StyleProperty,"SpectrumToolbarSelector");records.Margin=new(0,0,6,6);actions.Children.Add(records);
         var export=Tool("导出文件","SpectrumScanExport",()=>_=ExportScanAsync());
+        var backups=Tool("扫描备份","SpectrumScanBackups",()=>_=ShowScanBackupsAsync());
+        var useBackup=Tool("用于规划","SpectrumScanBackupPlanning",ToggleHistoricalScanPlanning);
         Tool("⤢ 适配设备","SpectrumFit",FitRange);
         Tool("↩ 恢复范围","SpectrumRestore",()=>{settings=settings with{StartMHz=manualStart,EndMHz=manualEnd};liveRefresh?.Invoke();});
         var clear=Tool("🧹 清除扫描","SpectrumScanClear",()=>_=ClearCurrentScanAsync());
         foreach(var control in new Control[]{start,export,import,clear})ToolTipService.SetShowOnDisabled(control,true);
         spectrumToolbarRefresh=()=>{
+            backups.Content=scanBackupCount>0?$"扫描备份（{scanBackupCount}）":"扫描备份";
+            backups.ToolTip=scanBackupStatus+"；历史备份需选择后恢复，默认仅供查看。";
+            useBackup.Visibility=scan?.SourceLabel=="历史备份"?Visibility.Visible:Visibility.Collapsed;
+            useBackup.Content=scanUseForPlanning?"历史扫描 · 退出规划":"历史扫描 · 用于规划";
+            useBackup.IsEnabled=!LiveScanActive&&!liveScanSubmitting;
             start.Content=LiveScanActive?"停止扫描":"开始扫描";
             var pending=UnconfirmedScanReceivers().Count>0;
             start.IsEnabled=!liveScanSubmitting&&!scanProfileSaving&&(LiveScanActive||(!verification&&bridge is not null&&(ScanReceivers().Count>0||pending)));

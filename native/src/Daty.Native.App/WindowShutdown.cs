@@ -19,6 +19,7 @@ public partial class MainWindow
         if(PlanningUnconfirmed){ShowPage("planner");Message("规划设置尚未确认入库，请等待或点击上方保存状态核对后再关闭",true);return;}
         if(spectrumInputInvalid){ShowPage("spectrum");Message("频谱阈值输入尚未完成，请修正数值并确认保存后关闭",true);return;}
         if(SpectrumUnconfirmed){ShowPage("spectrum");Message("频谱阈值尚未确认入库，请等待或点击保存状态重试后再关闭",true);return;}
+        if(BackupUnconfirmed){ShowPage("spectrum");Message("扫描备份设置尚未确认保存，请打开扫描备份重新保存并核对",true);return;}
         if(systemSettingsSavingAll || systemSettingsWriter?.HasUnsaved==true || settingOperations.Count>0)
         {
             ShowPage("settings");
@@ -37,6 +38,7 @@ public partial class MainWindow
         // Always leave the current Closing event, even when cleanup completes synchronously.
         await Dispatcher.Yield(DispatcherPriority.Background);
         await StopOwnedLiveScanOnCloseAsync();
+        await FlushScanBackupsAsync();
         var cleanup=Task.Run(async()=>
         {
             await Task.WhenAll(lifetime.CancelAsync(),connection.CancelAsync(),scanReading.CancelAsync(),

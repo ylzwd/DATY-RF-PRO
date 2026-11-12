@@ -204,6 +204,7 @@ using(var manualGolden=JsonDocument.Parse(File.ReadAllText(Path.Combine(AppConte
 foreach(var test in OfflineBundleCases.All()) await Test(test.Name,test.Run);
 foreach(var test in ScanFileCases.All()) await Test(test.Name,test.Run);
 foreach(var test in ScanExchangeCases.All()) await Test(test.Name,test.Run);
+foreach(var test in ScanBackupCases.All()) await Test(test.Name,test.Run);
 
 if (args.Length > 0) await File.WriteAllTextAsync(args[0], JsonSerializer.Serialize(new { passed = failed == 0, tests = results.Count, failures = failed, network = "in-memory HTTP and own ephemeral loopback TLS fixtures only", productionWrites = 0, results }, new JsonSerializerOptions { WriteIndented = true }));
 Console.WriteLine($"RESULT {results.Count - failed}/{results.Count}; failures={failed}");

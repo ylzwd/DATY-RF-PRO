@@ -120,6 +120,7 @@ public partial class MainWindow
     private void InvalidatePlan(){FollowPlanningRange();manualPlanned.Clear();planResult=null;plannedDevices=null;plannedOptions=null;plannedFields=null;deploymentRows.Clear();deploymentStatus="待重新规划 · 输入已变化";}
     private JsonElement PlanningOptions()
     {
+        var scan=PlanningScan;
         if(planRange=="scan"&&scan is null)throw new InvalidDataException("请先导入当前会话的真实扫描，再按扫描范围计算");
         if(scan is {Points.Count:0})throw new InvalidDataException("当前扫描记录没有有效点，请选择其他记录或清除扫描后重新规划");
         if(!backupInputValid)throw new InvalidDataException("每通道备用频率数必须是 0～4 的整数");

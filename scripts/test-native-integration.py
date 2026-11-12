@@ -36,6 +36,25 @@ async def probe(config,name):
     (W/(name+'.json')).write_text(json.dumps(evidence,ensure_ascii=False,indent=2),'utf-8')
     return evidence
 class NativeIntegration(Integration):
+    async def test_scan_backup_settings_and_process_restart(self):
+        import sqlite3
+        from contextlib import closing
+        app=N/'src/Daty.Native.App/bin/Release/net10.0-windows/DATY.RF.Native.dll'
+        previous=None
+        for mode in ('backup-settings-write','backup-settings-read'):
+            output=W/(mode+'.json');config=W/(mode+'-config.json')
+            config.write_text(json.dumps({'origin':'https://127.0.0.1:8080','port':self.runtime.port,'ca':str(load_config(self.tls)[0]['ca_file']),
+                'root':self.temp.name,'output':str(output),'mode':mode}),'utf-8')
+            result=await asyncio.to_thread(subprocess.run,[DOTNET,str(app),'--verify-r19-fixture',str(config)],capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=80,creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+            failure=Path(str(config)+'.failure.txt')
+            self.assertEqual(result.returncode,0,(failure.read_text('utf-8') if failure.exists() else '')+result.stdout+result.stderr)
+            evidence=json.loads(output.read_bytes());self.assertTrue(evidence['ok'])
+            with closing(sqlite3.connect(Path(self.temp.name)/'business.sqlite3')) as c:
+                row=c.execute('SELECT revision,metadata_json FROM biz_settings WHERE id=?',('scan_backup',)).fetchone()
+                self.assertEqual(row[0],evidence['record']['revision']);self.assertEqual(json.loads(row[1]),evidence['record']['value'])
+            if previous:self.assertEqual(previous,evidence['record'],'new native process must read the same revision without reseeding')
+            previous=evidence['record']
+        self.assertTrue(all(not receiver.executions for receiver in self.receivers))
     async def test_spectrum_settings_and_process_restart(self):
         app=N/'src/Daty.Native.App/bin/Release/net10.0-windows/DATY.RF.Native.dll'
         previous=None
@@ -281,6 +300,7 @@ if __name__=='__main__':
     defaults.append('test_initial_settings_recovery')
     defaults.append('test_integrated_runtime_status')
     defaults.append('test_spectrum_settings_and_process_restart')
+    defaults.append('test_scan_backup_settings_and_process_restart')
     selected=args.case or defaults
     if any(name not in defaults for name in selected):parser.error('Unknown test case; choose from '+', '.join(defaults))
     result=unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(NativeIntegration(name) for name in selected))
